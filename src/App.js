@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './App.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <div className='app'>
+        <div className='navigator'>
+          <div className='logo'>
+            <h1>LOGO</h1>
+          </div>
+          <div className='link-container'>
+            <div className='link'>
+              <a href='/'>my page</a>
+            </div>
+            <div className='link'>
+              <a href='/'>shops</a>
+            </div>
+            <div className='link'>
+              <a href='/'>sign in/up</a>
+            </div>
+          </div>
+        </div>
+        <div className='main'>
+          <div className='homepage-banner'>
+            <h1 className='banner-title'>Manage your vehicles at your click</h1>
+            <button className='btn'>sign in or up</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
