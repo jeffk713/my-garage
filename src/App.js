@@ -1,31 +1,19 @@
 import React from 'react';
+
+import Navigator from './components/navigator/navigator.component';
+import Homepage from './components/pages/homepage/homepage.component';
+import MyPage from './components/pages/my-page/my-page.component';
+
 import './App.scss';
 
 class App extends React.Component {
   render() {
     return (
       <div className='app'>
-        <div className='navigator'>
-          <div className='logo'>
-            <h1>LOGO</h1>
-          </div>
-          <div className='link-container'>
-            <div className='link'>
-              <a href='/'>my page</a>
-            </div>
-            <div className='link'>
-              <a href='/'>shops</a>
-            </div>
-            <div className='link'>
-              <a href='/'>sign in/up</a>
-            </div>
-          </div>
-        </div>
+        <Navigator />
         <div className='main'>
-          <div className='homepage-banner'>
-            <h1 className='banner-title'>Manage your vehicles at your click</h1>
-            <button className='btn'>sign in or up</button>
-          </div>
+          {/* <Homepage /> */}
+          <MyPage />
         </div>
       </div>
     );

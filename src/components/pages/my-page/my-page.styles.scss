@@ -1,0 +1,26 @@
+.my-page {
+  .my-page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .my-page-greeting {
+      margin-right: 40px;
+    }
+  }
+  margin-top: 50px;
+  .car-picture-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 20px auto;
+
+    .car-picture {
+      width: 300px;
+      height: 300px;
+      border: solid black 1px;
+      margin: 20px;
+    }
+  }
+}
