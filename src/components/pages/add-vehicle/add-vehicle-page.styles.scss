@@ -1,0 +1,48 @@
+.add-vehicle-page {
+  > form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 40px auto 0 auto;
+
+    .vehicle-input-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-bottom: 50px;
+
+      .vehicle-image-input-box {
+        .vehicle-image {
+          width: 200px;
+          height: 200px;
+          border: solid black 1px;
+        }
+      }
+      .vehicle-info-input-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin: 0;
+        .input-box {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          font-size: 20px;
+          margin-bottom: 10px;
+
+          > input {
+            margin-left: 20px;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+
+    > button {
+      width: 40%;
+      min-width: 170px;
+      margin: 0 auto;
+    }
+  }
+}
