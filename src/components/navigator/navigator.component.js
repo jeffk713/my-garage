@@ -7,18 +7,14 @@ import './navigator.styles.scss';
 const Navigator = () => (
   <div className='navigator'>
     <div className='logo'>
-      <h1>LOGO</h1>
+      <a href='/'>
+        <h1>LOGO</h1>
+      </a>
     </div>
     <div className='link-container'>
-      <Link>
-        <a href='/'>my page</a>
-      </Link>
-      <Link>
-        <a href='/'>shops</a>
-      </Link>
-      <Link>
-        <a href='/'>sign in/up</a>
-      </Link>
+      <Link linkName='my page' urlToGo='/my-page' />
+      <Link linkName='shops' urlToGo='/shops' />
+      <Link linkName='sign in/up' urlToGo='/sign' />
     </div>
   </div>
 );

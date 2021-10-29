@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 import Navigator from './components/navigator/navigator.component';
 import Homepage from './components/pages/homepage/homepage.component';
@@ -13,9 +14,15 @@ class App extends React.Component {
       <div className='app'>
         <Navigator />
         <div className='main'>
-          {/* <Homepage /> */}
-          {/* <MyPage /> */}
-          <AddVehiclePage />
+          <Switch>
+            <Route exact path='/' component={Homepage} />
+            <Route exact path='/my-page' component={MyPage} />
+            <Route
+              exact
+              path='/my-page/add-vehicle'
+              component={AddVehiclePage}
+            />
+          </Switch>
         </div>
       </div>
     );

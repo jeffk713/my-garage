@@ -22,7 +22,7 @@ class AddVehiclePage extends React.Component {
               <InputBox type='text' name='model' label='Model' required />
             </div>
           </div>
-          <CustomButton className='btn' type='submit'>
+          <CustomButton className='btn' type='submit' locatedIn='add-vehicle-page'>
             ADD
           </CustomButton>
         </form>
