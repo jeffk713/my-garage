@@ -7,6 +7,7 @@ import MyPage from './components/pages/my-page/my-page.component';
 import AddVehiclePage from './components/pages/add-vehicle/add-vehicle-page.component';
 import SignInPage from './components/pages/sign-in/sign-in.component';
 import SignUpPage from './components/pages/sign-up/sign-up.component';
+import VehicleDetailPage from './components/pages/vehicle-detail/vehicle-detail.component';
 
 import './App.scss';
 
@@ -26,6 +27,7 @@ class App extends React.Component {
             />
             <Route exact path='/sign-in' component={SignInPage} />
             <Route exact path='/sign-up' component={SignUpPage} />
+            <Route path='/my-page/:vehicleId' component={VehicleDetailPage} />
           </Switch>
         </div>
       </div>

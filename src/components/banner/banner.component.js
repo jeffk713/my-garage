@@ -4,10 +4,10 @@ import './banner.styles.scss';
 
 const Banner = ({ children, locatedIn }) => (
   <div className='banner-container'>
-    {locatedIn ? (
+    {locatedIn === 'bnr-in-homepage' ? (
       <h1 className={`${locatedIn}`}>{children}</h1>
     ) : (
-      <h2>{children}</h2>
+      <h2 className={`${locatedIn}`}>{children}</h2>
     )}
   </div>
 );
