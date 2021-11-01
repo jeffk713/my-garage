@@ -3,6 +3,7 @@ import React from 'react';
 import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Link from '../../link/link.component';
+import Banner from '../../banner/banner.component';
 
 import './sign-in.styles.scss';
 
@@ -36,7 +37,7 @@ class SignInPage extends React.Component {
     const { email, password } = this.state;
     return (
       <div className='sign-in-page'>
-        <h2> Welcome back, please sign in!</h2>
+        <Banner>Welcome back, please sign in!</Banner>
         <form onSubmit={handleSubmit}>
           <div className='sign-in-input-container'>
             <InputBox
@@ -56,7 +57,7 @@ class SignInPage extends React.Component {
               required
             />
           </div>
-          <CustomButton type='submit' locatedin='in-sign-in-page'>
+          <CustomButton type='submit' locatedIn='btn-in-sign-in-page'>
             Sign In
           </CustomButton>
         </form>

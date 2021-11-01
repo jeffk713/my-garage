@@ -3,6 +3,7 @@ import React from 'react';
 import InputBox from '../../input-box/input-box.component';
 import ImageInputBox from '../../image-input-box/image-input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
+import Banner from '../../banner/banner.component';
 
 import './add-vehicle-page.styles.scss';
 
@@ -40,8 +41,7 @@ class AddVehiclePage extends React.Component {
     const { nickname, year, make, model } = this.state;
     return (
       <div className='add-vehicle-page'>
-        <h2 className='add-vehicle-page-banner'>What is your vehicle?</h2>
-
+        <Banner>What is your vehicle?</Banner>
         <form onSubmit={handleSubmit}>
           <div className='vehicle-input-container'>
             <ImageInputBox type='file' name='vehicle-image' />
@@ -80,7 +80,7 @@ class AddVehiclePage extends React.Component {
               />
             </div>
           </div>
-          <CustomButton type='submit' locatedin='in-add-vehicle-page'>
+          <CustomButton type='submit' locatedIn='btn-in-add-vehicle-page'>
             ADD
           </CustomButton>
         </form>

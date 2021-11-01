@@ -2,8 +2,8 @@ import React from 'react';
 
 import './custom-button.styles.scss';
 
-const CustomButton = ({ children, ...otherProps }) => (
-  <button className={`btn ${otherProps.locatedin}`} {...otherProps}>
+const CustomButton = ({ children, locatedIn, ...otherProps }) => (
+  <button className={`btn ${locatedIn}`} {...otherProps}>
     {children}
   </button>
 );
