@@ -1,10 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import './vehicle-detail.styles.scss';
 
-const VehicleDetailPage = ({ match }) => {
-  console.log(match);
-  return <div>ID: {match.params.vehicleId}</div>;
+const VehicleDetailPage = ({ match, vehicleObj }) => {
+  const vehicleToShow = vehicleObj[match.params.vehicleId];
+  return (
+    <div>
+      <p>ID: {vehicleToShow.id}</p>
+      <p>Nickname: {vehicleToShow.nickname}</p>
+      <p>make: {vehicleToShow.make}</p>
+      <p>model: {vehicleToShow.model}</p>
+      <p>year: {vehicleToShow.year}</p>
+      <p>imageUrl: {vehicleToShow.imageUrl}</p>
+    </div>
+  );
 };
 
-export default VehicleDetailPage;
+const mapStateToProps = state => ({
+  vehicleObj: state.userData.vehicles,
+});
+
+export default connect(mapStateToProps)(VehicleDetailPage);

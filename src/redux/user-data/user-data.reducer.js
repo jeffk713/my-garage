@@ -1,6 +1,6 @@
-import { userActionTypes, userDataActionTypes } from './user-data.types';
+import { userDataActionTypes } from './user-data.types';
 
-const INITIAL_USER_DATA = {
+const INITIAL_STATE = {
   username: 'Jeffoo',
   vehicles: {
     123: {
@@ -9,6 +9,7 @@ const INITIAL_USER_DATA = {
       make: 'Toyota',
       model: 'Corolla',
       year: '1995',
+      imageUrl: '',
       history: [
         { job: 'oil change', date: 'Oct 14 2020' },
         { job: 'brake flush', date: 'Apr 14 2020' },
@@ -21,6 +22,7 @@ const INITIAL_USER_DATA = {
       make: 'BMW',
       model: '328xi',
       year: '2011',
+      imageUrl: '',
       history: [
         { job: 'oil change', date: 'Oct 14 2020' },
         { job: 'oil change', date: 'Apr 14 2020' },
@@ -30,7 +32,7 @@ const INITIAL_USER_DATA = {
   },
 };
 
-const userDataReducer = (state = INITIAL_USER_DATA, action) => {
+const userDataReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     default:
       return state;
