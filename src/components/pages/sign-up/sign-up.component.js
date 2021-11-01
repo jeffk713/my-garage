@@ -11,14 +11,14 @@ class SignUpPage extends React.Component {
     super(props);
     this.state = {
       email: '',
-      name: '',
+      username: '',
       password: '',
       confirmPassword: '',
     };
   }
 
   handleSubmit = e => {
-    const { email, name, password, confirmPassword } = this.state;
+    const { email, username, password, confirmPassword } = this.state;
 
     e.preventDefault();
 
@@ -28,7 +28,7 @@ class SignUpPage extends React.Component {
 
     this.setState({
       email: '',
-      name: '',
+      username: '',
       password: '',
       confirmPassword: '',
     });
@@ -41,7 +41,7 @@ class SignUpPage extends React.Component {
 
   render() {
     const { handleChange, handleSubmit } = this;
-    const { email, name, password, confirmPassword } = this.state;
+    const { email, username, password, confirmPassword } = this.state;
     return (
       <div className='sign-up-page'>
         <Banner>Welcome, please sign up!</Banner>
@@ -56,10 +56,10 @@ class SignUpPage extends React.Component {
               required
             />
             <InputBox
-              label='Name'
+              label='Username'
               type='text'
-              name='name'
-              value={name}
+              name='username'
+              value={username}
               onChange={handleChange}
               required
             />
