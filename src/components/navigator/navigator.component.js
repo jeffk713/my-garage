@@ -12,9 +12,9 @@ const Navigator = () => (
       </a>
     </div>
     <div className='link-container'>
-      <Link linkName='My Page' urlToGo='/my-page' />
-      <Link linkName='Shops' urlToGo='/shops' />
-      <Link linkName='Sign In' urlToGo='/sign-in' />
+      <Link linkName='My Page' urlToGo='/my-page' linkStyle='nav-link' />
+      <Link linkName='Shops' urlToGo='/shops' linkStyle='nav-link' />
+      <Link linkName='Sign In' urlToGo='/sign-in' linkStyle='nav-link' />
     </div>
   </div>
 );

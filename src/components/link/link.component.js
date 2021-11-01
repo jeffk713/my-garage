@@ -2,8 +2,8 @@ import React from 'react';
 
 import './link.styles.scss';
 
-const Link = ({ linkName, urlToGo }) => (
-  <div className='link'>
+const Link = ({ linkName, urlToGo, linkStyle }) => (
+  <div className={`${linkStyle}`}>
     <a href={urlToGo}>{linkName}</a>
   </div>
 );

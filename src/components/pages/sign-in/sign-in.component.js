@@ -2,6 +2,7 @@ import React from 'react';
 
 import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
+import Link from '../../link/link.component';
 
 import './sign-in.styles.scss';
 
@@ -59,9 +60,11 @@ class SignInPage extends React.Component {
             Sign In
           </CustomButton>
         </form>
-        <div className='link-to-sign-up'>
-          <a href='/sign-up'> you are not registered yet? sign up here!</a>
-        </div>
+        <Link
+          linkStyle='inline-link'
+          linkName='you are not registered yet? sign up here!'
+          urlToGo='/sign-up'
+        />
       </div>
     );
   }

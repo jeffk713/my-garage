@@ -1,9 +1,16 @@
-.link {
+.nav-link {
   margin-left: 20px;
 
   > a {
     text-decoration: none;
     color: black;
     font-size: 20px;
+  }
+}
+
+.inline-link {
+  margin-top: 20px;
+  > a {
+    color: black;
   }
 }
