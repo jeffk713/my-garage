@@ -1,0 +1,15 @@
+.sign-in-page {
+  > form {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 40px auto 0 auto;
+  }
+
+  .link-to-sign-up {
+    margin-top: 20px;
+    > a {
+      color: black;
+    }
+  }
+}

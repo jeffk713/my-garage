@@ -5,6 +5,7 @@ import Navigator from './components/navigator/navigator.component';
 import Homepage from './components/pages/homepage/homepage.component';
 import MyPage from './components/pages/my-page/my-page.component';
 import AddVehiclePage from './components/pages/add-vehicle/add-vehicle-page.component';
+import SignInPage from './components/pages/sign-in/sign-in.component';
 
 import './App.scss';
 
@@ -21,6 +22,11 @@ class App extends React.Component {
               exact
               path='/my-page/add-vehicle'
               component={AddVehiclePage}
+            />
+            <Route
+              exact
+              path='/sign-in'
+              component={SignInPage}
             />
           </Switch>
         </div>

@@ -8,7 +8,7 @@ const MyPage = () => (
   <div className='my-page'>
     <div className='my-page-header'>
       <h2 className='my-page-banner'>Hello, Jeff! Select your vehicle</h2>
-      <CustomButton className='btn'>
+      <CustomButton>
         <a href='/my-page/add-vehicle'>+</a>
       </CustomButton>
     </div>

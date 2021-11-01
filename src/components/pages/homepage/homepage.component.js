@@ -8,7 +8,7 @@ const Homepage = () => (
   <div className='homepage'>
     <div className='homepage-banner'>
       <h1 className='banner-title'>Manage your vehicles at your click</h1>
-      <CustomButton className='btn'>sign in or up</CustomButton>
+      <CustomButton>sign in or up</CustomButton>
     </div>
   </div>
 );
