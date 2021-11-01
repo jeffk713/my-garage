@@ -5,18 +5,21 @@ import Link from '../../link/link.component';
 
 import './homepage.styles.scss';
 
-const Homepage = () => (
-  <div className='homepage'>
-    <div className='homepage-banner'>
-      <h1 className='banner-title'>Manage your vehicles at your click</h1>
-      <CustomButton>sign in or up</CustomButton>
-      <Link
-        linkStyle='inline-link'
-        linkName='you are not registered yet? sign up here!'
-        urlToGo='/sign-up'
-      />
+const Homepage = ({ history }) => {
+  return (
+    <div className='homepage'>
+      <div className='homepage-banner'>
+        <h1 className='banner-title'>Manage your vehicles at your click</h1>
+        <CustomButton onClick={() => history.push('/sign-in')}>
+          Sign In
+        </CustomButton>
+        <Link
+          linkStyle='inline-link'
+          linkName='You are not registered yet? Sign up here!'
+          urlToGo='/sign-up'
+        />
+      </div>
     </div>
-  </div>
-);
-
+  );
+};
 export default Homepage;

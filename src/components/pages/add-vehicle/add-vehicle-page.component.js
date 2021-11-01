@@ -80,10 +80,7 @@ class AddVehiclePage extends React.Component {
               />
             </div>
           </div>
-          <CustomButton
-            type='submit'
-            locatedIn='in-add-vehicle-page'
-          >
+          <CustomButton type='submit' locatedin='in-add-vehicle-page'>
             ADD
           </CustomButton>
         </form>

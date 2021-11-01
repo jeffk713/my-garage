@@ -2,27 +2,34 @@ import React from 'react';
 
 import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
-import Link from '../../link/link.component';
 
-import './sign-in.styles.scss';
+import './sign-up.styles.scss';
 
-class SignInPage extends React.Component {
+class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
+      name: '',
       password: '',
+      confirmPassword: '',
     };
   }
 
   handleSubmit = e => {
+    const { email, name, password, confirmPassword } = this.state;
+
     e.preventDefault();
 
     console.log(this.state);
+    if (password !== confirmPassword)
+      return alert('paswords do not match, please enter the same password');
 
     this.setState({
       email: '',
+      name: '',
       password: '',
+      confirmPassword: '',
     });
   };
 
@@ -33,10 +40,10 @@ class SignInPage extends React.Component {
 
   render() {
     const { handleChange, handleSubmit } = this;
-    const { email, password } = this.state;
+    const { email, name, password, confirmPassword } = this.state;
     return (
-      <div className='sign-in-page'>
-        <h2> Welcome back, please sign in!</h2>
+      <div className='sign-up-page'>
+        <h2> Welcome, please sign up!</h2>
         <form onSubmit={handleSubmit}>
           <div className='sign-in-input-container'>
             <InputBox
@@ -48,6 +55,14 @@ class SignInPage extends React.Component {
               required
             />
             <InputBox
+              label='Name'
+              type='text'
+              name='name'
+              value={name}
+              onChange={handleChange}
+              required
+            />
+            <InputBox
               label='Password'
               type='password'
               name='password'
@@ -55,19 +70,22 @@ class SignInPage extends React.Component {
               onChange={handleChange}
               required
             />
+            <InputBox
+              label='Confirm Password'
+              type='password'
+              name='confirmPassword'
+              value={confirmPassword}
+              onChange={handleChange}
+              required
+            />
           </div>
-          <CustomButton type='submit' locatedin='in-sign-in-page'>
-            Sign In
+          <CustomButton type='submit' locatedin='in-sign-up-page'>
+            Sign Up
           </CustomButton>
         </form>
-        <Link
-          linkStyle='inline-link'
-          linkName='You are not registered yet? Sign up here!'
-          urlToGo='/sign-up'
-        />
       </div>
     );
   }
 }
 
-export default SignInPage;
+export default SignUpPage;
