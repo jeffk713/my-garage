@@ -40,7 +40,7 @@ class SignInPage extends React.Component {
         <form onSubmit={handleSubmit}>
           <div className='sign-in-input-container'>
             <InputBox
-              label='email'
+              label='Email'
               type='text'
               name='email'
               value={email}
@@ -48,7 +48,7 @@ class SignInPage extends React.Component {
               required
             />
             <InputBox
-              label='password'
+              label='Password'
               type='password'
               name='password'
               value={password}
