@@ -7,22 +7,84 @@ import CustomButton from '../../custom-button/custom-button.component';
 import './add-vehicle-page.styles.scss';
 
 class AddVehiclePage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      nickname: '',
+      year: '',
+      make: '',
+      model: '',
+    };
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+
+    console.log(this.state);
+
+    this.setState({
+      nickname: '',
+      year: '',
+      make: '',
+      model: '',
+    });
+  };
+
+  handleChange = e => {
+    const { value, name } = e.target;
+    this.setState({ ...this.state, [name]: value });
+  };
+
   render() {
+    const { handleSubmit, handleChange } = this;
+    const { nickname, year, make, model } = this.state;
     return (
       <div className='add-vehicle-page'>
         <h2 className='add-vehicle-page-banner'>What is your vehicle?</h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='vehicle-input-container'>
             <ImageInputBox type='file' name='vehicle-image' />
             <div className='vehicle-info-input-container'>
-              <InputBox type='text' name='nickname' label='Nickname' required />
-              <InputBox type='text' name='year' label='Year' required />
-              <InputBox type='text' name='make' label='Make' required />
-              <InputBox type='text' name='model' label='Model' required />
+              <InputBox
+                type='text'
+                name='nickname'
+                label='Nickname'
+                value={nickname}
+                onChange={handleChange}
+                required
+              />
+              <InputBox
+                type='text'
+                name='year'
+                label='Year'
+                value={year}
+                onChange={handleChange}
+                required
+              />
+              <InputBox
+                type='text'
+                name='make'
+                label='Make'
+                value={make}
+                onChange={handleChange}
+                required
+              />
+              <InputBox
+                type='text'
+                name='model'
+                label='Model'
+                value={model}
+                onChange={handleChange}
+                required
+              />
             </div>
           </div>
-          <CustomButton className='btn' type='submit' locatedIn='add-vehicle-page'>
+          <CustomButton
+            className='btn'
+            type='submit'
+            locatedin='add-vehicle-page'
+          >
             ADD
           </CustomButton>
         </form>
