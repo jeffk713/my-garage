@@ -15,6 +15,7 @@ class AddVehiclePage extends React.Component {
       year: '',
       make: '',
       model: '',
+      imageFile: null,
     };
   }
 
@@ -28,6 +29,7 @@ class AddVehiclePage extends React.Component {
       year: '',
       make: '',
       model: '',
+      imageFile: null,
     });
   };
 
@@ -36,15 +38,27 @@ class AddVehiclePage extends React.Component {
     this.setState({ ...this.state, [name]: value });
   };
 
+  handleFileChange = e => {
+    this.setState({
+      ...this.state,
+      imageFile: URL.createObjectURL(e.target.files[0]),
+    });
+  };
+
   render() {
-    const { handleSubmit, handleChange } = this;
-    const { nickname, year, make, model } = this.state;
+    const { handleSubmit, handleChange, handleFileChange } = this;
+    const { nickname, year, make, model, imageFile } = this.state;
     return (
       <div className='add-vehicle-page'>
         <Banner>What is your vehicle?</Banner>
         <form onSubmit={handleSubmit}>
           <div className='vehicle-input-container'>
-            <ImageInputBox type='file' name='vehicle-image' />
+            <ImageInputBox
+              type='file'
+              name='imageData'
+              onChange={handleFileChange}
+              imageFile={imageFile}
+            />
             <div className='vehicle-info-input-container'>
               <InputBox
                 type='text'
