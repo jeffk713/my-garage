@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 
 const connectDB = require('./config/db');
 
@@ -9,11 +10,12 @@ connectDB();
 
 //init middleware
 app.use(express.json({ extended: false })); // to parse body
+app.use(cookieParser()); // to use cookie-parser
 
 app.get('/', (req, res) => res.send('API running '));
 
 // define routes
-app.use('/user', require('./routes/user.route'));
+app.use('/api/user', require('./routes/user.route'));
 
 const PORT = process.env.PORT || 5000;
 
