@@ -28,9 +28,7 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'User already exists' }] }); // same error format as validationResult
+        return res.status(400).json({ errors: { msg: 'User already exists' } }); // same error format as validationResult
       }
 
       // create user variable from the model, not saving it into database
@@ -47,8 +45,7 @@ router.post(
       await user.save(); //save user into database
 
       // generate a cookie with value as 'signedCookie'
-      res.cookie('authCookie', 'signedCookie', {
-        maxAge: 60 * 60 * 1000,
+      res.cookie('auth', user.id, {
         httpOnly: true,
         secure: true,
         sameSite: true,

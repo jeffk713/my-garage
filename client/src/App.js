@@ -13,6 +13,8 @@ import './App.scss';
 
 class App extends React.Component {
   render() {
+    document.cookie = 'username=USER_NAME;';
+    console.log(document.cookie);
     return (
       <div className='app'>
         <Navigator />
