@@ -5,10 +5,10 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/user.model');
 
-// @public-route  POST /api/user
-// register user and get auth cookie
-router.post('/', async (req, res) => {
-  const { name, email, password } = req.body;
+// @public-route  POST /api/user/sign-up
+// sign up user and get auth cookie
+router.post('/sign-up', async (req, res) => {
+  const { username, email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
     // create user variable from the model, not saving it into database
     user = new User({
-      name,
+      username,
       email,
       password,
     });
@@ -42,7 +42,38 @@ router.post('/', async (req, res) => {
   }
 });
 
-// @public-route  POST /api/user
-router.get('/')
+// @public-route  POST /api/user/sign-in
+// sign in user and get auth cookie
+router.post('/sign-in', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    let user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ errors: { msg: 'User credentials are invalid.' } });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ errors: { msg: 'User credentials are invalid.' } });
+    }
+
+    // generate auth cookie with value as user ID
+    res.cookie('auth', user.id, {
+      httpOnly: true,
+      secure: true,
+      sameSite: true,
+    });
+
+    res.send('User signed in');
+  } catch {
+    res.status(500).send('Server error upon user sign in.');
+  }
+});
 
 module.exports = router;
