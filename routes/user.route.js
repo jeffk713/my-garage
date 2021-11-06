@@ -31,12 +31,13 @@ router.post('/sign-up', async (req, res) => {
 
     // generate auth cookie with value as user ID
     res.cookie('auth', user.id, {
+      maxAge: 3 * 60 * 60 * 1000,
       httpOnly: true,
       secure: true,
       sameSite: true,
     });
 
-    res.send('User registered');
+    res.send({ username, email });
   } catch {
     res.status(500).send('Server error upon registering a user');
   }
@@ -65,15 +66,21 @@ router.post('/sign-in', async (req, res) => {
 
     // generate auth cookie with value as user ID
     res.cookie('auth', user.id, {
+      maxAge: 3 * 60 * 60 * 1000,
       httpOnly: true,
       secure: true,
       sameSite: true,
     });
 
-    res.send('User signed in');
+    res.send({ username: user.username, email: user.email });
   } catch {
     res.status(500).send('Server error upon user sign in.');
   }
+});
+
+router.get('/checkCookie', (req, res) => {
+  console.log(req.cookies);
+  res.send(req.cookies);
 });
 
 module.exports = router;

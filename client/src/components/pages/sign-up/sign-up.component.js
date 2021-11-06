@@ -4,6 +4,8 @@ import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
+import axios from 'axios';
+
 import './sign-up.styles.scss';
 
 class SignUpPage extends React.Component {
@@ -17,7 +19,7 @@ class SignUpPage extends React.Component {
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     const { email, username, password, confirmPassword } = this.state;
 
     e.preventDefault();
@@ -25,6 +27,30 @@ class SignUpPage extends React.Component {
     console.log(this.state);
     if (password !== confirmPassword)
       return alert('paswords do not match, please enter the same password');
+
+    const newUser = {
+      email,
+      username,
+      password,
+    };
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      const body = JSON.stringify(newUser);
+
+      const res = await axios.post('/api/user/sign-up', body, config);
+      console.log('user', res.data);
+
+      const cookieObj = await axios.get('/api/user/checkCookie');
+      console.log('cookie:', cookieObj.data);
+
+    } catch (err) {
+      console.error('error from signup', err);
+    }
 
     this.setState({
       email: '',
