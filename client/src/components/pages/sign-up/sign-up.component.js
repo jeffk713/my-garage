@@ -1,10 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import axios from 'axios';
 
 import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
-import axios from 'axios';
+import {
+  userSignUpSuccess,
+  userSignUpFailure,
+} from '../../../redux/user/user.actions';
 
 import './sign-up.styles.scss';
 
@@ -18,9 +24,9 @@ class SignUpPage extends React.Component {
       confirmPassword: '',
     };
   }
-
   handleSubmit = async e => {
     const { email, username, password, confirmPassword } = this.state;
+    const { userSignUpSuccess, userSignUpFailure } = this.props;
 
     e.preventDefault();
 
@@ -43,13 +49,16 @@ class SignUpPage extends React.Component {
       const body = JSON.stringify(newUser);
 
       const res = await axios.post('/api/user/sign-up', body, config);
-      console.log('user', res.data);
+      const userObj = res.data;
+      console.log('user', userObj);
 
       const cookieObj = await axios.get('/api/user/checkCookie');
       console.log('cookie:', cookieObj.data);
 
+      userSignUpSuccess(userObj);
     } catch (err) {
-      console.error('error from signup', err);
+      console.error('ERROR UPON SIGN-UP:', err);
+      userSignUpFailure();
     }
 
     this.setState({
@@ -115,4 +124,9 @@ class SignUpPage extends React.Component {
   }
 }
 
-export default SignUpPage;
+const mapDispatchToProps = dispatch => ({
+  userSignUpSuccess: userObj => dispatch(userSignUpSuccess(userObj)),
+  userSignUpFailure: () => dispatch(userSignUpFailure()),
+});
+
+export default connect(null, mapDispatchToProps)(SignUpPage);

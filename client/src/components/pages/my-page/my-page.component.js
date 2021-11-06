@@ -5,7 +5,7 @@ import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 import VehicleSelection from '../../vehicle-selection/vehicle-selection.component';
 
-import { getVehicleArr } from '../../../redux/user-data/user-data.utils';
+import { getVehicleArr } from '../../../redux/vehicle/vehicle.utils';
 
 import './my-page.styles.scss';
 
@@ -35,7 +35,7 @@ const MyPage = ({ vehicleObj }) => {
 };
 
 const mapStateToProps = state => ({
-  vehicleObj: state.userData.vehicles,
+  vehicleObj: state.vehicle,
 });
 
 export default connect(mapStateToProps)(MyPage);

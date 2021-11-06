@@ -18,7 +18,7 @@ const VehicleDetailPage = ({ match, vehicleObj }) => {
 };
 
 const mapStateToProps = state => ({
-  vehicleObj: state.userData.vehicles,
+  vehicleObj: state.vehicle,
 });
 
 export default connect(mapStateToProps)(VehicleDetailPage);
