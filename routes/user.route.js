@@ -11,7 +11,7 @@ router.post('/sign-up', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email }).select('-password');
     if (user) {
       return res.status(400).json({ errors: { msg: 'User already exists' } });
     }
@@ -45,11 +45,11 @@ router.post('/sign-up', async (req, res) => {
 
 // @public-route  POST /api/user/sign-in
 // sign in user and get auth cookie
-router.post('/sign-in', async (req, res) => {
+router.get('/sign-in', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email }).select('-password');
     if (!user) {
       return res
         .status(400)
