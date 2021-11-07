@@ -28,7 +28,7 @@ const VehicleSchema = new mongoose.Schema({
     },
   ],
   image: {
-    type: File,
+    type: Buffer,
   },
 });
 

@@ -1,15 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import axios from 'axios';
 
 import InputBox from '../../input-box/input-box.component';
 import ImageInputBox from '../../image-input-box/image-input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
+import {
+  addVehicleSuccess,
+  addVehicleFailure,
+} from '../../../redux/vehicle/vehicle.actions';
+
 import './add-vehicle-page.styles.scss';
 
 class AddVehiclePage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       nickname: '',
       year: '',
@@ -19,10 +27,32 @@ class AddVehiclePage extends React.Component {
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
+    const { nickname, make, model, year } = this.state;
+    const { addVehicleSuccess, addVehicleFailure, history } = this.props;
 
     console.log(this.state);
+    const newVehicle = { nickname, make, model, year };
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      const body = JSON.stringify(newVehicle);
+
+      const res = await axios.post('/api/vehicle/register', body, config);
+      const vehicleObj = res.data;
+      console.log('vehicle:', vehicleObj);
+
+      addVehicleSuccess(vehicleObj);
+      history.push('/my-page');
+    } catch (err) {
+      alert('Vehicle registration has failed');
+      console.error('ERROR UPON VEHICLE REGISTRATION:', err);
+      addVehicleFailure();
+    }
 
     this.setState({
       nickname: '',
@@ -30,6 +60,7 @@ class AddVehiclePage extends React.Component {
       make: '',
       model: '',
       imageFile: null,
+      imageBuffer: null,
     });
   };
 
@@ -38,11 +69,16 @@ class AddVehiclePage extends React.Component {
     this.setState({ ...this.state, [name]: value });
   };
 
-  handleFileChange = e => {
+  handleFileChange = async e => {
+    const imgUrl = URL.createObjectURL(e.target.files[0]);
+
     this.setState({
       ...this.state,
-      imageFile: URL.createObjectURL(e.target.files[0]),
+      imageFile: imgUrl,
     });
+    console.log('imgURL:', imgUrl);
+    let blob = await fetch(imgUrl).then(r => r.blob());
+    console.log('blob:', blob);
   };
 
   render() {
@@ -103,4 +139,9 @@ class AddVehiclePage extends React.Component {
   }
 }
 
-export default AddVehiclePage;
+const mapDispatchToProps = dispatch => ({
+  addVehicleSuccess: vehicleObj => dispatch(addVehicleSuccess(vehicleObj)),
+  addVehicleFailure: () => dispatch(addVehicleFailure()),
+});
+
+export default connect(null, mapDispatchToProps)(AddVehiclePage);
