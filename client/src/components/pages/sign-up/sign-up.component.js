@@ -57,6 +57,7 @@ class SignUpPage extends React.Component {
 
       userSignUpSuccess(userObj);
     } catch (err) {
+      alert('Sign up has failed');
       console.error('ERROR UPON SIGN-UP:', err);
       userSignUpFailure();
     }
@@ -84,7 +85,7 @@ class SignUpPage extends React.Component {
           <div className='sign-in-input-container'>
             <InputBox
               label='Email'
-              type='text'
+              type='email'
               name='email'
               value={email}
               onChange={handleChange}
