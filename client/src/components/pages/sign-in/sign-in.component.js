@@ -29,17 +29,20 @@ class SignInPage extends React.Component {
     const { userSignInSuccess, userSignInFailure } = this.props;
     e.preventDefault();
 
+    const userCredentials = {
+      email,
+      password,
+    };
+
     try {
       const config = {
-        'Centent-Type': 'application/json',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       };
-
-      const body = {
-        email,
-        password,
-      };
-
-      const res = await axios.get('/api/user/sign-in', config, body);
+      const body = JSON.stringify(userCredentials);
+      
+      const res = await axios.post('/api/user/sign-in', body, config);
       const userObj = res.data;
       console.log('user', userObj);
 

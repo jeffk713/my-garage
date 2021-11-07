@@ -13,7 +13,10 @@ router.post('/sign-up', async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ errors: { msg: 'User already exists' } });
+      return res
+        .status(400)
+        .json({ errors: { msg: 'User already exists' } })
+        .select('-password');
     }
 
     // create user variable from the model, not saving it into database
@@ -39,17 +42,17 @@ router.post('/sign-up', async (req, res) => {
 
     res.send({ username, email });
   } catch {
-    res.status(500).send('Server error upon registering a user');
+    res.status(500).send('Server error upon user sign-up');
   }
 });
 
 // @public-route  POST /api/user/sign-in
 // sign in user and get auth cookie
-router.get('/sign-in', async (req, res) => {
+router.post('/sign-in', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    let user = await User.findOne({ email }).select('-password');
+    let user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
@@ -57,7 +60,6 @@ router.get('/sign-in', async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
       return res
         .status(400)
@@ -74,7 +76,7 @@ router.get('/sign-in', async (req, res) => {
 
     res.send({ username: user.username, email: user.email });
   } catch {
-    res.status(500).send('Server error upon user sign in.');
+    res.status(500).send('Server error upon user sign-in.');
   }
 });
 
