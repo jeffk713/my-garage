@@ -24,29 +24,52 @@ class AddVehiclePage extends React.Component {
       make: '',
       model: '',
       imageFile: null,
+      imageUrl: '',
     };
   }
 
+  uploadVehicleImage = async (imgFile, requestURL) => {
+    const formData = new FormData();
+    formData.append('vehicleImage', imgFile, imgFile.name);
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    try {
+      await axios.post(requestURL, formData, config);
+    } catch (err) {
+      alert('Uploading vehicle picrure has failed');
+      console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
+    }
+  };
+
   handleSubmit = async e => {
     e.preventDefault();
-    const { nickname, make, model, year } = this.state;
+    const { nickname, make, model, year, imageFile } = this.state;
     const { addVehicleSuccess, addVehicleFailure, history } = this.props;
+    const { uploadVehicleImage } = this;
 
-    console.log(this.state);
     const newVehicle = { nickname, make, model, year };
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
       const body = JSON.stringify(newVehicle);
 
       const res = await axios.post('/api/vehicle/register', body, config);
       const vehicleObj = res.data;
-      console.log('vehicle:', vehicleObj);
-
       addVehicleSuccess(vehicleObj);
+
+      if (imageFile) {
+        const reqUrl = `/api/vehicle/${vehicleObj._id}`;
+        uploadVehicleImage(imageFile, reqUrl);
+      }
 
       this.setState({
         nickname: '',
@@ -54,13 +77,13 @@ class AddVehiclePage extends React.Component {
         make: '',
         model: '',
         imageFile: null,
-        imageBuffer: null,
+        imageUrl: '',
       });
 
       history.push('/my-page');
     } catch (err) {
       alert('Vehicle registration has failed');
-      console.error('ERROR UPON VEHICLE REGISTRATION:', err);
+      console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
       addVehicleFailure();
     }
   };
@@ -71,20 +94,18 @@ class AddVehiclePage extends React.Component {
   };
 
   handleFileChange = async e => {
-    const imgUrl = URL.createObjectURL(e.target.files[0]);
-
     this.setState({
       ...this.state,
-      imageFile: imgUrl,
+      imageFile: e.target.files[0],
+      imageUrl: URL.createObjectURL(e.target.files[0]),
     });
-    console.log('imgURL:', imgUrl);
-    let blob = await fetch(imgUrl).then(r => r.blob());
-    console.log('blob:', blob);
+
+    console.log('img:', e.target.files[0]);
   };
 
   render() {
     const { handleSubmit, handleChange, handleFileChange } = this;
-    const { nickname, year, make, model, imageFile } = this.state;
+    const { nickname, year, make, model, imageUrl } = this.state;
     return (
       <div className='add-vehicle-page'>
         <Banner>What is your vehicle?</Banner>
@@ -94,7 +115,7 @@ class AddVehiclePage extends React.Component {
               type='file'
               name='imageData'
               onChange={handleFileChange}
-              imageFile={imageFile}
+              imageUrl={imageUrl}
             />
             <div className='vehicle-info-input-container'>
               <InputBox

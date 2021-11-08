@@ -15,7 +15,7 @@ router.post('/sign-up', async (req, res) => {
     if (user) {
       return res
         .status(400)
-        .json({ errors: { msg: 'User already exists' } })
+        .json({ error: { msg: 'User already exists' } })
         .select('-password');
     }
 
@@ -56,14 +56,14 @@ router.post('/sign-in', async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ errors: { msg: 'User credentials are invalid.' } });
+        .json({ error: { msg: 'User credentials are invalid.' } });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res
         .status(400)
-        .json({ errors: { msg: 'User credentials are invalid.' } });
+        .json({ error: { msg: 'User credentials are invalid.' } });
     }
 
     // generate auth cookie with value as user ID

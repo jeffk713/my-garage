@@ -39,35 +39,35 @@ class SignUpPage extends React.Component {
       username,
       password,
     };
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const body = JSON.stringify(newUser);
 
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      const body = JSON.stringify(newUser);
-
-      const res = await axios.post('/api/user/sign-up', body, config);
-      const userObj = res.data;
+      const userObj = await axios
+        .post('/api/user/sign-up', body, config)
+        .then(res => res.data);
       console.log('user', userObj);
 
       const cookieObj = await axios.get('/api/user/checkCookie');
       console.log('cookie:', cookieObj.data);
 
       userSignUpSuccess(userObj);
+
+      this.setState({
+        email: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+      });
     } catch (err) {
       alert('Sign up has failed');
-      console.error('ERROR UPON SIGN-UP:', err);
+      console.error('ERROR UPON SIGN-UP:', err.message);
       userSignUpFailure();
     }
-
-    this.setState({
-      email: '',
-      username: '',
-      password: '',
-      confirmPassword: '',
-    });
   };
 
   handleChange = e => {

@@ -33,33 +33,32 @@ class SignInPage extends React.Component {
       email,
       password,
     };
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const body = JSON.stringify(userCredentials);
 
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      const body = JSON.stringify(userCredentials);
-      
-      const res = await axios.post('/api/user/sign-in', body, config);
-      const userObj = res.data;
-      console.log('user', userObj);
+      const userObj = await axios
+        .post('/api/user/sign-in', body, config)
+        .then(res => res.data);
 
       const cookieObj = await axios.get('/api/user/checkCookie');
       console.log('cookie:', cookieObj.data);
 
       userSignInSuccess(userObj);
+      
+      this.setState({
+        email: '',
+        password: '',
+      });
     } catch (err) {
       alert('Sign in has failed');
-      console.error('ERROR UPON SIGN-IN:', err);
+      console.error('ERROR UPON SIGN-IN:', err.message);
       userSignInFailure();
     }
-
-    this.setState({
-      email: '',
-      password: '',
-    });
   };
 
   handleChange = e => {
