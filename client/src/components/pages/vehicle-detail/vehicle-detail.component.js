@@ -7,7 +7,7 @@ const VehicleDetailPage = ({ match, vehicleObj }) => {
   const vehicleToShow = vehicleObj[match.params.vehicleId];
   return (
     <div>
-      <p>ID: {vehicleToShow.id}</p>
+      <p>ID: {vehicleToShow._id}</p>
       <p>Nickname: {vehicleToShow.nickname}</p>
       <p>make: {vehicleToShow.make}</p>
       <p>model: {vehicleToShow.model}</p>

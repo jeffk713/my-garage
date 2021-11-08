@@ -47,21 +47,22 @@ class AddVehiclePage extends React.Component {
       console.log('vehicle:', vehicleObj);
 
       addVehicleSuccess(vehicleObj);
+
+      this.setState({
+        nickname: '',
+        year: '',
+        make: '',
+        model: '',
+        imageFile: null,
+        imageBuffer: null,
+      });
+
       history.push('/my-page');
     } catch (err) {
       alert('Vehicle registration has failed');
       console.error('ERROR UPON VEHICLE REGISTRATION:', err);
       addVehicleFailure();
     }
-
-    this.setState({
-      nickname: '',
-      year: '',
-      make: '',
-      model: '',
-      imageFile: null,
-      imageBuffer: null,
-    });
   };
 
   handleChange = e => {

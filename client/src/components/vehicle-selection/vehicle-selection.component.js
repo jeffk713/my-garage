@@ -10,6 +10,7 @@ const VehicleSelection = ({ vehicleId, history, match, vehicleImgUrl }) => {
       onClick={() => history.push(`${match.url}/${vehicleId}`)}
     >
       vehicle image URL : {vehicleImgUrl}
+      vehicle ID: {vehicleId}
     </div>
   );
 };

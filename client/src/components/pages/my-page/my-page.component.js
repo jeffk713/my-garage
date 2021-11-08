@@ -24,8 +24,8 @@ const MyPage = ({ vehicleObj }) => {
       <div className='vehicle-selection-container'>
         {vehicleArr.map(vehicle => (
           <VehicleSelection
-            key={vehicle.id}
-            vehicleId={vehicle.id}
+            key={vehicle._id}
+            vehicleId={vehicle._id}
             vehicleImgUrl={vehicle.imageUrl}
           />
         ))}
