@@ -1,0 +1,29 @@
+.vehicle-detail-page {
+  .vehicle-basic-info {
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .vehicle-image-container {
+      width: 150px;
+      height: 150px;
+      border: solid black 1px;
+    }
+
+    .vehicle-info-container {
+      margin-left: 10px;
+    }
+  }
+
+  .vehicle-service-info {
+    width: 75%;
+    margin: 0 auto;
+    .service-table-label {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      justify-content: center;
+    }
+  }
+}

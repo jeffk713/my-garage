@@ -8,14 +8,14 @@ const checkCookie = require('../middleware/check-cookie');
 // @private-route  POST /api/vehicle/register
 // check auth cookie and register vehicle
 router.post('/register', checkCookie, async (req, res) => {
-  const { nickname, make, model, year, history } = req.body;
+  const { nickname, make, model, year, service } = req.body;
   try {
     const vehicle = new Vehicle({
       nickname,
       make,
       model,
       year,
-      history,
+      service,
     });
     vehicle.user = req.userId;
 

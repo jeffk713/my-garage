@@ -17,7 +17,7 @@ const VehicleSchema = new mongoose.Schema({
   year: {
     type: String,
   },
-  history: [
+  service: [
     {
       serviceName: {
         type: String,

@@ -18,7 +18,7 @@ const MyPage = ({ vehicleObj }) => {
           Hello, Jeff! Select your vehicle
         </Banner>
         <CustomButton>
-          <a href='/my-page/add-vehicle'>+</a>
+          <a href='/my-page/add-vehicle'>Add</a>
         </CustomButton>
       </div>
       <div className='vehicle-selection-container'>
