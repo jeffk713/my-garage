@@ -26,7 +26,7 @@ class SignInPage extends React.Component {
 
   handleSubmit = async e => {
     const { email, password } = this.state;
-    const { userSignInSuccess, userSignInFailure } = this.props;
+    const { userSignInSuccess, userSignInFailure, history } = this.props;
     e.preventDefault();
 
     const userCredentials = {
@@ -44,16 +44,19 @@ class SignInPage extends React.Component {
       const userObj = await axios
         .post('/api/user/sign-in', body, config)
         .then(res => res.data);
+      console.log(userObj);
 
       const cookieObj = await axios.get('/api/user/checkCookie');
       console.log('cookie:', cookieObj.data);
 
       userSignInSuccess(userObj);
-      
+
       this.setState({
         email: '',
         password: '',
       });
+
+      history.push('/my-page');
     } catch (err) {
       alert('Sign in has failed');
       console.error('ERROR UPON SIGN-IN:', err.message);

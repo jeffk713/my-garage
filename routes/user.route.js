@@ -34,7 +34,6 @@ router.post('/sign-up', async (req, res) => {
 
     // generate auth cookie with value as user ID
     res.cookie('auth', user.id, {
-      maxAge: 3 * 60 * 60 * 1000,
       httpOnly: true,
       secure: true,
       sameSite: true,

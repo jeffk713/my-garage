@@ -1,16 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 import VehicleSelection from '../../vehicle-selection/vehicle-selection.component';
 
+import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
+
 import { getVehicleArr } from '../../../redux/vehicle/vehicle.utils';
 
 import './my-page.styles.scss';
 
-const MyPage = ({ vehicleObj }) => {
-  const vehicleArr = getVehicleArr(vehicleObj);
+const MyPage = ({ vehicles }) => {
+  const vehicleArr = getVehicleArr(vehicles);
   return (
     <div className='my-page'>
       <div className='my-page-header'>
@@ -34,8 +37,8 @@ const MyPage = ({ vehicleObj }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  vehicleObj: state.vehicle,
+const mapStateToProps = createStructuredSelector({
+  vehicles: selectVehicles,
 });
 
 export default connect(mapStateToProps)(MyPage);

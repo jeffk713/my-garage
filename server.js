@@ -12,8 +12,6 @@ connectDB();
 app.use(express.json({ extended: false })); // to parse body
 app.use(cookieParser()); // to use cookie-parser
 
-app.get('/', (req, res) => res.send('API running '));
-
 // define routes
 app.use('/api/user', require('./routes/user.route'));
 

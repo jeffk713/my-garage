@@ -15,5 +15,13 @@ export const userSignInSuccess = userObj => ({
 });
 
 export const userSignInFailure = () => ({
-  type: userActionTypes.USER_SIGN_IN_SUCCESS,
+  type: userActionTypes.USER_SIGN_IN_FAILURE,
+});
+
+export const userSignOutSuccess = () => ({
+  type: userActionTypes.USER_SIGN_OUT_SUCCESS,
+});
+
+export const userSignOutFailure = () => ({
+  type: userActionTypes.USER_SIGN_OUT_FAILURE,
 });

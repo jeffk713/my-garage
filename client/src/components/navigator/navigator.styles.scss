@@ -13,5 +13,12 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+
+    .sign-out-link {
+      color: black;
+      font-size: 20px;
+      margin-left: 20px;
+      cursor: pointer;
+    }
   }
 }

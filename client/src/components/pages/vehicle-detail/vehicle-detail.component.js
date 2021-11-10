@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import './vehicle-detail.styles.scss';
 
-const VehicleDetailPage = ({ match, vehicleObj }) => {
-  const vehicleToShow = vehicleObj[match.params.vehicleId];
+const VehicleDetailPage = ({ match, vehicles }) => {
+  const vehicleToShow = vehicles[match.params.vehicleId];
   return (
     <div className='vehicle-detail-page'>
       <div className='vehicle-basic-info'>
@@ -30,8 +33,7 @@ const VehicleDetailPage = ({ match, vehicleObj }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  vehicleObj: state.vehicle,
+const mapStateToProps = createStructuredSelector({
+  vehicles: selectVehicles,
 });
-
 export default connect(mapStateToProps)(VehicleDetailPage);

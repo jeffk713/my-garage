@@ -8,7 +8,7 @@ import vehicleReducer from './vehicle/vehicle.reducer';
 const persistConfig = {
   key: 'root',
   storage,
-  whiteist: ['user', 'vehicle'],
+  whitelist: ['user', 'vehicle'],
 };
 
 const rootReducer = combineReducers({
