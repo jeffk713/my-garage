@@ -16,6 +16,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
         email: action.payload.email,
         username: action.payload.username,
       };
+    case userActionTypes.USER_SIGN_OUT_SUCCESS:
+      return { ...INITIAL_STATE };
     default:
       return state;
   }

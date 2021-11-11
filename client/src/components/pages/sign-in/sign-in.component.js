@@ -46,9 +46,6 @@ class SignInPage extends React.Component {
         .then(res => res.data);
       console.log(userObj);
 
-      const cookieObj = await axios.get('/api/user/checkCookie');
-      console.log('cookie:', cookieObj.data);
-
       userSignInSuccess(userObj);
 
       this.setState({

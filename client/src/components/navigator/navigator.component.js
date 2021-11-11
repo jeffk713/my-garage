@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import axios from 'axios';
+
 import Link from '../link/link.component';
 
 import {
@@ -13,8 +15,9 @@ import { selectIsAuth } from '../../redux/user/user.selectors';
 import './navigator.styles.scss';
 
 const Navigator = ({ isAuth, userSignOutSuccess, userSignOutFailure }) => {
-  const userSignOut = () => {
+  const userSignOut = async () => {
     try {
+      await axios.get('/api/user/sign-out');
       userSignOutSuccess();
     } catch (err) {
       console.error('ERROR UPON SIGN OUT:', err.message);

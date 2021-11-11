@@ -26,7 +26,7 @@ class SignUpPage extends React.Component {
   }
   handleSubmit = async e => {
     const { email, username, password, confirmPassword } = this.state;
-    const { userSignUpSuccess, userSignUpFailure } = this.props;
+    const { userSignUpSuccess, userSignUpFailure, history } = this.props;
 
     e.preventDefault();
 
@@ -52,9 +52,6 @@ class SignUpPage extends React.Component {
         .then(res => res.data);
       console.log('user', userObj);
 
-      const cookieObj = await axios.get('/api/user/checkCookie');
-      console.log('cookie:', cookieObj.data);
-
       userSignUpSuccess(userObj);
 
       this.setState({
@@ -63,6 +60,8 @@ class SignUpPage extends React.Component {
         password: '',
         confirmPassword: '',
       });
+
+      history.push('/my-page');
     } catch (err) {
       alert('Sign up has failed');
       console.error('ERROR UPON SIGN-UP:', err.message);

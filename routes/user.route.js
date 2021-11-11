@@ -13,10 +13,7 @@ router.post('/sign-up', async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res
-        .status(400)
-        .json({ error: { msg: 'User already exists' } })
-        .select('-password');
+      return res.status(400).json({ error: { msg: 'User already exists' } });
     }
 
     // create user variable from the model, not saving it into database
@@ -79,9 +76,11 @@ router.post('/sign-in', async (req, res) => {
   }
 });
 
-router.get('/checkCookie', (req, res) => {
-  console.log(req.cookies);
-  res.send(req.cookies);
+// @public-route  GET /api/user/sign-out
+// sign out user and clear auth cookie
+router.get('/sign-out', (req, res) => {
+  res.clearCookie('auth');
+  res.send('cookie deleted');
 });
 
 module.exports = router;
