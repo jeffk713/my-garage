@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../middleware/check-cookie');
+
 const Vehicle = require('../models/vehicle.model');
 
 const checkCookie = require('../middleware/check-cookie');
@@ -59,6 +61,84 @@ router.post(
   }
 );
 
+// @private-route  PUT /api/vehicle/:vehicleId/add-service
+// check auth cookie and update vehicle service
+router.put('/:vehicleId/add-service', checkCookie, async (req, res) => {
+  const { serviceName, mileage, date, note } = req.body;
+  const vehicleId = req.params.vehicleId;
+  const newServiceHistory = { serviceName, mileage, date, note };
+
+  try {
+    const vehicle = await Vehicle.findOne({ _id: vehicleId });
+
+    vehicle.serviceHistory.unshift(newServiceHistory);
+
+    await vehicle.save();
+    res.json(vehicle.serviceHistory);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error upon vehicle service history update');
+  }
+});
+
+// @private-route  PUT /api/vehicle/:vehicleId/:serviceId
+// check auth cookie and update vehicle service
+router.put('/:vehicleId/:serviceId', checkCookie, async (req, res) => {
+  const { serviceName, mileage, date, note } = req.body;
+  const vehicleId = req.params.vehicleId;
+  const newServiceHistory = { serviceName, mileage, date, note };
+
+  try {
+    const vehicle = await Vehicle.findOne({ _id: vehicleId });
+    if (!vehicle) {
+      return res.status(400).json({ error: { msg: 'No vehicle found' } });
+    }
+
+    const serviceHistory = vehicle.serviceHistory;
+    const indexToEdit = serviceHistory.findIndex(
+      service => service._id.toString() === req.params.serviceId
+    );
+
+    serviceHistory[indexToEdit] = newServiceHistory;
+    serviceHistory.sort((a, b) => b.date - a.date);
+
+    await vehicle.save();
+
+    // res.json(vehicle.serviceHistory.sort((a, b) => b.date - a.date));
+    res.json(vehicle.serviceHistory);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error upon vehicle service update');
+  }
+});
+
+// @private-route  DELETE /api/vehicle/:vehicleId/:serviceId
+// check auth cookie and update vehicle service
+router.delete('/:vehicleId/:serviceId', checkCookie, async (req, res) => {
+  const vehicleId = req.params.vehicleId;
+
+  try {
+    const vehicle = await Vehicle.findOne({ _id: vehicleId });
+    if (!vehicle) {
+      return res.status(400).json({ error: { msg: 'No vehicle found' } });
+    }
+
+    const serviceHistory = vehicle.serviceHistory;
+    const indexToRemove = serviceHistory.findIndex(
+      service => service._id.toString() === req.params.serviceId
+    );
+
+    serviceHistory.splice(indexToRemove, 1);
+
+    await vehicle.save();
+
+    res.json(vehicle.serviceHistory);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error upon vehicle service update');
+  }
+});
+
 // // @private-route  GET /api/vehicle/
 // // check auth cookie and get all registered vehicles
 // router.get('/', checkCookie, async (req, res) => {
@@ -70,29 +150,6 @@ router.post(
 //   } catch (err) {
 //     console.error(err.message);
 //     res.status(500).send('Server error upon vehicle registration');
-//   }
-// });
-
-// // @private-route  GET /api/vehicle/:vehicle_id
-// // check auth cookie and get one registered vehicles
-// router.get('/:vehicle_id', checkCookie, async (req, res) => {
-//   try {
-//     // look for vehicle with user ID from cookie
-//     const vehicle = await vehicle.find({ _id: req.params.vehicle_id });
-
-//     if (!vehicle) {
-//       return res
-//         .status(400)
-//         .json({ error: { msg: 'The vehicle does not exist' } });
-//     }
-//   } catch (err) {
-//     console.error(err.message);
-//     if (err.kind === 'ObjectId') {
-//       return res
-//         .status(400)
-//         .json({ error: { msg: 'The vehicle does not exist' } });
-//     }
-//     res.status(500).send('Server error upon vehicle registeration');
 //   }
 // });
 

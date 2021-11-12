@@ -29,12 +29,7 @@ router.post('/sign-up', async (req, res) => {
 
     await user.save(); //save user into database
 
-    // generate auth cookie with value as user ID
-    res.cookie('auth', user.id, {
-      httpOnly: true,
-      secure: true,
-      sameSite: true,
-    });
+    req.session.auth = user.id; 
 
     res.send({ username, email });
   } catch {
@@ -62,13 +57,7 @@ router.post('/sign-in', async (req, res) => {
         .json({ error: { msg: 'User credentials are invalid.' } });
     }
 
-    // generate auth cookie with value as user ID
-    res.cookie('auth', user.id, {
-      maxAge: 3 * 60 * 60 * 1000,
-      httpOnly: true,
-      secure: true,
-      sameSite: true,
-    });
+    req.session.auth = user.id; 
 
     res.send({ username: user.username, email: user.email });
   } catch {
@@ -79,7 +68,8 @@ router.post('/sign-in', async (req, res) => {
 // @public-route  GET /api/user/sign-out
 // sign out user and clear auth cookie
 router.get('/sign-out', (req, res) => {
-  res.clearCookie('auth');
+  req.session = null; 
+
   res.send('cookie deleted');
 });
 

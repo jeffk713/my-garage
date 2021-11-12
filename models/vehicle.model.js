@@ -17,13 +17,19 @@ const VehicleSchema = new mongoose.Schema({
   year: {
     type: String,
   },
-  service: [
+  serviceHistory: [
     {
       serviceName: {
         type: String,
       },
+      mileage: {
+        type: Number,
+      },
       date: {
         type: Date,
+      },
+      note: {
+        type: String,
       },
     },
   ],
