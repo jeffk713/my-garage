@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const auth = require('../middleware/check-cookie');
-
 const Vehicle = require('../models/vehicle.model');
 
 const checkCookie = require('../middleware/check-cookie');
@@ -61,6 +59,21 @@ router.post(
   }
 );
 
+// @private-route  GET /api/vehicle/all-vehicles
+// check auth cookie and get all registered vehicles to user
+router.get('/user-vehicles/:userId', checkCookie, async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const vehicles = await Vehicle.find({ user: userId });
+
+    res.json(vehicles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error upon vehicle registration');
+  }
+});
+
 // @private-route  PUT /api/vehicle/:vehicleId/add-service
 // check auth cookie and update vehicle service
 router.put('/:vehicleId/add-service', checkCookie, async (req, res) => {
@@ -72,6 +85,7 @@ router.put('/:vehicleId/add-service', checkCookie, async (req, res) => {
     const vehicle = await Vehicle.findOne({ _id: vehicleId });
 
     vehicle.serviceHistory.unshift(newServiceHistory);
+    vehicle.serviceHistory.sort((a, b) => b.date - a.date);
 
     await vehicle.save();
     res.json(vehicle.serviceHistory);
@@ -138,19 +152,5 @@ router.delete('/:vehicleId/:serviceId', checkCookie, async (req, res) => {
     res.status(500).send('Server error upon vehicle service update');
   }
 });
-
-// // @private-route  GET /api/vehicle/
-// // check auth cookie and get all registered vehicles
-// router.get('/', checkCookie, async (req, res) => {
-//   try {
-//     // look for vehicle with user ID from cookie
-//     const vehicles = await vehicle.find({ user: req.userId });
-
-//     console.log(vehicles);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server error upon vehicle registration');
-//   }
-// });
 
 module.exports = router;
