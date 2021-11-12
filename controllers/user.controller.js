@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
 
-exports = signUpUser = async (req, res) => {
+exports.signUpUser = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
@@ -28,7 +28,7 @@ exports = signUpUser = async (req, res) => {
   }
 };
 
-exports = signInUser = async (req, res) => {
+exports.signInUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -54,7 +54,7 @@ exports = signInUser = async (req, res) => {
   }
 };
 
-exports = signOutUser = (req, res) => {
+exports.signOutUser = (req, res) => {
   req.session = null;
 
   res.send('cookie deleted');

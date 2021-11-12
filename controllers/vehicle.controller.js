@@ -2,7 +2,7 @@ const Vehicle = require('../models/vehicle.model');
 
 const sharp = require('sharp');
 
-exports = registerVehicle = async (req, res) => {
+exports.registerVehicle = async (req, res) => {
   const { nickname, make, model, year } = req.body;
   try {
     const vehicle = new Vehicle({
@@ -22,7 +22,7 @@ exports = registerVehicle = async (req, res) => {
   }
 };
 
-exports = uploadVehicleImage = async (req, res) => {
+exports.uploadVehicleImage = async (req, res) => {
   try {
     const vehicle = await Vehicle.findOne({
       _id: req.params.vehicleId,
@@ -44,7 +44,7 @@ exports = uploadVehicleImage = async (req, res) => {
   }
 };
 
-exports = updateVehicle = async (req, res) => {
+exports.updateVehicle = async (req, res) => {
   const { nickname, make, model, year } = req.body;
 
   try {
@@ -69,7 +69,7 @@ exports = updateVehicle = async (req, res) => {
   }
 };
 
-exports = deleteVehicle = async (req, res) => {
+exports.deleteVehicle = async (req, res) => {
   try {
     const removedVehicle = await Vehicle.findOneAndRemove({
       _id: req.params.vehicleId,
@@ -85,7 +85,7 @@ exports = deleteVehicle = async (req, res) => {
   }
 };
 
-exports = getUserVehicles = async (req, res) => {
+exports.getUserVehicles = async (req, res) => {
   const userId = req.params.userId;
 
   try {
@@ -101,7 +101,7 @@ exports = getUserVehicles = async (req, res) => {
   }
 };
 
-exports = addVehicleService = async (req, res) => {
+exports.addVehicleService = async (req, res) => {
   const { serviceName, mileage, date, note } = req.body;
   const newServiceHistory = { serviceName, mileage, date, note };
 
@@ -122,7 +122,7 @@ exports = addVehicleService = async (req, res) => {
   }
 };
 
-exports = updateVehicleService = async (req, res) => {
+exports.updateVehicleService = async (req, res) => {
   const { serviceName, mileage, date, note } = req.body;
   const newServiceHistory = { serviceName, mileage, date, note };
 
@@ -149,7 +149,7 @@ exports = updateVehicleService = async (req, res) => {
   }
 };
 
-exports = deleteVehicleService = async (req, res) => {
+exports.deleteVehicleService = async (req, res) => {
   try {
     const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
     if (!vehicle) {
