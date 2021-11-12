@@ -1,5 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const cookieSessioin = require('cookie-session');
 
 const connectDB = require('./config/db');
 
@@ -10,7 +11,12 @@ connectDB();
 
 //init middleware
 app.use(express.json({ extended: false })); // to parse body
-app.use(cookieParser()); // to use cookie-parser
+app.use(
+  cookieSessioin({
+    name: 'session',
+    keys: ['key1', 'key2'],
+  })
+);
 
 // define routes
 app.use('/api/user', require('./routes/user.route'));
