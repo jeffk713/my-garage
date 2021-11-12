@@ -10,20 +10,19 @@ const sharp = require('sharp');
 // @private-route  POST /api/vehicle/register
 // check auth cookie and register vehicle
 router.post('/register', checkCookie, async (req, res) => {
-  const { nickname, make, model, year, service } = req.body;
+  const { nickname, make, model, year } = req.body;
   try {
     const vehicle = new Vehicle({
       nickname,
       make,
       model,
       year,
-      service,
     });
     vehicle.user = req.userId;
 
     await vehicle.save();
 
-    res.send(vehicle);
+    res.json(vehicle);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error upon vehicle registration');
@@ -59,6 +58,44 @@ router.post(
   }
 );
 
+// @private-route  PUT /api/vehicle/:vehicleId
+// check auth cookie and update a registered vehicle
+router.put('/:vehicleId', checkCookie, async (req, res) => {
+  const { nickname, make, model, year } = req.body;
+
+  try {
+    const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
+    const serviceHistory = vehicle.serviceHistory;
+    vehicle.nickname = nickname;
+    vehicle.make = make;
+    vehicle.model = model;
+    vehicle.year = year;
+    vehicle.serviceHistory = serviceHistory;
+
+    await vehicle.save();
+
+    res.json(vehicle);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error upon update vehicle');
+  }
+});
+
+// @private-route  DELETE /api/vehicle/:vehicleId
+// check auth cookie and delete a registered vehicle
+router.delete('/:vehicleId', checkCookie, async (req, res) => {
+  try {
+    const removedVehicle = await Vehicle.findOneAndRemove({
+      _id: req.params.vehicleId,
+    });
+
+    res.json(removedVehicle);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error upon update vehicle');
+  }
+});
+
 // @private-route  GET /api/vehicle/all-vehicles
 // check auth cookie and get all registered vehicles to user
 router.get('/user-vehicles/:userId', checkCookie, async (req, res) => {
@@ -70,7 +107,7 @@ router.get('/user-vehicles/:userId', checkCookie, async (req, res) => {
     res.json(vehicles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon vehicle registration');
+    res.status(500).send('Server error upon loading all registered vehicles');
   }
 });
 
@@ -78,11 +115,10 @@ router.get('/user-vehicles/:userId', checkCookie, async (req, res) => {
 // check auth cookie and update vehicle service
 router.put('/:vehicleId/add-service', checkCookie, async (req, res) => {
   const { serviceName, mileage, date, note } = req.body;
-  const vehicleId = req.params.vehicleId;
   const newServiceHistory = { serviceName, mileage, date, note };
 
   try {
-    const vehicle = await Vehicle.findOne({ _id: vehicleId });
+    const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
 
     vehicle.serviceHistory.unshift(newServiceHistory);
     vehicle.serviceHistory.sort((a, b) => b.date - a.date);
@@ -99,11 +135,10 @@ router.put('/:vehicleId/add-service', checkCookie, async (req, res) => {
 // check auth cookie and update vehicle service
 router.put('/:vehicleId/:serviceId', checkCookie, async (req, res) => {
   const { serviceName, mileage, date, note } = req.body;
-  const vehicleId = req.params.vehicleId;
   const newServiceHistory = { serviceName, mileage, date, note };
 
   try {
-    const vehicle = await Vehicle.findOne({ _id: vehicleId });
+    const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
     if (!vehicle) {
       return res.status(400).json({ error: { msg: 'No vehicle found' } });
     }
@@ -129,10 +164,8 @@ router.put('/:vehicleId/:serviceId', checkCookie, async (req, res) => {
 // @private-route  DELETE /api/vehicle/:vehicleId/:serviceId
 // check auth cookie and update vehicle service
 router.delete('/:vehicleId/:serviceId', checkCookie, async (req, res) => {
-  const vehicleId = req.params.vehicleId;
-
   try {
-    const vehicle = await Vehicle.findOne({ _id: vehicleId });
+    const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
     if (!vehicle) {
       return res.status(400).json({ error: { msg: 'No vehicle found' } });
     }
