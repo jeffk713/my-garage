@@ -1,5 +1,4 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const cookieSessioin = require('cookie-session');
 
 const connectDB = require('./config/db');
@@ -14,11 +13,11 @@ app.use(express.json({ extended: false })); // to parse body
 app.use(
   cookieSessioin({
     name: 'session',
-    keys: ['key1', 'key2'],
+    keys: ['super', 'duper'],
   })
 );
 
-// define routes
+// routes
 app.use('/api/user', require('./routes/user.route'));
 
 app.use('/api/vehicle', require('./routes/vehicle.route'));
