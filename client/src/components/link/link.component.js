@@ -4,7 +4,14 @@ import './link.styles.scss';
 
 const Link = ({ linkName, urlToGo, linkStyle }) => (
   <div className={`${linkStyle}`}>
-    <a href={urlToGo}>{linkName}</a>
+    {urlToGo === '/sign-up' ? (
+      <div>
+        <p>Not registered yet?</p>
+        <a href={urlToGo}>{linkName}</a>
+      </div>
+    ) : (
+      <a href={urlToGo}>{linkName}</a>
+    )}
   </div>
 );
 

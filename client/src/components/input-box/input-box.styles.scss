@@ -1,14 +1,46 @@
-.input-box {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+@mixin shrinkLabel {
+  top: -20px;
+  font-size: 12px;
+  color: #fd7014;
+}
 
-  font-size: 20px;
-  margin-bottom: 10px;
+.input-box {
+  position: relative;
+  margin: 45px auto;
+  width: 400px;
 
   > input {
-    margin-left: 20px;
-    font-size: 20px;
-    width: 270px;
+    display: block;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #eeeeee;
+    border-radius: 0;
+    margin: 25px 0;
+    width: 100%;
+    font-size: 17px;
+    color: #eeeeee;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus ~ .input-label {
+      @include shrinkLabel();
+    }
+  }
+
+  .input-label {
+    color: #eeeeee;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 0px;
+    top: -5px;
+    transition: 300ms ease all;
+
+    &.shrink {
+      @include shrinkLabel();
+    }
   }
 }

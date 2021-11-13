@@ -71,7 +71,7 @@ class SignInPage extends React.Component {
     const { email, password } = this.state;
     return (
       <div className='sign-in-page'>
-        <Banner>Welcome back, please sign in!</Banner>
+        <Banner>Welcome Back, Please Sign In!</Banner>
         <form onSubmit={handleSubmit}>
           <div className='sign-in-input-container'>
             <InputBox
@@ -97,7 +97,7 @@ class SignInPage extends React.Component {
         </form>
         <Link
           linkStyle='inline-link'
-          linkName='You are not registered yet? Sign up here!'
+          linkName='Sign up here!'
           urlToGo='/sign-up'
         />
       </div>

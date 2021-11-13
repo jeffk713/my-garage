@@ -4,8 +4,12 @@ import './input-box.styles.scss';
 
 const InputBox = ({ label, ...otherprops }) => (
   <div className='input-box'>
-    <label>{label}</label>
     <input {...otherprops} />
+    <label
+      className={`${otherprops.value.length ? 'shrink' : ''} input-label`}
+    >
+      {label}
+    </label>
   </div>
 );
 

@@ -11,14 +11,17 @@ const Homepage = ({ history }) => {
     <div className='homepage'>
       <div className='homepage-banner'>
         <Banner locatedIn='bnr-in-homepage'>
-          Manage your vehicles at your click
+          Manage Your Vehicles At Your Click
         </Banner>
-        <CustomButton onClick={() => history.push('/sign-in')}>
+        <CustomButton
+          locatedIn='btn-in-homepage'
+          onClick={() => history.push('/sign-in')}
+        >
           Sign In
         </CustomButton>
         <Link
           linkStyle='inline-link'
-          linkName='You are not registered yet? Sign up here!'
+          linkName='Sign up here!'
           urlToGo='/sign-up'
         />
       </div>

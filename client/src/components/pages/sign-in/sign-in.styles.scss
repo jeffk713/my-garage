@@ -1,10 +1,9 @@
 .sign-in-page {
+  margin-top: 120px;
   > form {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    max-width: 500px;
-    min-width: 400px;
+    width: 500px;
     margin: 40px auto 0 auto;
   }
 }

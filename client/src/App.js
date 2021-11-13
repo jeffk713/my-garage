@@ -28,11 +28,11 @@ class App extends React.Component {
               path='/my-page/add-vehicle'
               component={AddVehiclePage}
             />
-            <Route path='/my-page/:vehicleId' component={VehicleDetailPage} />
             <Route
               path='/my-page/:vehicleId/add-service'
               component={AddVehicleServicePage}
             />
+            <Route path='/my-page/:vehicleId' component={VehicleDetailPage} />
           </Switch>
         </div>
       </div>
