@@ -1,0 +1,52 @@
+.icon-button-container {
+  background-color: #eeeeee;
+  border: solid #eeeeee 1px;
+  border-radius: 20px;
+  width: 30px;
+  height: 30px;
+  padding-top: 2px;
+  padding-right: 3px;
+  cursor: pointer;
+
+  > img {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.back-btn-in-add-service {
+  margin-left: calc((100vw * 0.8 - 500px) / 2);
+}
+
+.back-btn-in-my-page {
+  margin-left: 10%;
+}
+
+.add-vehicle-btn-in-my-page {
+  width: 31px;
+  height: 31px;
+  padding-top: 2px;
+  padding-left: 2px;
+  margin-right: 10%;
+}
+
+.edit-btn-in-service-item {
+  width: 23px;
+  height: 23px;
+  border-radius: 5px;
+  padding: 1px 0;
+  > img {
+    width: 18px;
+    height: 18px;
+  }
+}
+.delete-btn-in-service-item {
+  width: 23px;
+  height: 23px;
+  border-radius: 5px;
+  padding: 0;
+  > img {
+    width: 21px;
+    height: 21px;
+  }
+}

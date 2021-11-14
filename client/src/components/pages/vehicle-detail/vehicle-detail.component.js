@@ -2,32 +2,68 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import ImageDisplay from '../../image-display/image-display.component';
+import IndividualVehicleInfo from '../../individual-vehicle-info/individual-vehicle-info.coponent';
+import ServiceTableHeader from '../../service-table-header/servie-table-header.component';
+import ServiceItemGroup from '../../service-item-group/service-item-group.component';
+import IconButton from '../../icon-button/icon-button.component';
+
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
+
+import { getPreviousURL } from '../../../utils/url-util';
 
 import './vehicle-detail.styles.scss';
 
-const VehicleDetailPage = ({ match, vehicles }) => {
+const VehicleDetailPage = ({ history, match, vehicles }) => {
   const vehicleToShow = vehicles[match.params.vehicleId];
   return (
     <div className='vehicle-detail-page'>
+      <div className='button-group-in-vehicle-detail'>
+        <IconButton
+          option='back-btn-in-my-page'
+          onClick={() => history.push(getPreviousURL(match.url))}
+        />
+        <IconButton
+          option='add-vehicle-btn-in-my-page'
+          onClick={() => history.push(`${match.params.vehicleId}/add-service`)}
+        />
+      </div>
       <div className='vehicle-basic-info'>
-        <div className='vehicle-image-container'>
-          <p>{vehicleToShow.imageUrl}</p>
-          <p>img</p>
-        </div>
+        <ImageDisplay imageUrl={vehicleToShow.imageUrl} />
         <div className='vehicle-info-container'>
-          <h5>Nickname: {vehicleToShow.nickname}</h5>
-          <h5>make: {vehicleToShow.make}</h5>
-          <h5>model: {vehicleToShow.model}</h5>
-          <h5>year: {vehicleToShow.year}</h5>
+          <IndividualVehicleInfo
+            vehicleInfo='Nickname'
+            value={vehicleToShow.nickname}
+          />
+          <IndividualVehicleInfo
+            vehicleInfo='Make'
+            value={vehicleToShow.make}
+          />
+          <IndividualVehicleInfo
+            vehicleInfo='Model'
+            value={vehicleToShow.model}
+          />
+          <IndividualVehicleInfo
+            vehicleInfo='Year'
+            value={vehicleToShow.year}
+          />
         </div>
       </div>
-      <div className='vehicle-service-info'>
-        <div className='service-table-label'>
-          <h5>service</h5>
-          <h5>mileage</h5>
-          <h5>date</h5>
-        </div>
+      <div className='vehicle-service-table'>
+        <ServiceTableHeader />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
+        <ServiceItemGroup />
       </div>
     </div>
   );

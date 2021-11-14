@@ -4,8 +4,13 @@ import axios from 'axios';
 
 import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
+import Banner from '../../banner/banner.component';
+import ServiceNote from '../../service-note/service-note.component';
+import IconButton from '../../icon-button/icon-button.component';
 
 import './add-service-history.styles.scss';
+
+import { getPreviousURL } from '../../../utils/url-util';
 
 const INITIAL_INPUT = {
   serviceName: '',
@@ -50,7 +55,11 @@ const AddServiceHistoryPage = ({ history, match }) => {
   };
 
   return (
-    <div>
+    <div className='add-servcie-history'>
+      <IconButton 
+      option='back-btn-in-add-service'
+      onClick={() => history.push(getPreviousURL(match.url))} />
+      <Banner>Add Service History</Banner>
       <form onSubmit={handleSubmit}>
         <InputBox
           label='Service name'
@@ -74,9 +83,15 @@ const AddServiceHistoryPage = ({ history, match }) => {
           name='date'
           value={date}
           onChange={handleChange}
+          dateLabel
           required
         />
-        <textarea name='note' value={note} onChange={handleChange} />
+        <ServiceNote
+          label='Note'
+          name='note'
+          value={note}
+          onChange={handleChange}
+        />
         <CustomButton>ADD</CustomButton>
       </form>
     </div>

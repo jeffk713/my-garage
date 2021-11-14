@@ -1,0 +1,19 @@
+.vehicle-image-container {
+  width: 280px;
+  height: 280px;
+  border: solid #a5a3a3 1px;
+  border-radius: 10px;
+  background-color: #393e46;
+
+  .default-image {
+    margin-top: 70px;
+    width: 150px;
+    height: 150px;
+    background-color: #393e46;
+  }
+}
+
+.no-border {
+  border: none;
+  border-radius: 0;
+}

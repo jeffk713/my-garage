@@ -1,8 +1,10 @@
 .vehicle-selection {
-  width: 250px;
-  height: 250px;
-  border: solid black 1px;
+  width: 282px;
+  height: 350px;
+  border: solid #a5a3a3 1px;
+  border-radius: 10px;
+  overflow: hidden;
   margin: 20px;
-
   cursor: pointer;
+  border-radius: 10px;
 }

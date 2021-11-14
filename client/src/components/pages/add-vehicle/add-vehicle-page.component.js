@@ -108,7 +108,7 @@ class AddVehiclePage extends React.Component {
     const { nickname, year, make, model, imageUrl } = this.state;
     return (
       <div className='add-vehicle-page'>
-        <Banner>What is your vehicle?</Banner>
+        <Banner>What Is Your Vehicle?</Banner>
         <form onSubmit={handleSubmit}>
           <div className='vehicle-input-container'>
             <ImageInputBox
@@ -124,6 +124,7 @@ class AddVehiclePage extends React.Component {
                 label='Nickname'
                 value={nickname}
                 onChange={handleChange}
+                locatedIn='inp-in-add-vehicle-page'
                 required
               />
               <InputBox
@@ -132,6 +133,7 @@ class AddVehiclePage extends React.Component {
                 label='Year'
                 value={year}
                 onChange={handleChange}
+                locatedIn='inp-in-add-vehicle-page'
                 required
               />
               <InputBox
@@ -140,6 +142,7 @@ class AddVehiclePage extends React.Component {
                 label='Make'
                 value={make}
                 onChange={handleChange}
+                locatedIn='inp-in-add-vehicle-page'
                 required
               />
               <InputBox
@@ -148,6 +151,7 @@ class AddVehiclePage extends React.Component {
                 label='Model'
                 value={model}
                 onChange={handleChange}
+                locatedIn='inp-in-add-vehicle-page'
                 required
               />
             </div>

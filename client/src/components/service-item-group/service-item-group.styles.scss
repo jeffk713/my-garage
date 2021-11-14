@@ -1,0 +1,19 @@
+.service-item-group {
+  background-color: #393e46;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 0.5fr;
+  justify-content: center;
+
+  .service-item {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .service-name {
+    font-weight: 700;
+  }
+
+  .button-group-in-service-item {
+    display: flex;
+    justify-content: space-around;
+  }
+}

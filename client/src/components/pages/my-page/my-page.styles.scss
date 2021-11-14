@@ -1,16 +1,12 @@
 .my-page {
   margin-top: 120px;
-  .my-page-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
+  margin-bottom: 100px;
 
   .vehicle-selection-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
     margin: 20px auto;
   }
 }

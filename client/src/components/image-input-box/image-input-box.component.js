@@ -2,12 +2,21 @@ import React from 'react';
 
 import './image-input-box.styles.scss';
 
-const ImageInputBox = ({ imageUrl, ...props }) => (
+const ImageInputBox = ({ imageUrl, ...otherProps }) => (
   <div className='vehicle-image-input-box'>
     <div className='vehicle-image'>
-      <img src={imageUrl} alt='vehicle-img-to-add' />
+      {imageUrl ? (
+        <img src={imageUrl} alt='vehicle-img-to-add' />
+      ) : (
+        <div className='no-image-sign'>
+          <p>No Image Selected</p>
+        </div>
+      )}
     </div>
-    <input {...props} />
+    <label className='file-input-label'>
+      Choose Picture
+      <input className='file-input' {...otherProps} />
+    </label>
   </div>
 );
 

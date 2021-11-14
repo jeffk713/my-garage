@@ -1,0 +1,13 @@
+.service-table-label {
+  background-color: #fd7014;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 0.5fr;
+  justify-content: center;
+
+  > p {
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}

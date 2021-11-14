@@ -6,7 +6,7 @@
 
 .input-box {
   position: relative;
-  margin: 45px auto;
+  margin: 0 auto 45px auto;
   width: 400px;
 
   > input {
@@ -27,6 +27,16 @@
     &:focus ~ .input-label {
       @include shrinkLabel();
     }
+
+    ::-webkit-calendar-picker-indicator {
+      color: #eeeeee;
+      background-color: #eeeeee;
+    }
+  }
+
+  > input[type='date']::-webkit-calendar-picker-indicator {
+    background-color: #eeeeee;
+    cursor: pointer;
   }
 
   .input-label {
@@ -42,5 +52,13 @@
     &.shrink {
       @include shrinkLabel();
     }
+
+    &.date-label {
+      color: #eeeeee;
+    }
   }
+}
+
+.short {
+  width: 250px;
 }

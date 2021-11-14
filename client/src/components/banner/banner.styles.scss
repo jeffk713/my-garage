@@ -2,7 +2,18 @@
   .bnr-in-homepage {
     margin-bottom: 80px;
   }
-  .bnr-in-my-page {
-    margin-right: 40px;
+
+  // .bnr-in-vehicle-selection {
+  // }
+}
+
+.bottom {
+  width: 278px;
+  border-radius: 10px;
+
+  > p {
+    font-size: 20px;
+    margin-top: 20px;
+    letter-spacing: 0.5px;
   }
 }

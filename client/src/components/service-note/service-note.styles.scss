@@ -1,0 +1,16 @@
+.service-note-box {
+  .service-note {
+    width: 500px;
+    height: 200px;
+    display: block;
+    margin: 0 auto;
+    background-color: #a5a3a3;
+    color: white;
+    font-size: 17px;
+
+    &:focus {
+      outline: none;
+    }
+    margin-bottom: 40px;
+  }
+}

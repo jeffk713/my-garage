@@ -1,13 +1,40 @@
 .vehicle-image-input-box {
   .vehicle-image {
-    width: 200px;
-    height: 200px;
-    border: solid black 1px;
-
+    width: 280px;
+    height: 280px;
+    border: solid #858282 1px;
+    border-radius: 10px;
     overflow: hidden;
-    > img {
+
+    .no-image-sign {
       width: 200px;
-      height: 200px;
+      height: 50px;
+      background-color: #a5a3a3;
+      margin: auto;
+      margin-top: 110px;
+
+      > p {
+        background-color: #a5a3a3;
+        padding-top: 15px;
+      }
+    }
+
+    > img {
+      width: 198px;
+      height: 198px;
+    }
+  }
+  .file-input-label {
+    cursor: pointer;
+    border: none;
+    background-color: #393e46;
+    color: white;
+    display: inline-block;
+    padding: 12px 50px;
+    margin-top: 20px;
+    font-size: 12px;
+    .file-input {
+      display: none;
     }
   }
 }
