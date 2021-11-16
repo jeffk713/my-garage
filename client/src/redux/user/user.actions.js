@@ -28,6 +28,10 @@ export const userSignInFailure = () => ({
   type: userActionTypes.USER_SIGN_IN_FAILURE,
 });
 
+export const userSignOutStart = () => ({
+  type: userActionTypes.USER_SIGN_OUT_START,
+});
+
 export const userSignOutSuccess = () => ({
   type: userActionTypes.USER_SIGN_OUT_SUCCESS,
 });
@@ -89,3 +93,16 @@ export const userSignUpStartAsync =
       return false;
     }
   };
+
+export const userSignOutStartAsync = () => async dispatch => {
+  dispatch(userSignOutStart());
+  try {
+    await axios.get('/api/user/sign-out');
+    dispatch(userSignOutSuccess());
+    return true;
+  } catch (err) {
+    console.error('ERROR UPON SIGN OUT:', err.message);
+    dispatch(userSignOutFailure());
+    return false;
+  }
+};

@@ -11,6 +11,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case userActionTypes.USER_SIGN_UP_START:
     case userActionTypes.USER_SIGN_IN_START:
+    case userActionTypes.USER_SIGN_OUT_START:
       return {
         ...state,
         isLoading: true,

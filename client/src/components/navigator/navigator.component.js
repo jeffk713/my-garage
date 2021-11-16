@@ -2,26 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import axios from 'axios';
-
 import Link from '../link/link.component';
 
-import {
-  userSignOutSuccess,
-  userSignOutFailure,
-} from '../../redux/user/user.actions';
+import { userSignOutStartAsync } from '../../redux/user/user.actions';
 import { selectIsAuth } from '../../redux/user/user.selectors';
 
 import './navigator.styles.scss';
 
-const Navigator = ({ isAuth, userSignOutSuccess, userSignOutFailure }) => {
-  const userSignOut = async () => {
-    try {
-      await axios.get('/api/user/sign-out');
-      userSignOutSuccess();
-    } catch (err) {
-      console.error('ERROR UPON SIGN OUT:', err.message);
-      userSignOutFailure();
+const Navigator = ({ isAuth, userSignOutStartAsync }) => {
+  const handleUserSignOut = async () => {
+    const signOutSuccess = userSignOutStartAsync();
+    if(!signOutSuccess) {
+      return console.error('ERROR UPON SIGN-OUT')
     }
   };
 
@@ -36,7 +28,7 @@ const Navigator = ({ isAuth, userSignOutSuccess, userSignOutFailure }) => {
         <Link linkName='My Page' urlToGo='/my-page' linkStyle=' nav-link' />
         <Link linkName='Shops' urlToGo='/shops' linkStyle='nav-link' />
         {isAuth ? (
-          <div className='sign-out-link' onClick={userSignOut}>
+          <div className='sign-out-link' onClick={handleUserSignOut}>
             Sign Out
           </div>
         ) : (
@@ -52,8 +44,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  userSignOutSuccess: () => dispatch(userSignOutSuccess()),
-  userSignOutFailure: () => dispatch(userSignOutFailure()),
+  userSignOutStartAsync: () => dispatch(userSignOutStartAsync()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigator);
