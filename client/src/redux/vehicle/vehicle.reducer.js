@@ -2,14 +2,29 @@ import { vehicleActionTypes } from './vehicle.types';
 
 const INITIAL_STATE = {
   vehicles: {},
+  isLoading: false,
 };
 
 const vehicleReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case vehicleActionTypes.ADD_VEHICLE_SUCCESS:
+    case vehicleActionTypes.ADD_VEHICLE_START:
+    case vehicleActionTypes.GET_USER_VEHICLES_START:
       return {
         ...state,
-        vehicles: { ...state.vehicles, [action.payload._id]: action.payload },
+        isLoading: true,
+      };
+    // case vehicleActionTypes.GET_USER_VEHICLES_SUCCESS:
+    //   return {
+    //     ...state,
+    //     vehicles: { ...action.payload },
+    //     isLoading: false,
+    //   };
+    case vehicleActionTypes.ADD_VEHICLE_SUCCESS:
+    case vehicleActionTypes.ADD_VEHICLE_FAILURE:
+    case vehicleActionTypes.GET_USER_VEHICLES_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

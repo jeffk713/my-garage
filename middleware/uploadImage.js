@@ -8,7 +8,6 @@ module.exports = uploadImage = multer({
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
       return callback(new Error('File must be an image file'));
     }
-    console.log('inside of multer:', req);
     callback(undefined, true);
   },
 });

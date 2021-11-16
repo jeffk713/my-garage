@@ -29,7 +29,7 @@ router.put('/:vehicleId', checkCookie, vehicleController.updateVehicle);
 // check auth cookie and delete a registered vehicle
 router.delete('/:vehicleId', checkCookie, vehicleController.deleteVehicle);
 
-// @private-route  GET /api/vehicle/all-vehicles
+// @private-route  GET /api/vehicle
 // check auth cookie and get all registered vehicles to user
 router.get(
   '/user-vehicles/:userId',

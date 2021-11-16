@@ -1,16 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import axios from 'axios';
-
 import InputBox from '../../input-box/input-box.component';
 import ImageInputBox from '../../image-input-box/image-input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
 import {
-  addVehicleSuccess,
-  addVehicleFailure,
+  addVehicleStartAsync,
+  uploadVehicleImage,
 } from '../../../redux/vehicle/vehicle.actions';
 
 import './add-vehicle-page.styles.scss';
@@ -24,68 +22,41 @@ class AddVehiclePage extends React.Component {
       make: '',
       model: '',
       imageFile: null,
-      imageUrl: '',
     };
   }
-
-  uploadVehicleImage = async (imgFile, requestURL) => {
-    const formData = new FormData();
-    formData.append('vehicleImage', imgFile, imgFile.name);
-
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-
-    try {
-      await axios.post(requestURL, formData, config);
-    } catch (err) {
-      alert('Uploading vehicle picrure has failed');
-      console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
-    }
-  };
 
   handleSubmit = async e => {
     e.preventDefault();
     const { nickname, make, model, year, imageFile } = this.state;
-    const { addVehicleSuccess, addVehicleFailure, history } = this.props;
-    const { uploadVehicleImage } = this;
+    const { addVehicleStartAsync, uploadVehicleImage, history } = this.props;
 
     const newVehicle = { nickname, make, model, year };
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
 
-    try {
-      const body = JSON.stringify(newVehicle);
-
-      const res = await axios.post('/api/vehicle/register', body, config);
-      const vehicleObj = res.data;
-      addVehicleSuccess(vehicleObj);
-
-      if (imageFile) {
-        const reqUrl = `/api/vehicle/${vehicleObj._id}`;
-        uploadVehicleImage(imageFile, reqUrl);
-      }
-
-      this.setState({
-        nickname: '',
-        year: '',
-        make: '',
-        model: '',
-        imageFile: null,
-        imageUrl: '',
-      });
-
-      history.push('/my-page');
-    } catch (err) {
-      alert('Vehicle registration has failed');
-      console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
-      addVehicleFailure();
+    const vehicleObj = await addVehicleStartAsync(newVehicle);
+    if (!vehicleObj) {
+      return console.error('ERROR UPON VEHICLE REGISTRATIOIN');
     }
+
+    if (imageFile) {
+      console.log(`/api/vehicle/${vehicleObj._id}`);
+      const uploadImageSuccess = await uploadVehicleImage(
+        imageFile,
+        `/api/vehicle/${vehicleObj._id}`
+      );
+
+      if (!uploadImageSuccess) {
+        console.log('ERROR UPON VEHICLE IMAGE UPLOAD');
+      }
+    }
+
+    this.setState({
+      nickname: '',
+      year: '',
+      make: '',
+      model: '',
+      imageFile: null,
+    });
+    history.push('/my-page');
   };
 
   handleChange = e => {
@@ -97,15 +68,12 @@ class AddVehiclePage extends React.Component {
     this.setState({
       ...this.state,
       imageFile: e.target.files[0],
-      imageUrl: URL.createObjectURL(e.target.files[0]),
     });
-
-    console.log('img:', e.target.files[0]);
   };
 
   render() {
     const { handleSubmit, handleChange, handleFileChange } = this;
-    const { nickname, year, make, model, imageUrl } = this.state;
+    const { nickname, year, make, model, imageFile } = this.state;
     return (
       <div className='add-vehicle-page'>
         <Banner>What Is Your Vehicle?</Banner>
@@ -115,7 +83,7 @@ class AddVehiclePage extends React.Component {
               type='file'
               name='imageData'
               onChange={handleFileChange}
-              imageUrl={imageUrl}
+              imageUrl={!!imageFile && URL.createObjectURL(imageFile)}
             />
             <div className='vehicle-info-input-container'>
               <InputBox
@@ -166,8 +134,10 @@ class AddVehiclePage extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addVehicleSuccess: vehicleObj => dispatch(addVehicleSuccess(vehicleObj)),
-  addVehicleFailure: () => dispatch(addVehicleFailure()),
+  addVehicleStartAsync: newVehicleObj =>
+    dispatch(addVehicleStartAsync(newVehicleObj)),
+  uploadVehicleImage: (imageFile, url) =>
+    dispatch(uploadVehicleImage(imageFile, url)),
 });
 
 export default connect(null, mapDispatchToProps)(AddVehiclePage);

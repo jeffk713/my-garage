@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -7,13 +8,16 @@ import VehicleSelection from '../../vehicle-selection/vehicle-selection.componen
 import VehicleAddLink from '../../vehicle-add-link/vehicle-add-link.component';
 
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
+import { selectIsAuth } from '../../../redux/user/user.selectors';
 
 import { getVehicleArr } from '../../../redux/vehicle/vehicle.utils';
 
 import './my-page.styles.scss';
 
-const MyPage = ({ vehicles, history }) => {
+const MyPage = ({ vehicles, history, isAuth }) => {
   const vehicleArr = getVehicleArr(vehicles);
+
+  // if (!isAuth) return <Redirect to='/' />;
   return (
     <div className='my-page'>
       <Banner>Hello, Jeff! Select your vehicle</Banner>
@@ -35,6 +39,7 @@ const MyPage = ({ vehicles, history }) => {
 
 const mapStateToProps = createStructuredSelector({
   vehicles: selectVehicles,
+  isAuth: selectIsAuth,
 });
 
 export default connect(mapStateToProps)(MyPage);

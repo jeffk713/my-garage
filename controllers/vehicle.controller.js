@@ -26,18 +26,19 @@ exports.uploadVehicleImage = async (req, res) => {
   try {
     const vehicle = await Vehicle.findOne({
       _id: req.params.vehicleId,
-    }).select('-vehicleImage');
+    });
     if (!vehicle) {
       return res.status(400).json({ error: { msg: 'Vehicle not found' } });
     }
 
     const sharpBuffer = await sharp(req.file.buffer)
-      .resize({ width: 200, height: 200 })
+      .resize({ width: 280, height: 280 })
       .png()
       .toBuffer();
 
     vehicle.vehicleImage = sharpBuffer;
     await vehicle.save();
+    res.send('upload complete!');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error upon vehicle image upload');

@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   username: null,
   email: null,
   isLoading: false,
+  userId: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -23,6 +24,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         isAuth: true,
         email: action.payload.email,
         username: action.payload.username,
+        userId: action.payload.userId,
         isLoading: false,
       };
     case userActionTypes.USER_SIGN_UP_FAILURE:

@@ -22,7 +22,7 @@ exports.signUpUser = async (req, res) => {
     await user.save();
 
     req.session.auth = user.id;
-    res.json({ username, email });
+    res.json({ username, email, userId: user.id });
   } catch {
     res.status(500).send('Server error upon user sign-up');
   }
@@ -48,7 +48,7 @@ exports.signInUser = async (req, res) => {
 
     req.session.auth = user.id;
 
-    res.json({ username: user.username, email: user.email });
+    res.json({ username: user.username, email: user.email, userId: user.id });
   } catch {
     res.status(500).send('Server error upon user sign-in.');
   }
