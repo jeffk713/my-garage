@@ -1,16 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import axios from 'axios';
-
 import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
-import {
-  userSignUpSuccess,
-  userSignUpFailure,
-} from '../../../redux/user/user.actions';
+import { userSignUpStartAsync } from '../../../redux/user/user.actions';
 
 import './sign-up.styles.scss';
 
@@ -26,47 +21,24 @@ class SignUpPage extends React.Component {
   }
   handleSubmit = async e => {
     const { email, username, password, confirmPassword } = this.state;
-    const { userSignUpSuccess, userSignUpFailure, history } = this.props;
+    const { userSignUpStartAsync, history } = this.props;
 
     e.preventDefault();
-
-    console.log(this.state);
     if (password !== confirmPassword)
       return alert('paswords do not match, please enter the same password');
 
-    const newUser = {
-      email,
-      username,
-      password,
-    };
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify(newUser);
+    const signUpSuccess = await userSignUpStartAsync(username, email, password);
 
-    try {
-      const userObj = await axios
-        .post('/api/user/sign-up', body, config)
-        .then(res => res.data);
-      console.log('user', userObj);
-
-      userSignUpSuccess(userObj);
-
-      this.setState({
-        email: '',
-        username: '',
-        password: '',
-        confirmPassword: '',
-      });
-
-      history.push('/my-page');
-    } catch (err) {
-      alert('Sign up has failed');
-      console.error('ERROR UPON SIGN-UP:', err.message);
-      userSignUpFailure();
+    if (!signUpSuccess) {
+      return console.error('ERROR UPON SIGN-UP');
     }
+
+    this.setState({
+      email: '',
+      password: '',
+    });
+
+    history.push('/my-page');
   };
 
   handleChange = e => {
@@ -125,8 +97,8 @@ class SignUpPage extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  userSignUpSuccess: userObj => dispatch(userSignUpSuccess(userObj)),
-  userSignUpFailure: () => dispatch(userSignUpFailure()),
+  userSignUpStartAsync: (username, email, password) =>
+    dispatch(userSignUpStartAsync(username, email, password)),
 });
 
 export default connect(null, mapDispatchToProps)(SignUpPage);

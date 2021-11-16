@@ -1,4 +1,10 @@
+import axios from 'axios';
+
 import { userActionTypes } from './user.types';
+
+export const userSignUpStart = () => ({
+  type: userActionTypes.USER_SIGN_UP_START,
+});
 
 export const userSignUpSuccess = userObj => ({
   type: userActionTypes.USER_SIGN_UP_SUCCESS,
@@ -7,6 +13,10 @@ export const userSignUpSuccess = userObj => ({
 
 export const userSignUpFailure = () => ({
   type: userActionTypes.USER_SIGN_UP_FAILURE,
+});
+
+export const userSignInStart = () => ({
+  type: userActionTypes.USER_SIGN_IN_START,
 });
 
 export const userSignInSuccess = userObj => ({
@@ -25,3 +35,57 @@ export const userSignOutSuccess = () => ({
 export const userSignOutFailure = () => ({
   type: userActionTypes.USER_SIGN_OUT_FAILURE,
 });
+
+export const userSignInStartAsync = (email, password) => async dispatch => {
+  dispatch(userSignInStart());
+  const userCredentials = {
+    email,
+    password,
+  };
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const body = JSON.stringify(userCredentials);
+  try {
+    const userObj = await axios
+      .post('/api/user/sign-in', body, config)
+      .then(res => res.data);
+
+    dispatch(userSignInSuccess(userObj));
+    return true;
+  } catch (err) {
+    console.error('ERROR UPON SIGN-IN:', err.message);
+    dispatch(userSignInFailure());
+    return false;
+  }
+};
+
+export const userSignUpStartAsync =
+  (username, email, password) => async dispatch => {
+    dispatch(userSignUpStart());
+    const newUser = {
+      username,
+      email,
+      password,
+    };
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const body = JSON.stringify(newUser);
+    try {
+      const userObj = await axios
+        .post('/api/user/sign-up', body, config)
+        .then(res => res.data);
+
+      dispatch(userSignUpSuccess(userObj));
+      return true;
+    } catch (err) {
+      console.error('ERROR UPON SIGN-IN:', err.message);
+      dispatch(userSignUpFailure());
+      return false;
+    }
+  };

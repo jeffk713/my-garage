@@ -1,17 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import axios from 'axios';
-
 import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Link from '../../link/link.component';
 import Banner from '../../banner/banner.component';
 
-import {
-  userSignInSuccess,
-  userSignInFailure,
-} from '../../../redux/user/user.actions';
+import { userSignInStartAsync } from '../../../redux/user/user.actions';
 
 import './sign-in.styles.scss';
 
@@ -26,39 +21,20 @@ class SignInPage extends React.Component {
 
   handleSubmit = async e => {
     const { email, password } = this.state;
-    const { userSignInSuccess, userSignInFailure, history } = this.props;
+    const { userSignInStartAsync, history } = this.props;
     e.preventDefault();
+    const signInSuccess = await userSignInStartAsync(email, password);
 
-    const userCredentials = {
-      email,
-      password,
-    };
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify(userCredentials);
-
-    try {
-      const userObj = await axios
-        .post('/api/user/sign-in', body, config)
-        .then(res => res.data);
-      console.log(userObj);
-
-      userSignInSuccess(userObj);
-
-      this.setState({
-        email: '',
-        password: '',
-      });
-
-      history.push('/my-page');
-    } catch (err) {
-      alert('Sign in has failed');
-      console.error('ERROR UPON SIGN-IN:', err.message);
-      userSignInFailure();
+    if (!signInSuccess) {
+      return console.error('ERROR UPON SIGN-IN');
     }
+
+    this.setState({
+      email: '',
+      password: '',
+    });
+
+    history.push('/my-page');
   };
 
   handleChange = e => {
@@ -106,8 +82,8 @@ class SignInPage extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  userSignInSuccess: userObj => dispatch(userSignInSuccess(userObj)),
-  userSignInFailure: () => dispatch(userSignInFailure()),
+  userSignInStartAsync: (email, password) =>
+    dispatch(userSignInStartAsync(email, password)),
 });
 
 export default connect(null, mapDispatchToProps)(SignInPage);
