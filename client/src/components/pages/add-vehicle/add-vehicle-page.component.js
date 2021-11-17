@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -17,31 +17,28 @@ import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.action
 
 import './add-vehicle-page.styles.scss';
 
-class AddVehiclePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      nickname: '',
-      year: '',
-      make: '',
-      model: '',
-      imageFile: null,
-    };
-  }
+const INITIAL_INPUT = {
+  nickname: '',
+  year: '',
+  make: '',
+  model: '',
+  imageFile: null,
+};
 
-  handleSubmit = async e => {
+const AddVehiclePage = ({
+  addVehicleStartAsync,
+  uploadVehicleImage,
+  getUserVehiclesStartAsync,
+  history,
+  userId,
+}) => {
+  const [inputState, setInputState] = useState(INITIAL_INPUT);
+  const { nickname, make, model, year, imageFile } = inputState;
+
+  const handleSubmit = async e => {
     e.preventDefault();
-    const { nickname, make, model, year, imageFile } = this.state;
-    const {
-      addVehicleStartAsync,
-      uploadVehicleImage,
-      getUserVehiclesStartAsync,
-      history,
-      userId,
-    } = this.props;
 
     const newVehicle = { nickname, make, model, year };
-
     const vehicleObj = await addVehicleStartAsync(newVehicle);
     if (!vehicleObj) {
       return console.error('ERROR UPON VEHICLE REGISTRATIOIN');
@@ -59,92 +56,82 @@ class AddVehiclePage extends React.Component {
       }
     }
 
-    this.setState({
-      nickname: '',
-      year: '',
-      make: '',
-      model: '',
-      imageFile: null,
-    });
+    setInputState({ ...INITIAL_INPUT });
 
     getUserVehiclesStartAsync(userId);
 
     history.push('/my-page');
   };
 
-  handleChange = e => {
+  const handleChange = e => {
     const { value, name } = e.target;
-    this.setState({ ...this.state, [name]: value });
+    setInputState({ ...inputState, [name]: value });
   };
 
-  handleFileChange = async e => {
-    this.setState({
-      ...this.state,
+  const handleFileChange = async e => {
+    setInputState({
+      ...inputState,
       imageFile: e.target.files[0],
     });
   };
 
-  render() {
-    const { handleSubmit, handleChange, handleFileChange } = this;
-    const { nickname, year, make, model, imageFile } = this.state;
-    return (
-      <div className='add-vehicle-page'>
-        <Banner>What Is Your Vehicle?</Banner>
-        <form onSubmit={handleSubmit}>
-          <div className='vehicle-input-container'>
-            <ImageInputBox
-              type='file'
-              name='imageData'
-              onChange={handleFileChange}
-              imageUrl={!!imageFile && URL.createObjectURL(imageFile)}
+  return (
+    <div className='add-vehicle-page'>
+      <Banner>What Is Your Vehicle?</Banner>
+      <form onSubmit={handleSubmit}>
+        <div className='vehicle-input-container'>
+          <ImageInputBox
+            type='file'
+            name='imageData'
+            onChange={handleFileChange}
+            imageUrl={!!imageFile && URL.createObjectURL(imageFile)}
+          />
+          <div className='vehicle-info-input-container'>
+            <InputBox
+              type='text'
+              name='nickname'
+              label='Nickname'
+              value={nickname}
+              onChange={handleChange}
+              locatedIn='inp-in-add-vehicle-page'
+              required
             />
-            <div className='vehicle-info-input-container'>
-              <InputBox
-                type='text'
-                name='nickname'
-                label='Nickname'
-                value={nickname}
-                onChange={handleChange}
-                locatedIn='inp-in-add-vehicle-page'
-                required
-              />
-              <InputBox
-                type='text'
-                name='year'
-                label='Year'
-                value={year}
-                onChange={handleChange}
-                locatedIn='inp-in-add-vehicle-page'
-                required
-              />
-              <InputBox
-                type='text'
-                name='make'
-                label='Make'
-                value={make}
-                onChange={handleChange}
-                locatedIn='inp-in-add-vehicle-page'
-                required
-              />
-              <InputBox
-                type='text'
-                name='model'
-                label='Model'
-                value={model}
-                onChange={handleChange}
-                locatedIn='inp-in-add-vehicle-page'
-                required
-              />
-            </div>
+            <InputBox
+              type='text'
+              name='year'
+              label='Year'
+              value={year}
+              onChange={handleChange}
+              locatedIn='inp-in-add-vehicle-page'
+              required
+            />
+            <InputBox
+              type='text'
+              name='make'
+              label='Make'
+              value={make}
+              onChange={handleChange}
+              locatedIn='inp-in-add-vehicle-page'
+              required
+            />
+            <InputBox
+              type='text'
+              name='model'
+              label='Model'
+              value={model}
+              onChange={handleChange}
+              locatedIn='inp-in-add-vehicle-page'
+              required
+            />
           </div>
-          <CustomButton type='submit' locatedIn='btn-in-add-vehicle-page'>
-            ADD
-          </CustomButton>
-        </form>
-      </div>
-    );
-  }
-}
+        </div>
+        <CustomButton type='submit' locatedIn='btn-in-add-vehicle-page'>
+          ADD
+        </CustomButton>
+      </form>
+    </div>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   userId: selectUserId,

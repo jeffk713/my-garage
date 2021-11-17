@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import InputBox from '../../input-box/input-box.component';
@@ -11,19 +11,20 @@ import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.action
 
 import './sign-in.styles.scss';
 
-class SignInPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-    };
-  }
+const INITIAL_INPUT = {
+  email: '',
+  password: '',
+};
 
-  handleSubmit = async e => {
-    const { email, password } = this.state;
-    const { userSignInStartAsync, getUserVehiclesStartAsync, history } =
-      this.props;
+const SignInPage = ({
+  userSignInStartAsync,
+  getUserVehiclesStartAsync,
+  history,
+}) => {
+  const [inputState, setInputState] = useState(INITIAL_INPUT);
+  const { email, password } = inputState;
+
+  const handleSubmit = async e => {
     e.preventDefault();
     const authUserObj = await userSignInStartAsync(email, password);
 
@@ -31,59 +32,52 @@ class SignInPage extends React.Component {
       return console.error('ERROR UPON SIGN-IN');
     }
 
-    this.setState({
-      email: '',
-      password: '',
-    });
+    setInputState({ ...INITIAL_INPUT });
 
     getUserVehiclesStartAsync(authUserObj.userId);
-    
+
     history.push('/my-page');
   };
 
-  handleChange = e => {
+  const handleChange = e => {
     const { value, name } = e.target;
-    this.setState({ ...this.state, [name]: value });
+    setInputState({ ...inputState, [name]: value });
   };
 
-  render() {
-    const { handleChange, handleSubmit } = this;
-    const { email, password } = this.state;
-    return (
-      <div className='sign-in-page'>
-        <Banner>Welcome Back, Please Sign In!</Banner>
-        <form onSubmit={handleSubmit}>
-          <div className='sign-in-input-container'>
-            <InputBox
-              label='Email'
-              type='text'
-              name='email'
-              value={email}
-              onChange={handleChange}
-              required
-            />
-            <InputBox
-              label='Password'
-              type='password'
-              name='password'
-              value={password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <CustomButton type='submit' locatedIn='btn-in-sign-in-page'>
-            Sign In
-          </CustomButton>
-        </form>
-        <Link
-          linkStyle='inline-link'
-          linkName='Sign up here!'
-          urlToGo='/sign-up'
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className='sign-in-page'>
+      <Banner>Welcome Back, Please Sign In!</Banner>
+      <form onSubmit={handleSubmit}>
+        <div className='sign-in-input-container'>
+          <InputBox
+            label='Email'
+            type='text'
+            name='email'
+            value={email}
+            onChange={handleChange}
+            required
+          />
+          <InputBox
+            label='Password'
+            type='password'
+            name='password'
+            value={password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <CustomButton type='submit' locatedIn='btn-in-sign-in-page'>
+          Sign In
+        </CustomButton>
+      </form>
+      <Link
+        linkStyle='inline-link'
+        linkName='Sign up here!'
+        urlToGo='/sign-up'
+      />
+    </div>
+  );
+};
 
 const mapDispatchToProps = dispatch => ({
   userSignInStartAsync: (email, password) =>
