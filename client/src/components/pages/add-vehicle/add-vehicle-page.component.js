@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import InputBox from '../../input-box/input-box.component';
 import ImageInputBox from '../../image-input-box/image-input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
+import { selectUserId } from '../../../redux/user/user.selectors';
+
 import {
   addVehicleStartAsync,
   uploadVehicleImage,
 } from '../../../redux/vehicle/vehicle.actions';
+import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
 
 import './add-vehicle-page.styles.scss';
 
@@ -28,7 +32,13 @@ class AddVehiclePage extends React.Component {
   handleSubmit = async e => {
     e.preventDefault();
     const { nickname, make, model, year, imageFile } = this.state;
-    const { addVehicleStartAsync, uploadVehicleImage, history } = this.props;
+    const {
+      addVehicleStartAsync,
+      uploadVehicleImage,
+      getUserVehiclesStartAsync,
+      history,
+      userId,
+    } = this.props;
 
     const newVehicle = { nickname, make, model, year };
 
@@ -56,6 +66,9 @@ class AddVehiclePage extends React.Component {
       model: '',
       imageFile: null,
     });
+
+    getUserVehiclesStartAsync(userId);
+
     history.push('/my-page');
   };
 
@@ -133,11 +146,17 @@ class AddVehiclePage extends React.Component {
   }
 }
 
+const mapStateToProps = createStructuredSelector({
+  userId: selectUserId,
+});
+
 const mapDispatchToProps = dispatch => ({
   addVehicleStartAsync: newVehicleObj =>
     dispatch(addVehicleStartAsync(newVehicleObj)),
   uploadVehicleImage: (imageFile, url) =>
     dispatch(uploadVehicleImage(imageFile, url)),
+  getUserVehiclesStartAsync: userId =>
+    dispatch(getUserVehiclesStartAsync(userId)),
 });
 
-export default connect(null, mapDispatchToProps)(AddVehiclePage);
+export default connect(mapStateToProps, mapDispatchToProps)(AddVehiclePage);

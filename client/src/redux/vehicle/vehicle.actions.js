@@ -43,9 +43,10 @@ export const uploadVehicleImageFailure = () => ({
 export const getUserVehiclesStartAsync = userId => async dispatch => {
   dispatch(getUserVehiclesStart());
   try {
-    const vehicles = await axios.get(`/api/vehicle/user-vehicles/${userId}`);
-    console.log(vehicles);
-    dispatch(getUserVehiclesSuccess());
+    const res = await axios.get(`/api/vehicle/user-vehicles/${userId}`);
+    const vehicles = res.data;
+    dispatch(getUserVehiclesSuccess(vehicles));
+    return vehicles;
   } catch (err) {
     console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
     dispatch(getUserVehiclesFailure());

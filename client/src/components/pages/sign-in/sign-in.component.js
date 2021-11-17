@@ -7,6 +7,7 @@ import Link from '../../link/link.component';
 import Banner from '../../banner/banner.component';
 
 import { userSignInStartAsync } from '../../../redux/user/user.actions';
+import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
 
 import './sign-in.styles.scss';
 
@@ -21,11 +22,12 @@ class SignInPage extends React.Component {
 
   handleSubmit = async e => {
     const { email, password } = this.state;
-    const { userSignInStartAsync, history } = this.props;
+    const { userSignInStartAsync, getUserVehiclesStartAsync, history } =
+      this.props;
     e.preventDefault();
-    const signInSuccess = await userSignInStartAsync(email, password);
+    const authUserObj = await userSignInStartAsync(email, password);
 
-    if (!signInSuccess) {
+    if (!authUserObj) {
       return console.error('ERROR UPON SIGN-IN');
     }
 
@@ -34,6 +36,8 @@ class SignInPage extends React.Component {
       password: '',
     });
 
+    getUserVehiclesStartAsync(authUserObj.userId);
+    
     history.push('/my-page');
   };
 
@@ -84,6 +88,8 @@ class SignInPage extends React.Component {
 const mapDispatchToProps = dispatch => ({
   userSignInStartAsync: (email, password) =>
     dispatch(userSignInStartAsync(email, password)),
+  getUserVehiclesStartAsync: userId =>
+    dispatch(getUserVehiclesStartAsync(userId)),
 });
 
 export default connect(null, mapDispatchToProps)(SignInPage);

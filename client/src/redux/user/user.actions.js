@@ -58,7 +58,7 @@ export const userSignInStartAsync = (email, password) => async dispatch => {
       .then(res => res.data);
 
     dispatch(userSignInSuccess(userObj));
-    return true;
+    return userObj;
   } catch (err) {
     console.error('ERROR UPON SIGN-IN:', err.message);
     dispatch(userSignInFailure());

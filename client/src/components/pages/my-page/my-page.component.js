@@ -8,25 +8,26 @@ import VehicleSelection from '../../vehicle-selection/vehicle-selection.componen
 import VehicleAddLink from '../../vehicle-add-link/vehicle-add-link.component';
 
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
-import { selectIsAuth } from '../../../redux/user/user.selectors';
-
-import { getVehicleArr } from '../../../redux/vehicle/vehicle.utils';
+import {
+  selectIsAuth,
+  selectUsername,
+} from '../../../redux/user/user.selectors';
 
 import './my-page.styles.scss';
 
-const MyPage = ({ vehicles, history, isAuth }) => {
-  const vehicleArr = getVehicleArr(vehicles);
+const MyPage = ({ vehicles, history, isAuth, username }) => {
+  if (!isAuth) return <Redirect to='/' />;
 
-  // if (!isAuth) return <Redirect to='/' />;
   return (
     <div className='my-page'>
-      <Banner>Hello, Jeff! Select your vehicle</Banner>
+      <Banner>Hello, {username}! Select your vehicle</Banner>
       <div className='vehicle-selection-container'>
-        {vehicleArr.map(vehicle => (
+        {vehicles.map(vehicle => (
           <VehicleSelection
             key={vehicle._id}
             vehicleId={vehicle._id}
-            imageUrl={vehicle.imageUrl}
+            imageUrl={vehicle.vehicleImage}
+            nickname={vehicle.nickname}
           />
         ))}
         <VehicleAddLink
@@ -40,6 +41,7 @@ const MyPage = ({ vehicles, history, isAuth }) => {
 const mapStateToProps = createStructuredSelector({
   vehicles: selectVehicles,
   isAuth: selectIsAuth,
+  username: selectUsername,
 });
 
 export default connect(mapStateToProps)(MyPage);
