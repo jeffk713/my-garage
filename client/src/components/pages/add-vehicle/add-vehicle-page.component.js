@@ -58,7 +58,10 @@ const AddVehiclePage = ({
 
     setInputState({ ...INITIAL_INPUT });
 
-    getUserVehiclesStartAsync(userId);
+    const vehicles = await getUserVehiclesStartAsync(userId);
+    if (!vehicles) {
+      return console.error('ERROR UPON VEHICLE LOADING');
+    }
 
     history.push('/my-page');
   };

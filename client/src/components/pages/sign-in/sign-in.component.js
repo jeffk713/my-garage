@@ -34,7 +34,10 @@ const SignInPage = ({
 
     setInputState({ ...INITIAL_INPUT });
 
-    getUserVehiclesStartAsync(authUserObj.userId);
+    const vehicles = await getUserVehiclesStartAsync(authUserObj.userId);
+    if (!vehicles) {
+      return console.error('ERROR UPON VEHICLE LOADING');
+    }
 
     history.push('/my-page');
   };

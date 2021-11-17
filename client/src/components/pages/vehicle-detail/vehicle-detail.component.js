@@ -10,12 +10,13 @@ import IconButton from '../../icon-button/icon-button.component';
 
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
-import { getPreviousURL } from '../../../utils/url-util';
+import { getPreviousURL } from '../../../utils/url-utils';
+import { getVehicleWithId } from '../../../utils/vehicle-utils';
 
 import './vehicle-detail.styles.scss';
 
 const VehicleDetailPage = ({ history, match, vehicles }) => {
-  const vehicleToShow = vehicles[match.params.vehicleId];
+  const vehicleToShow = getVehicleWithId(vehicles, match.params.vehicleId);
   return (
     <div className='vehicle-detail-page'>
       <div className='button-group-in-vehicle-detail'>
@@ -51,17 +52,6 @@ const VehicleDetailPage = ({ history, match, vehicles }) => {
       </div>
       <div className='vehicle-service-table'>
         <ServiceTableHeader />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
         <ServiceItemGroup />
         <ServiceItemGroup />
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
@@ -8,9 +8,16 @@ import Banner from '../../banner/banner.component';
 import ServiceNote from '../../service-note/service-note.component';
 import IconButton from '../../icon-button/icon-button.component';
 
-import './add-service-history.styles.scss';
+import { selectUserId } from '../../../redux/user/user.selectors';
 
-import { getPreviousURL } from '../../../utils/url-util';
+import {
+  addServiceHistoryStartAsync,
+  getUserVehiclesStartAsync,
+} from '../../../redux/vehicle/vehicle.actions';
+
+import { getPreviousURL } from '../../../utils/url-utils';
+
+import './add-service-history.styles.scss';
 
 const INITIAL_INPUT = {
   serviceName: '',
@@ -19,34 +26,40 @@ const INITIAL_INPUT = {
   note: '',
 };
 
-const AddServiceHistoryPage = ({ history, match }) => {
+const AddServiceHistoryPage = ({
+  history,
+  match,
+  addServiceHistoryStartAsync,
+  getUserVehiclesStartAsync,
+  userId,
+}) => {
   const [inputState, setInputState] = useState(INITIAL_INPUT);
   const { serviceName, mileage, date, note } = inputState;
+
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const serviceHistory = { ...inputState };
+    const requestURL = `/api/vehicle/${match.params.vehicleId}/add-service`;
+    const addServiceHistorySuccess = await addServiceHistoryStartAsync(
+      requestURL,
+      serviceName,
+      mileage,
+      date,
+      note
+    );
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify(serviceHistory);
-
-    try {
-      const serviceHistoryArr = await axios
-        .put(`/api/vehicle/${match.params.vehicleId}/add-service`, body, config)
-        .then(res => res.data);
-      console.log(serviceHistoryArr);
-
-      setInputState({ ...INITIAL_INPUT });
-
-      history.push(`/my-page/${match.params.vehicleId}`);
-    } catch (err) {
-      alert('Service update has failed');
-      console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
+    if (!addServiceHistorySuccess) {
+      return console.error('ERROR UPON ADD SERVICE HISTORY');
     }
+
+    setInputState({ ...INITIAL_INPUT });
+
+    const vehicles = await getUserVehiclesStartAsync(userId);
+    if (!vehicles) {
+      return console.error('ERROR UPON VEHICLE LOADING');
+    }
+
+    history.push(`/my-page/${match.params.vehicleId}`);
   };
 
   const handleChange = e => {
@@ -56,9 +69,10 @@ const AddServiceHistoryPage = ({ history, match }) => {
 
   return (
     <div className='add-servcie-history'>
-      <IconButton 
-      option='back-btn-in-add-service'
-      onClick={() => history.push(getPreviousURL(match.url))} />
+      <IconButton
+        option='back-btn-in-add-service'
+        onClick={() => history.push(getPreviousURL(match.url))}
+      />
       <Banner>Add Service History</Banner>
       <form onSubmit={handleSubmit}>
         <InputBox
@@ -98,4 +112,19 @@ const AddServiceHistoryPage = ({ history, match }) => {
   );
 };
 
-export default AddServiceHistoryPage;
+const mapStateToProps = createStructuredSelector({
+  userId: selectUserId,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addServiceHistoryStartAsync: (requestURL, serviceName, mileage, date, note) =>
+    dispatch(
+      addServiceHistoryStartAsync(requestURL, serviceName, mileage, date, note)
+    ),
+  getUserVehiclesStartAsync: userId =>
+    dispatch(getUserVehiclesStartAsync(userId)),
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddServiceHistoryPage);

@@ -40,6 +40,18 @@ export const uploadVehicleImageFailure = () => ({
   type: vehicleActionTypes.UPLOAD_VEHICLE_IMAGE_FAILURE,
 });
 
+export const addServiceHistoryStart = () => ({
+  type: vehicleActionTypes.ADD_SERVICE_HISTORY_START,
+});
+
+export const addServiceHistorySuccess = () => ({
+  type: vehicleActionTypes.ADD_SERVICE_HISTORY_SUCCESS,
+});
+
+export const addServiceHistoryFailure = () => ({
+  type: vehicleActionTypes.ADD_SERVICE_HISTORY_FAILURE,
+});
+
 export const getUserVehiclesStartAsync = userId => async dispatch => {
   dispatch(getUserVehiclesStart());
   try {
@@ -48,7 +60,7 @@ export const getUserVehiclesStartAsync = userId => async dispatch => {
     dispatch(getUserVehiclesSuccess(vehicles));
     return vehicles;
   } catch (err) {
-    console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
+    console.error('ERROR UPON VEHICLE LOADING:', err.message);
     dispatch(getUserVehiclesFailure());
     return false;
   }
@@ -99,6 +111,28 @@ export const addVehicleStartAsync =
     } catch (err) {
       console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
       dispatch(addVehicleFailure());
+      return false;
+    }
+  };
+
+export const addServiceHistoryStartAsync =
+  (requestURL, serviceName, mileage, date, note) => async dispatch => {
+    dispatch(addServiceHistoryStart());
+    const serviceHistory = { serviceName, mileage, date, note };
+    const body = JSON.stringify(serviceHistory);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      await axios.put(requestURL, body, config);
+      dispatch(addServiceHistorySuccess());
+      return true;
+    } catch (err) {
+      console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
+      dispatch(addServiceHistoryFailure());
       return false;
     }
   };
