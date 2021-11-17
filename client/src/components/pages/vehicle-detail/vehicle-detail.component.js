@@ -16,7 +16,7 @@ import { getVehicleWithId } from '../../../utils/vehicle-utils';
 import './vehicle-detail.styles.scss';
 
 const VehicleDetailPage = ({ history, match, vehicles }) => {
-  const vehicleToShow = getVehicleWithId(vehicles, match.params.vehicleId);
+  const selectedVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
   return (
     <div className='vehicle-detail-page'>
       <div className='button-group-in-vehicle-detail'>
@@ -30,30 +30,31 @@ const VehicleDetailPage = ({ history, match, vehicles }) => {
         />
       </div>
       <div className='vehicle-basic-info'>
-        <ImageDisplay imageUrl={vehicleToShow.imageUrl} />
+        <ImageDisplay imageUrl={selectedVehicle.imageUrl} />
         <div className='vehicle-info-container'>
           <IndividualVehicleInfo
             vehicleInfo='Nickname'
-            value={vehicleToShow.nickname}
+            value={selectedVehicle.nickname}
           />
           <IndividualVehicleInfo
             vehicleInfo='Make'
-            value={vehicleToShow.make}
+            value={selectedVehicle.make}
           />
           <IndividualVehicleInfo
             vehicleInfo='Model'
-            value={vehicleToShow.model}
+            value={selectedVehicle.model}
           />
           <IndividualVehicleInfo
             vehicleInfo='Year'
-            value={vehicleToShow.year}
+            value={selectedVehicle.year}
           />
         </div>
       </div>
       <div className='vehicle-service-table'>
         <ServiceTableHeader />
-        <ServiceItemGroup />
-        <ServiceItemGroup />
+        {selectedVehicle.serviceHistory.map(service => (
+          <ServiceItemGroup key={service._id} {...service} />
+        ))}
       </div>
     </div>
   );
