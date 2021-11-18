@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -8,7 +9,7 @@ import Banner from '../../banner/banner.component';
 import ServiceNote from '../../service-note/service-note.component';
 import IconButton from '../../icon-button/icon-button.component';
 
-import { selectUserId } from '../../../redux/user/user.selectors';
+import { selectUserId, selectIsAuth } from '../../../redux/user/user.selectors';
 
 import {
   addServiceHistoryStartAsync,
@@ -31,6 +32,7 @@ const AddServiceHistoryPage = ({
   match,
   addServiceHistoryStartAsync,
   getUserVehiclesStartAsync,
+  isAuth,
   userId,
 }) => {
   const [inputState, setInputState] = useState(INITIAL_INPUT);
@@ -60,6 +62,7 @@ const AddServiceHistoryPage = ({
     setInputState({ ...inputState, [name]: value });
   };
 
+  if (!isAuth) return <Redirect to='/' />;
   return (
     <div className='add-servcie-history'>
       <IconButton
@@ -107,6 +110,7 @@ const AddServiceHistoryPage = ({
 
 const mapStateToProps = createStructuredSelector({
   userId: selectUserId,
+  isAuth: selectIsAuth,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -7,7 +8,7 @@ import ImageInputBox from '../../image-input-box/image-input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
-import { selectUserId } from '../../../redux/user/user.selectors';
+import { selectIsAuth, selectUserId } from '../../../redux/user/user.selectors';
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import {
@@ -28,6 +29,7 @@ const AddVehiclePage = ({
   getUserVehiclesStartAsync,
   updateVehicleStartAsync,
   delectVehicleStartAsync,
+  isAuth,
   history,
   match,
   userId,
@@ -107,6 +109,7 @@ const AddVehiclePage = ({
     history.push('/my-page');
   };
 
+  if (!isAuth) return <Redirect to='/' />;
   return (
     <div className='add-vehicle-page'>
       <Banner>What Is Your Vehicle?</Banner>
@@ -182,6 +185,7 @@ const AddVehiclePage = ({
 };
 
 const mapStateToProps = createStructuredSelector({
+  isAuth: selectIsAuth,
   userId: selectUserId,
   vehicles: selectVehicles,
 });
