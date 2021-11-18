@@ -13,11 +13,18 @@
     justify-content: center;
     margin-bottom: 50px;
 
-    .vehicle-info-container {
+    .vehicle-info-edit-section {
       margin-left: 70px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-around;
+      align-items: center;
+
+      .vehicle-info-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
     }
   }
 

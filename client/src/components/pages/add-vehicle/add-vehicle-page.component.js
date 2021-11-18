@@ -8,61 +8,83 @@ import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
 import { selectUserId } from '../../../redux/user/user.selectors';
+import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import {
   addVehicleStartAsync,
   uploadVehicleImage,
+  updateVehicleStartAsync,
+  delectVehicleStartAsync,
 } from '../../../redux/vehicle/vehicle.actions';
 import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
 
-import './add-vehicle-page.styles.scss';
+import { getVehicleWithId } from '../../../utils/vehicle-utils';
 
-const INITIAL_INPUT = {
-  nickname: '',
-  year: '',
-  make: '',
-  model: '',
-  imageFile: null,
-};
+import './add-vehicle-page.styles.scss';
 
 const AddVehiclePage = ({
   addVehicleStartAsync,
   uploadVehicleImage,
   getUserVehiclesStartAsync,
+  updateVehicleStartAsync,
+  delectVehicleStartAsync,
   history,
+  match,
   userId,
+  vehicles,
 }) => {
+  let INITIAL_INPUT = {
+    nickname: '',
+    year: '',
+    make: '',
+    model: '',
+    imageFile: null,
+  };
+
+  const existingVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
+  // if existingVehicle, use existing vehicle info
+  if (existingVehicle) {
+    INITIAL_INPUT = { ...existingVehicle };
+  }
+
   const [inputState, setInputState] = useState(INITIAL_INPUT);
   const { nickname, make, model, year, imageFile } = inputState;
 
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const newVehicle = { nickname, make, model, year };
-    const vehicleObj = await addVehicleStartAsync(newVehicle);
-    if (!vehicleObj) {
-      return console.error('ERROR UPON VEHICLE REGISTRATIOIN');
+    let vehicleObj;
+    if (existingVehicle) {
+      // if existingVehicle, edit it
+      vehicleObj = await updateVehicleStartAsync({
+        nickname,
+        make,
+        model,
+        year,
+        vehicleId: existingVehicle._id,
+      });
+    } else {
+      // if no existingVehicle, add it
+      vehicleObj = await addVehicleStartAsync({ nickname, make, model, year });
     }
 
+    // when imageFile present
     if (imageFile) {
-      console.log(`/api/vehicle/${vehicleObj._id}`);
-      const uploadImageSuccess = await uploadVehicleImage(
-        imageFile,
-        `/api/vehicle/${vehicleObj._id}`
-      );
-
-      if (!uploadImageSuccess) {
-        console.log('ERROR UPON VEHICLE IMAGE UPLOAD');
-      }
+      await uploadVehicleImage(imageFile, `/api/vehicle/${vehicleObj._id}`);
     }
 
-    setInputState({ ...INITIAL_INPUT });
+    setInputState({
+      nickname: '',
+      year: '',
+      make: '',
+      model: '',
+      imageFile: null,
+    });
 
-    const vehicles = await getUserVehiclesStartAsync(userId);
-    if (!vehicles) {
-      return console.error('ERROR UPON VEHICLE LOADING');
-    }
+    // get updated user vehicles after adding vehicle
+    await getUserVehiclesStartAsync(userId);
 
+    // go to mypage
     history.push('/my-page');
   };
 
@@ -71,11 +93,18 @@ const AddVehiclePage = ({
     setInputState({ ...inputState, [name]: value });
   };
 
-  const handleFileChange = async e => {
+  const handleFileChange = e => {
     setInputState({
       ...inputState,
       imageFile: e.target.files[0],
     });
+  };
+
+  const handleDelete = async () => {
+    await delectVehicleStartAsync(existingVehicle._id);
+    await getUserVehiclesStartAsync(userId);
+
+    history.push('/my-page');
   };
 
   return (
@@ -128,9 +157,25 @@ const AddVehiclePage = ({
             />
           </div>
         </div>
-        <CustomButton type='submit' locatedIn='btn-in-add-vehicle-page'>
-          ADD
-        </CustomButton>
+
+        {existingVehicle ? (
+          <div className='btn-group-in-add-vehicle'>
+            <CustomButton type='submit' locatedIn='btn-in-add-vehicle-page'>
+              UPDATE
+            </CustomButton>
+            <CustomButton
+              type='button'
+              locatedIn='btn-in-add-vehicle-page delete-btn'
+              onClick={() => handleDelete()}
+            >
+              DELETE
+            </CustomButton>
+          </div>
+        ) : (
+          <CustomButton type='submit' locatedIn='btn-in-add-vehicle-page'>
+            ADD
+          </CustomButton>
+        )}
       </form>
     </div>
   );
@@ -138,6 +183,7 @@ const AddVehiclePage = ({
 
 const mapStateToProps = createStructuredSelector({
   userId: selectUserId,
+  vehicles: selectVehicles,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -147,6 +193,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(uploadVehicleImage(imageFile, url)),
   getUserVehiclesStartAsync: userId =>
     dispatch(getUserVehiclesStartAsync(userId)),
+  updateVehicleStartAsync: ({ nickname, make, model, year, vehicleId }) =>
+    dispatch(
+      updateVehicleStartAsync({ nickname, make, model, year, vehicleId })
+    ),
+  delectVehicleStartAsync: vehicleId =>
+    dispatch(delectVehicleStartAsync(vehicleId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddVehiclePage);

@@ -28,16 +28,9 @@ const SignInPage = ({
     e.preventDefault();
     const authUserObj = await userSignInStartAsync(email, password);
 
-    if (!authUserObj) {
-      return console.error('ERROR UPON SIGN-IN');
-    }
-
     setInputState({ ...INITIAL_INPUT });
 
-    const vehicles = await getUserVehiclesStartAsync(authUserObj.userId);
-    if (!vehicles) {
-      return console.error('ERROR UPON VEHICLE LOADING');
-    }
+    await getUserVehiclesStartAsync(authUserObj.userId);
 
     history.push('/my-page');
   };

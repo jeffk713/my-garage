@@ -19,9 +19,8 @@ export const addVehicleStart = () => ({
   type: vehicleActionTypes.ADD_VEHICLE_START,
 });
 
-export const addVehicleSuccess = vehicleObj => ({
+export const addVehicleSuccess = () => ({
   type: vehicleActionTypes.ADD_VEHICLE_SUCCESS,
-  payload: vehicleObj,
 });
 
 export const addVehicleFailure = () => ({
@@ -52,6 +51,30 @@ export const addServiceHistoryFailure = () => ({
   type: vehicleActionTypes.ADD_SERVICE_HISTORY_FAILURE,
 });
 
+export const updateVehicleStart = () => ({
+  type: vehicleActionTypes.UPDATE_VEHICLE_START,
+});
+
+export const updateVehicleSuccess = () => ({
+  type: vehicleActionTypes.UPDATE_VEHICLE_SUCCESS,
+});
+
+export const updateVehicleFailure = () => ({
+  type: vehicleActionTypes.UPDATE_VEHICLE_FAILURE,
+});
+
+export const deleteVehicleStart = () => ({
+  type: vehicleActionTypes.DELETE_VEHICLE_START,
+});
+
+export const deleteVehicleSuccess = () => ({
+  type: vehicleActionTypes.DELETE_VEHICLE_SUCCESS,
+});
+
+export const deleteVehicleFailure = () => ({
+  type: vehicleActionTypes.DELETE_VEHICLE_FAILURE,
+});
+
 export const getUserVehiclesStartAsync = userId => async dispatch => {
   dispatch(getUserVehiclesStart());
   try {
@@ -62,16 +85,13 @@ export const getUserVehiclesStartAsync = userId => async dispatch => {
   } catch (err) {
     console.error('ERROR UPON VEHICLE LOADING:', err.message);
     dispatch(getUserVehiclesFailure());
-    return false;
   }
 };
 
 export const uploadVehicleImage = (imgFile, requestURL) => async dispatch => {
   dispatch(uploadVehicleImageStart());
-
   const formData = new FormData();
   formData.append('vehicleImage', imgFile, imgFile.name);
-
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -81,11 +101,9 @@ export const uploadVehicleImage = (imgFile, requestURL) => async dispatch => {
   try {
     await axios.post(requestURL, formData, config);
     dispatch(uploadVehicleImageSuccess());
-    return true;
   } catch (err) {
     console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
     dispatch(uploadVehicleImageFailure());
-    return false;
   }
 };
 
@@ -102,16 +120,14 @@ export const addVehicleStartAsync =
       },
     };
     try {
-      const vehicleObj = await axios
+      await axios
         .post('/api/vehicle/register', body, config)
         .then(res => res.data);
 
-      dispatch(addVehicleSuccess(vehicleObj));
-      return vehicleObj;
+      dispatch(addVehicleSuccess());
     } catch (err) {
       console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
       dispatch(addVehicleFailure());
-      return false;
     }
   };
 
@@ -127,12 +143,56 @@ export const addServiceHistoryStartAsync =
     };
 
     try {
-      await axios.put(requestURL, body, config);
+      const vehicleObj = await axios.put(requestURL, body, config);
       dispatch(addServiceHistorySuccess());
-      return true;
+      return vehicleObj;
     } catch (err) {
       console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
       dispatch(addServiceHistoryFailure());
-      return false;
     }
   };
+
+export const updateVehicleStartAsync =
+  ({ nickname, make, model, year, vehicleId }) =>
+  async dispatch => {
+    dispatch(updateVehicleStart());
+
+    const updatedVehicle = { nickname, make, model, year };
+    const body = JSON.stringify(updatedVehicle);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const vehicleObj = await axios
+        .put(`/api/vehicle/${vehicleId}`, body, config)
+        .then(res => res.data);
+
+      dispatch(updateVehicleSuccess(vehicleObj));
+      return vehicleObj;
+    } catch (err) {
+      console.error('ERROR UPON VEHICLE UPDATE:', err.message);
+      dispatch(updateVehicleFailure());
+    }
+  };
+
+export const delectVehicleStartAsync = vehicleId => async dispatch => {
+  dispatch(deleteVehicleStart());
+  const body = JSON.stringify({ vehicleId });
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    await axios
+      .delete(`/api/vehicle/${vehicleId}`, body, config)
+      .then(res => res.data);
+    dispatch(deleteVehicleSuccess());
+  } catch (err) {
+    console.error('ERROR UPON VEHICLE DELETE:', err.message);
+    dispatch(deleteVehicleFailure());
+  }
+};

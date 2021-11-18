@@ -7,6 +7,7 @@ import IndividualVehicleInfo from '../../individual-vehicle-info/individual-vehi
 import ServiceTableHeader from '../../service-table-header/servie-table-header.component';
 import ServiceItemGroup from '../../service-item-group/service-item-group.component';
 import IconButton from '../../icon-button/icon-button.component';
+import CustomButton from '../../custom-button/custom-button.component';
 
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
@@ -21,33 +22,41 @@ const VehicleDetailPage = ({ history, match, vehicles }) => {
     <div className='vehicle-detail-page'>
       <div className='button-group-in-vehicle-detail'>
         <IconButton
-          option='back-btn-in-my-page'
+          option='icon-back-btn-in-my-page'
           onClick={() => history.push(getPreviousURL(match.url))}
         />
         <IconButton
-          option='add-vehicle-btn-in-my-page'
+          option='icon-add-vehicle-btn-in-my-page'
           onClick={() => history.push(`${match.params.vehicleId}/add-service`)}
         />
       </div>
       <div className='vehicle-basic-info'>
         <ImageDisplay imageUrl={selectedVehicle.imageUrl} />
-        <div className='vehicle-info-container'>
-          <IndividualVehicleInfo
-            vehicleInfo='Nickname'
-            value={selectedVehicle.nickname}
-          />
-          <IndividualVehicleInfo
-            vehicleInfo='Make'
-            value={selectedVehicle.make}
-          />
-          <IndividualVehicleInfo
-            vehicleInfo='Model'
-            value={selectedVehicle.model}
-          />
-          <IndividualVehicleInfo
-            vehicleInfo='Year'
-            value={selectedVehicle.year}
-          />
+        <div className='vehicle-info-edit-section'>
+          <div className='vehicle-info-container'>
+            <IndividualVehicleInfo
+              vehicleInfo='Nickname'
+              value={selectedVehicle.nickname}
+            />
+            <IndividualVehicleInfo
+              vehicleInfo='Year'
+              value={selectedVehicle.year}
+            />
+            <IndividualVehicleInfo
+              vehicleInfo='Make'
+              value={selectedVehicle.make}
+            />
+            <IndividualVehicleInfo
+              vehicleInfo='Model'
+              value={selectedVehicle.model}
+            />
+          </div>
+          <CustomButton
+            locatedIn='btn-in-vehicle-detail'
+            onClick={() => history.push(`${match.url}/edit`)}
+          >
+            Edit Vehicle
+          </CustomButton>
         </div>
       </div>
       <div className='vehicle-service-table'>

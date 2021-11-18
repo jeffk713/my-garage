@@ -10,19 +10,19 @@ const IconButton = ({ onClick, option }) => {
   let iconToDisplay;
   const styleOption = option;
   if (
-    option === 'back-btn-in-add-service' ||
-    option === 'back-btn-in-my-page'
+    option === 'icon-back-btn-in-add-service' ||
+    option === 'icon-back-btn-in-my-page'
   ) {
     iconToDisplay = BackArrow;
   }
-  if (option === 'add-vehicle-btn-in-my-page') {
+  if (option === 'icon-add-vehicle-btn-in-my-page') {
     iconToDisplay = Add;
   }
-  if (option === 'edit-btn-in-service-item') {
+  if (option === 'icon-edit-btn-in-service-item') {
     iconToDisplay = Edit;
   }
 
-  if (option === 'delete-btn-in-service-item') {
+  if (option === 'icon-delete-btn-in-service-item') {
     iconToDisplay = Delete;
   }
   return (

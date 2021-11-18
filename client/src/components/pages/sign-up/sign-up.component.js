@@ -25,11 +25,7 @@ const SignUpPage = ({ userSignUpStartAsync, history }) => {
     if (password !== confirmPassword)
       return alert('paswords do not match, please enter the same password');
 
-    const signUpSuccess = await userSignUpStartAsync(username, email, password);
-
-    if (!signUpSuccess) {
-      return console.error('ERROR UPON SIGN-UP');
-    }
+    await userSignUpStartAsync(username, email, password);
 
     setInputState({ ...INITIAL_INPUT });
 

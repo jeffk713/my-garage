@@ -1,5 +1,5 @@
 .add-vehicle-page {
-  margin-top: 120px;
+  margin: 120px auto;
   > form {
     display: flex;
     flex-direction: column;
@@ -16,5 +16,11 @@
         margin-left: 100px;
       }
     }
+  }
+
+  .btn-group-in-add-vehicle {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
   }
 }

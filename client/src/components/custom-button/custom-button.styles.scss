@@ -5,12 +5,12 @@
   border-radius: 10px;
   border: none;
   background-color: #fd7014;
-  color: white;
+  color: #eeeeee;
 
   > a {
     text-decoration: none;
     background-color: #fd7014;
-    color: white;
+    color: #eeeeee;
   }
 }
 
@@ -24,4 +24,19 @@
   width: 330px;
   margin: 30px auto 0 auto;
   font-weight: 700;
+}
+
+.btn-in-vehicle-detail {
+  border-radius: unset;
+  padding: 10px 60px 10px 60px;
+  font-size: 15px;
+  background-color: #a5a3a3;
+  color: #222831;
+}
+
+.delete-btn {
+  background-color: red;
+  border-radius: unset;
+  padding: 5px 70px 5px 70px;
+  font-size: 13px;
 }

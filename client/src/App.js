@@ -27,6 +27,7 @@ const App = () => {
             path='/my-page/:vehicleId/add-service'
             component={AddVehicleServicePage}
           />
+          <Route path='/my-page/:vehicleId/edit' component={AddVehiclePage} />
           <Route path='/my-page/:vehicleId' component={VehicleDetailPage} />
         </Switch>
       </div>

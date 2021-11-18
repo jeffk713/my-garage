@@ -11,14 +11,14 @@ const VehicleSelection = ({
   nickname,
   history,
   match,
-  imageUrl,
+  vehicleImage,
 }) => {
   return (
     <div
       className='vehicle-selection'
       onClick={() => history.push(`${match.url}/${vehicleId}`)}
     >
-      <ImageDisplay option='no-border' imageUrl={imageUrl} />
+      <ImageDisplay option='no-border' vehicleImage={vehicleImage} />
       <Banner locatedIn='bnr-in-vehicle-selection' option='bottom'>
         {nickname}
       </Banner>

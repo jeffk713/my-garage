@@ -12,8 +12,8 @@ const ServiceItemGroup = ({ serviceName, mileage, date, onClick }) => (
     <p className='service-item'>{mileage}</p>
     <p className='service-item'>{getConvertedDate(date)}</p>
     <div className='service-item button-group-in-service-item'>
-      <IconButton option='edit-btn-in-service-item' onClick={onClick} />
-      <IconButton option='delete-btn-in-service-item' onClick={onClick} />
+      <IconButton option='icon-edit-btn-in-service-item' onClick={onClick} />
+      <IconButton option='icon-delete-btn-in-service-item' onClick={onClick} />
     </div>
   </div>
 );

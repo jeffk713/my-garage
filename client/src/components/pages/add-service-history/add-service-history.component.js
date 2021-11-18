@@ -40,7 +40,7 @@ const AddServiceHistoryPage = ({
     e.preventDefault();
 
     const requestURL = `/api/vehicle/${match.params.vehicleId}/add-service`;
-    const addServiceHistorySuccess = await addServiceHistoryStartAsync(
+    await addServiceHistoryStartAsync(
       requestURL,
       serviceName,
       mileage,
@@ -48,16 +48,9 @@ const AddServiceHistoryPage = ({
       note
     );
 
-    if (!addServiceHistorySuccess) {
-      return console.error('ERROR UPON ADD SERVICE HISTORY');
-    }
-
     setInputState({ ...INITIAL_INPUT });
 
-    const vehicles = await getUserVehiclesStartAsync(userId);
-    if (!vehicles) {
-      return console.error('ERROR UPON VEHICLE LOADING');
-    }
+    await getUserVehiclesStartAsync(userId);
 
     history.push(`/my-page/${match.params.vehicleId}`);
   };
@@ -70,7 +63,7 @@ const AddServiceHistoryPage = ({
   return (
     <div className='add-servcie-history'>
       <IconButton
-        option='back-btn-in-add-service'
+        option='icon-back-btn-in-add-service'
         onClick={() => history.push(getPreviousURL(match.url))}
       />
       <Banner>Add Service History</Banner>
