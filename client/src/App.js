@@ -23,11 +23,15 @@ const App = () => {
           <Route exact path='/sign-up' component={SignUpPage} />
           <Route exact path='/my-page' component={MyPage} />
           <Route exact path='/my-page/add-vehicle' component={AddVehiclePage} />
+          <Route path='/my-page/:vehicleId/edit' component={AddVehiclePage} />
           <Route
             path='/my-page/:vehicleId/add-service'
             component={AddVehicleServicePage}
           />
-          <Route path='/my-page/:vehicleId/edit' component={AddVehiclePage} />
+          <Route
+            path='/my-page/:vehicleId/:serviceId'
+            component={AddVehicleServicePage}
+          />
           <Route path='/my-page/:vehicleId' component={VehicleDetailPage} />
         </Switch>
       </div>

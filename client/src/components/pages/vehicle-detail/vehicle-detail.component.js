@@ -20,6 +20,12 @@ import './vehicle-detail.styles.scss';
 
 const VehicleDetailPage = ({ history, match, isAuth, vehicles }) => {
   const selectedVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
+
+  const toEditService = serviceId => {
+    console.log(`${match.url}/${serviceId}`);
+    history.push(`${match.url}/${serviceId}`);
+  };
+
   if (!isAuth) {
     return <Redirect to='/' />;
   }
@@ -36,7 +42,7 @@ const VehicleDetailPage = ({ history, match, isAuth, vehicles }) => {
         />
       </div>
       <div className='vehicle-basic-info'>
-        <ImageDisplay imageUrl={selectedVehicle.imageUrl} />
+        <ImageDisplay vehicleImage={undefined} />
         <div className='vehicle-info-edit-section'>
           <div className='vehicle-info-container'>
             <IndividualVehicleInfo
@@ -67,7 +73,11 @@ const VehicleDetailPage = ({ history, match, isAuth, vehicles }) => {
       <div className='vehicle-service-table'>
         <ServiceTableHeader />
         {selectedVehicle.serviceHistory.map(service => (
-          <ServiceItemGroup key={service._id} {...service} />
+          <ServiceItemGroup
+            key={service._id}
+            {...service}
+            toEditService={() => toEditService(service._id)}
+          />
         ))}
       </div>
     </div>

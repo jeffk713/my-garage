@@ -6,3 +6,12 @@ export const getVehicleWithId = (vehicleArr, vehicleId) => {
   }
   return null;
 };
+
+export const getVehicleServiceWithId = (serviceArr, serviceId) => {
+  for (const service of serviceArr) {
+    if (serviceId === service._id) {
+      return service;
+    }
+  }
+  return null;
+};

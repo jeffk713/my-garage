@@ -10,6 +10,7 @@ import ServiceNote from '../../service-note/service-note.component';
 import IconButton from '../../icon-button/icon-button.component';
 
 import { selectUserId, selectIsAuth } from '../../../redux/user/user.selectors';
+import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import {
   addServiceHistoryStartAsync,
@@ -17,15 +18,13 @@ import {
 } from '../../../redux/vehicle/vehicle.actions';
 
 import { getPreviousURL } from '../../../utils/url-utils';
+import {
+  getVehicleWithId,
+  getVehicleServiceWithId,
+} from '../../../utils/vehicle-utils';
+import { getDateFormat } from '../../../utils/date-utils';
 
 import './add-service-history.styles.scss';
-
-const INITIAL_INPUT = {
-  serviceName: '',
-  mileage: '',
-  date: '',
-  note: '',
-};
 
 const AddServiceHistoryPage = ({
   history,
@@ -34,21 +33,45 @@ const AddServiceHistoryPage = ({
   getUserVehiclesStartAsync,
   isAuth,
   userId,
+  vehicles,
 }) => {
+  let INITIAL_INPUT = {
+    serviceName: '',
+    mileage: '',
+    date: '',
+    note: '',
+  };
+  const existingService = getVehicleServiceWithId(
+    getVehicleWithId(vehicles, match.params.vehicleId).serviceHistory,
+    match.params.serviceId
+  );
+  if (existingService) {
+    INITIAL_INPUT = {
+      ...existingService,
+      mileage: existingService.mileage.toString(),
+      date: getDateFormat(existingService.date),
+    };
+  }
+
   const [inputState, setInputState] = useState(INITIAL_INPUT);
   const { serviceName, mileage, date, note } = inputState;
 
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const requestURL = `/api/vehicle/${match.params.vehicleId}/add-service`;
-    await addServiceHistoryStartAsync(
-      requestURL,
-      serviceName,
-      mileage,
-      date,
-      note
-    );
+    let requestURL;
+    if (existingService) {
+      // to update service
+    } else {
+      requestURL = `/api/vehicle/${match.params.vehicleId}/add-service`;
+      await addServiceHistoryStartAsync(
+        requestURL,
+        serviceName,
+        mileage,
+        date,
+        note
+      );
+    }
 
     setInputState({ ...INITIAL_INPUT });
 
@@ -102,7 +125,11 @@ const AddServiceHistoryPage = ({
           value={note}
           onChange={handleChange}
         />
-        <CustomButton>ADD</CustomButton>
+        {existingService ? (
+          <CustomButton>UPDATE</CustomButton>
+        ) : (
+          <CustomButton>ADD</CustomButton>
+        )}
       </form>
     </div>
   );
@@ -111,6 +138,7 @@ const AddServiceHistoryPage = ({
 const mapStateToProps = createStructuredSelector({
   userId: selectUserId,
   isAuth: selectIsAuth,
+  vehicles: selectVehicles,
 });
 
 const mapDispatchToProps = dispatch => ({

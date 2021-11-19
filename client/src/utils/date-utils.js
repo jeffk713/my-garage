@@ -21,3 +21,5 @@ export const getConvertedDate = originDate => {
   } ${dateParts[0]}`;
   return convertedDate;
 };
+
+export const getDateFormat = originDate => originDate.split('T')[0];
