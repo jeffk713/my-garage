@@ -6,7 +6,13 @@ import { getConvertedDate } from '../../utils/date-utils';
 
 import './service-item-group.styles.scss';
 
-const ServiceItemGroup = ({ serviceName, mileage, date, toEditService }) => (
+const ServiceItemGroup = ({
+  serviceName,
+  mileage,
+  date,
+  toEditService,
+  handleDeleteServiceHistory,
+}) => (
   <div className='service-item-group'>
     <p className='service-item service-name'>{serviceName}</p>
     <p className='service-item'>{mileage}</p>
@@ -18,7 +24,7 @@ const ServiceItemGroup = ({ serviceName, mileage, date, toEditService }) => (
       />
       <IconButton
         option='icon-delete-btn-in-service-item'
-        onClick={toEditService}
+        onClick={handleDeleteServiceHistory}
       />
     </div>
   </div>

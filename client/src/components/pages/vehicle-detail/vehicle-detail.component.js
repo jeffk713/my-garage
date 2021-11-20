@@ -10,7 +10,12 @@ import ServiceItemGroup from '../../service-item-group/service-item-group.compon
 import IconButton from '../../icon-button/icon-button.component';
 import CustomButton from '../../custom-button/custom-button.component';
 
-import { selectIsAuth } from '../../../redux/user/user.selectors';
+import {
+  deleteServiceHistoryStartAsync,
+  getUserVehiclesStartAsync,
+} from '../../../redux/vehicle/vehicle.actions';
+
+import { selectIsAuth, selectUserId } from '../../../redux/user/user.selectors';
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import { getPreviousURL } from '../../../utils/url-utils';
@@ -18,11 +23,24 @@ import { getVehicleWithId } from '../../../utils/vehicle-utils';
 
 import './vehicle-detail.styles.scss';
 
-const VehicleDetailPage = ({ history, match, isAuth, vehicles }) => {
+const VehicleDetailPage = ({
+  history,
+  match,
+  isAuth,
+  userId,
+  vehicles,
+  deleteServiceHistoryStartAsync,
+  getUserVehiclesStartAsync,
+}) => {
   const selectedVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
 
+  const handleDeleteServiceHistory = async (vehicleId, serviceId) => {
+    const requestURL = `/api/vehicle/${vehicleId}/${serviceId}`;
+    await deleteServiceHistoryStartAsync(requestURL);
+    await getUserVehiclesStartAsync(userId);
+  };
+
   const toEditService = serviceId => {
-    console.log(`${match.url}/${serviceId}`);
     history.push(`${match.url}/${serviceId}`);
   };
 
@@ -77,6 +95,9 @@ const VehicleDetailPage = ({ history, match, isAuth, vehicles }) => {
             key={service._id}
             {...service}
             toEditService={() => toEditService(service._id)}
+            handleDeleteServiceHistory={() =>
+              handleDeleteServiceHistory(selectedVehicle._id, service._id)
+            }
           />
         ))}
       </div>
@@ -87,5 +108,13 @@ const VehicleDetailPage = ({ history, match, isAuth, vehicles }) => {
 const mapStateToProps = createStructuredSelector({
   vehicles: selectVehicles,
   isAuth: selectIsAuth,
+  userId: selectUserId,
 });
-export default connect(mapStateToProps)(VehicleDetailPage);
+const mapDispatchToProps = dispatch => ({
+  deleteServiceHistoryStartAsync: (vehicleId, serviceId) =>
+    dispatch(deleteServiceHistoryStartAsync(vehicleId, serviceId)),
+  getUserVehiclesStartAsync: userId =>
+    dispatch(getUserVehiclesStartAsync(userId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VehicleDetailPage);

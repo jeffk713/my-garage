@@ -15,6 +15,7 @@ import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 import {
   addServiceHistoryStartAsync,
   getUserVehiclesStartAsync,
+  updateServiceHistoryStartAsync,
 } from '../../../redux/vehicle/vehicle.actions';
 
 import { getPreviousURL } from '../../../utils/url-utils';
@@ -31,6 +32,7 @@ const AddServiceHistoryPage = ({
   match,
   addServiceHistoryStartAsync,
   getUserVehiclesStartAsync,
+  updateServiceHistoryStartAsync,
   isAuth,
   userId,
   vehicles,
@@ -45,6 +47,7 @@ const AddServiceHistoryPage = ({
     getVehicleWithId(vehicles, match.params.vehicleId).serviceHistory,
     match.params.serviceId
   );
+
   if (existingService) {
     INITIAL_INPUT = {
       ...existingService,
@@ -61,16 +64,23 @@ const AddServiceHistoryPage = ({
 
     let requestURL;
     if (existingService) {
-      // to update service
-    } else {
-      requestURL = `/api/vehicle/${match.params.vehicleId}/add-service`;
-      await addServiceHistoryStartAsync(
+      requestURL = `/api/vehicle/${match.params.vehicleId}/${existingService._id}`;
+      await updateServiceHistoryStartAsync({
         requestURL,
         serviceName,
         mileage,
         date,
-        note
-      );
+        note,
+      });
+    } else {
+      requestURL = `/api/vehicle/${match.params.vehicleId}/add-service`;
+      await addServiceHistoryStartAsync({
+        requestURL,
+        serviceName,
+        mileage,
+        date,
+        note,
+      });
     }
 
     setInputState({ ...INITIAL_INPUT });
@@ -125,11 +135,7 @@ const AddServiceHistoryPage = ({
           value={note}
           onChange={handleChange}
         />
-        {existingService ? (
-          <CustomButton>UPDATE</CustomButton>
-        ) : (
-          <CustomButton>ADD</CustomButton>
-        )}
+        <CustomButton>{existingService ? 'UPDATE' : 'ADD'}</CustomButton>
       </form>
     </div>
   );
@@ -142,12 +148,26 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addServiceHistoryStartAsync: (requestURL, serviceName, mileage, date, note) =>
+  addServiceHistoryStartAsync: ({
+    requestURL,
+    serviceName,
+    mileage,
+    date,
+    note,
+  }) =>
     dispatch(
-      addServiceHistoryStartAsync(requestURL, serviceName, mileage, date, note)
+      addServiceHistoryStartAsync({
+        requestURL,
+        serviceName,
+        mileage,
+        date,
+        note,
+      })
     ),
   getUserVehiclesStartAsync: userId =>
     dispatch(getUserVehiclesStartAsync(userId)),
+  updateServiceHistoryStartAsync: serviceHistoryInfo =>
+    dispatch(updateServiceHistoryStartAsync(serviceHistoryInfo)),
 });
 export default connect(
   mapStateToProps,

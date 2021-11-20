@@ -39,18 +39,6 @@ export const uploadVehicleImageFailure = () => ({
   type: vehicleActionTypes.UPLOAD_VEHICLE_IMAGE_FAILURE,
 });
 
-export const addServiceHistoryStart = () => ({
-  type: vehicleActionTypes.ADD_SERVICE_HISTORY_START,
-});
-
-export const addServiceHistorySuccess = () => ({
-  type: vehicleActionTypes.ADD_SERVICE_HISTORY_SUCCESS,
-});
-
-export const addServiceHistoryFailure = () => ({
-  type: vehicleActionTypes.ADD_SERVICE_HISTORY_FAILURE,
-});
-
 export const updateVehicleStart = () => ({
   type: vehicleActionTypes.UPDATE_VEHICLE_START,
 });
@@ -74,6 +62,44 @@ export const deleteVehicleSuccess = () => ({
 export const deleteVehicleFailure = () => ({
   type: vehicleActionTypes.DELETE_VEHICLE_FAILURE,
 });
+
+export const addServiceHistoryStart = () => ({
+  type: vehicleActionTypes.ADD_SERVICE_HISTORY_START,
+});
+
+export const addServiceHistorySuccess = () => ({
+  type: vehicleActionTypes.ADD_SERVICE_HISTORY_SUCCESS,
+});
+
+export const addServiceHistoryFailure = () => ({
+  type: vehicleActionTypes.ADD_SERVICE_HISTORY_FAILURE,
+});
+
+export const updateServiceHistoryStart = () => ({
+  type: vehicleActionTypes.UPDATE_SERVICE_HISTORY_START,
+});
+
+export const updateServiceHistorySuccess = () => ({
+  type: vehicleActionTypes.UPDATE_SERVICE_HISTORY_SUCCESS,
+});
+
+export const updateServiceHistoryFailure = () => ({
+  type: vehicleActionTypes.UPDATE_SERVICE_HISTORY_FAILURE,
+});
+
+export const deleteServiceHistoryStart = () => ({
+  type: vehicleActionTypes.DELETE_SERVICE_HISTORY_START,
+});
+
+export const deleteServiceHistorySuccess = () => ({
+  type: vehicleActionTypes.DELETE_SERVICE_HISTORY_SUCCESS,
+});
+
+export const deleteServiceHistoryFailure = () => ({
+  type: vehicleActionTypes.DELETE_SERVICE_HISTORY_FAILURE,
+});
+
+//========================= vehicle =================================//
 
 export const getUserVehiclesStartAsync = userId => async dispatch => {
   dispatch(getUserVehiclesStart());
@@ -131,27 +157,6 @@ export const addVehicleStartAsync =
     }
   };
 
-export const addServiceHistoryStartAsync =
-  (requestURL, serviceName, mileage, date, note) => async dispatch => {
-    dispatch(addServiceHistoryStart());
-    const serviceHistory = { serviceName, mileage, date, note };
-    const body = JSON.stringify(serviceHistory);
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    try {
-      const vehicleObj = await axios.put(requestURL, body, config);
-      dispatch(addServiceHistorySuccess());
-      return vehicleObj;
-    } catch (err) {
-      console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
-      dispatch(addServiceHistoryFailure());
-    }
-  };
-
 export const updateVehicleStartAsync =
   ({ nickname, make, model, year, vehicleId }) =>
   async dispatch => {
@@ -194,5 +199,61 @@ export const delectVehicleStartAsync = vehicleId => async dispatch => {
   } catch (err) {
     console.error('ERROR UPON VEHICLE DELETE:', err.message);
     dispatch(deleteVehicleFailure());
+  }
+};
+
+//========================= service history =================================//
+
+export const addServiceHistoryStartAsync =
+  ({ requestURL, serviceName, mileage, date, note }) =>
+  async dispatch => {
+    dispatch(addServiceHistoryStart());
+    const serviceHistory = { serviceName, mileage, date, note };
+    const body = JSON.stringify(serviceHistory);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      await axios.put(requestURL, body, config);
+      dispatch(addServiceHistorySuccess());
+    } catch (err) {
+      console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
+      dispatch(addServiceHistoryFailure());
+    }
+  };
+
+export const updateServiceHistoryStartAsync =
+  ({ requestURL, serviceName, mileage, date, note }) =>
+  async dispatch => {
+    dispatch(updateServiceHistoryStart());
+    const updatedServiceHistory = { serviceName, mileage, date, note };
+    const body = JSON.stringify(updatedServiceHistory);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      await axios.put(requestURL, body, config);
+      dispatch(updateServiceHistorySuccess());
+    } catch (err) {
+      console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
+      dispatch(updateServiceHistoryFailure());
+    }
+  };
+
+export const deleteServiceHistoryStartAsync = requestURL => async dispatch => {
+  dispatch(deleteServiceHistoryStart());
+  try {
+    console.log(requestURL);
+    await axios.delete(requestURL);
+    dispatch(deleteServiceHistorySuccess());
+  } catch (err) {
+    console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
+    dispatch(deleteServiceHistoryFailure());
   }
 };
