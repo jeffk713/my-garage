@@ -1,16 +1,18 @@
+@import '../../assets/scss/variables';
+
 .btn {
   font-size: 17px;
   padding: 15px 120px 15px 120px;
   cursor: pointer;
   border-radius: 10px;
   border: none;
-  background-color: #fd7014;
-  color: #eeeeee;
+  background-color: $main-color;
+  color: $font-color;
 
   > a {
     text-decoration: none;
-    background-color: #fd7014;
-    color: #eeeeee;
+    background-color: $main-color;
+    color: $font-color;
   }
 }
 
@@ -30,8 +32,8 @@
   border-radius: unset;
   padding: 10px 60px 10px 60px;
   font-size: 15px;
-  background-color: #a5a3a3;
-  color: #222831;
+  background-color: $sub-color;
+  color: $background-color;
 }
 
 .delete-btn {

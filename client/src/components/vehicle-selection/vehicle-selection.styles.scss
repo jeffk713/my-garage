@@ -1,7 +1,9 @@
+@import '../../assets/scss/variables';
+
 .vehicle-selection {
   width: 282px;
   height: 350px;
-  border: solid #a5a3a3 2px;
+  border: solid $sub-color 2px;
   border-radius: 10px;
   overflow: hidden;
   margin: 20px;

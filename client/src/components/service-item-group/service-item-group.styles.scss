@@ -1,5 +1,7 @@
+@import '../../assets/scss/variables';
+
 .service-item-group {
-  background-color: #393e46;
+  background-color: $dark-sub-color;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 0.5fr;
   justify-content: center;

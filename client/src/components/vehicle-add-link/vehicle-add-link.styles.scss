@@ -1,7 +1,9 @@
+@import '../../assets/scss/variables';
+
 .add-vehicle-link {
   width: 280px;
   height: 350px;
-  border: solid #a5a3a3 2px;
+  border: solid $sub-color 2px;
   margin: 20px;
   cursor: pointer;
   position: relative;

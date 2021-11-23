@@ -1,7 +1,9 @@
+@import '../../assets/scss/variables';
+
 @mixin shrinkLabel {
   top: -20px;
   font-size: 12px;
-  color: #fd7014;
+  color: $main-color;
 }
 
 .input-box {
@@ -13,12 +15,12 @@
     display: block;
     background: none;
     border: none;
-    border-bottom: 1px solid #eeeeee;
+    border-bottom: 1px solid $font-color;
     border-radius: 0;
     margin: 25px 0;
     width: 100%;
     font-size: 17px;
-    color: #eeeeee;
+    color: $font-color;
 
     &:focus {
       outline: none;
@@ -29,18 +31,18 @@
     }
 
     ::-webkit-calendar-picker-indicator {
-      color: #eeeeee;
-      background-color: #eeeeee;
+      color: $font-color;
+      background-color: $font-color;
     }
   }
 
   > input[type='date']::-webkit-calendar-picker-indicator {
-    background-color: #eeeeee;
+    background-color: $font-color;
     cursor: pointer;
   }
 
   .input-label {
-    color: #eeeeee;
+    color: $font-color;
     font-size: 16px;
     font-weight: normal;
     position: absolute;
@@ -54,7 +56,7 @@
     }
 
     &.date-label {
-      color: #eeeeee;
+      color: $font-color;
     }
   }
 }

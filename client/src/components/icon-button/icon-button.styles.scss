@@ -1,6 +1,8 @@
+@import '../../assets/scss/variables';
+
 .icon-button-container {
-  background-color: #eeeeee;
-  border: solid #eeeeee 1px;
+  background-color: $sub-color;
+  border: solid $sub-color 1px;
   border-radius: 20px;
   width: 30px;
   height: 30px;
