@@ -1,5 +1,7 @@
+@import '../../../assets//scss/variables';
+
 .my-page {
-  margin-top: 120px;
+  margin-top: $page-margin-top;
   margin-bottom: 100px;
 
   .vehicle-selection-container {

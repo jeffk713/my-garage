@@ -1,5 +1,7 @@
+@import '../../../assets//scss/variables';
+
 .add-servcie-history {
-  margin-top: 90px;
+  margin-top: $page-margin-top;
   margin-bottom: 120px;
 
   > form {

@@ -1,5 +1,8 @@
+@import '../../../assets//scss/variables';
+
 .sign-in-page {
-  margin-top: 120px;
+  margin-top: $page-margin-top;
+
   > form {
     display: flex;
     flex-direction: column;

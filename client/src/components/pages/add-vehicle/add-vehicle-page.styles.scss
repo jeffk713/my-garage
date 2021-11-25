@@ -1,5 +1,7 @@
+@import '../../../assets//scss/variables';
+
 .add-vehicle-page {
-  margin: 120px auto;
+  margin: $page-margin-top auto 120px auto;
   > form {
     display: flex;
     flex-direction: column;

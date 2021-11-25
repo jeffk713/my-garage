@@ -9,6 +9,7 @@ import SignInPage from './components/pages/sign-in/sign-in.component';
 import SignUpPage from './components/pages/sign-up/sign-up.component';
 import VehicleDetailPage from './components/pages/vehicle-detail/vehicle-detail.component';
 import AddVehicleServicePage from './components/pages/add-service-history/add-service-history.component';
+import ErrorBanner from './components/error-banner/error-banner.component';
 
 import './App.scss';
 
@@ -16,6 +17,7 @@ const App = () => {
   return (
     <div className='app'>
       <Navigator />
+      <ErrorBanner>ERRRRRROOOOORRRR</ErrorBanner>
       <div className='main'>
         <Switch>
           <Route exact path='/' component={Homepage} />

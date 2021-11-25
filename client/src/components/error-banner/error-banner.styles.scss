@@ -1,0 +1,17 @@
+@import '../../assets//scss/variables';
+
+.error-banner-container {
+  width: 60%;
+  border: solid red 2px;
+  margin: 10px auto 0 auto;
+  padding: 10px 20px;
+  transition: opacity 2s;
+
+  .error-banner {
+    font-weight: 600;
+  }
+}
+
+.hidden-error-banner {
+  opacity: 0;
+}

@@ -1,5 +1,7 @@
+@import '../../../assets//scss/variables';
+
 .homepage {
   .homepage-banner {
-    margin: 120px auto 0 auto;
+    margin: $page-margin-top auto 0 auto;
   }
 }

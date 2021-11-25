@@ -1,9 +1,12 @@
+@import '../../../assets//scss/variables';
+
 .vehicle-detail-page {
-  margin-bottom: 130px;
+  margin: $page-margin-top auto;
 
   .button-group-in-vehicle-detail {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 30px;
   }
 
   .vehicle-basic-info {
