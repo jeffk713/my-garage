@@ -107,9 +107,11 @@ export const getUserVehiclesStartAsync = userId => async dispatch => {
     const res = await axios.get(`/api/vehicle/user-vehicles/${userId}`);
     const vehicles = res.data;
     dispatch(getUserVehiclesSuccess(vehicles));
-    return vehicles;
   } catch (err) {
-    console.error('ERROR UPON VEHICLE LOADING:', err.message);
+    console.error(
+      'ERROR UPON VEHICLE LOADING:',
+      err.response.data.errorMessage
+    );
     dispatch(getUserVehiclesFailure());
   }
 };
@@ -128,7 +130,10 @@ export const uploadVehicleImage = (imgFile, requestURL) => async dispatch => {
     await axios.post(requestURL, formData, config);
     dispatch(uploadVehicleImageSuccess());
   } catch (err) {
-    console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
+    console.error(
+      'ERROR UPON VEHICLE REGISTRATION:',
+      err.response.data.errorMessage
+    );
     dispatch(uploadVehicleImageFailure());
   }
 };
@@ -146,13 +151,16 @@ export const addVehicleStartAsync =
       },
     };
     try {
-      await axios
+      const vehicleObj = await axios
         .post('/api/vehicle/register', body, config)
         .then(res => res.data);
-
       dispatch(addVehicleSuccess());
+      return vehicleObj;
     } catch (err) {
-      console.error('ERROR UPON VEHICLE REGISTRATION:', err.message);
+      console.error(
+        'ERROR UPON VEHICLE REGISTRATION:',
+        err.response.data.errorMessage
+      );
       dispatch(addVehicleFailure());
     }
   };
@@ -177,7 +185,10 @@ export const updateVehicleStartAsync =
       dispatch(updateVehicleSuccess(vehicleObj));
       return vehicleObj;
     } catch (err) {
-      console.error('ERROR UPON VEHICLE UPDATE:', err.message);
+      console.error(
+        'ERROR UPON VEHICLE UPDATE:',
+        err.response.data.errorMessage
+      );
       dispatch(updateVehicleFailure());
     }
   };
@@ -197,7 +208,7 @@ export const delectVehicleStartAsync = vehicleId => async dispatch => {
       .then(res => res.data);
     dispatch(deleteVehicleSuccess());
   } catch (err) {
-    console.error('ERROR UPON VEHICLE DELETE:', err.message);
+    console.error('ERROR UPON VEHICLE DELETE:', err.response.data.errorMessage);
     dispatch(deleteVehicleFailure());
   }
 };
@@ -220,7 +231,10 @@ export const addServiceHistoryStartAsync =
       await axios.put(requestURL, body, config);
       dispatch(addServiceHistorySuccess());
     } catch (err) {
-      console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
+      console.error(
+        'ERROR UPON SERVICE HISTORY UPDATE:',
+        err.response.data.errorMessage
+      );
       dispatch(addServiceHistoryFailure());
     }
   };
@@ -241,7 +255,8 @@ export const updateServiceHistoryStartAsync =
       await axios.put(requestURL, body, config);
       dispatch(updateServiceHistorySuccess());
     } catch (err) {
-      console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
+      const errorMsg = err.response.data.errorMessage;
+      console.error(errorMsg);
       dispatch(updateServiceHistoryFailure());
     }
   };
@@ -253,7 +268,10 @@ export const deleteServiceHistoryStartAsync = requestURL => async dispatch => {
     await axios.delete(requestURL);
     dispatch(deleteServiceHistorySuccess());
   } catch (err) {
-    console.error('ERROR UPON SERVICE HISTORY UPDATE:', err.message);
+    console.error(
+      'ERROR UPON SERVICE HISTORY UPDATE:',
+      err.response.data.errorMessage
+    );
     dispatch(deleteServiceHistoryFailure());
   }
 };

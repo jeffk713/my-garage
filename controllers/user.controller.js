@@ -7,7 +7,7 @@ exports.signUpUser = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ error: { msg: 'User already exists' } });
+      return res.status(400).json({ errorMessage: 'User already exists' });
     }
 
     user = new User({
@@ -23,8 +23,9 @@ exports.signUpUser = async (req, res) => {
 
     req.session.auth = user.id;
     res.json({ username, email, userId: user.id });
-  } catch {
-    res.status(500).send('Server error upon user sign-up');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ errorMessage: 'Server error upon user sign-up' });
   }
 };
 
@@ -36,21 +37,22 @@ exports.signInUser = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ error: { msg: 'User credentials are invalid.' } });
+        .json({ errorMessage: 'User credentials are invalid.' });
     }
-
+    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res
         .status(400)
-        .json({ error: { msg: 'User credentials are invalid.' } });
+        .json({ errorMessage: 'User credentials are invalid.' });
     }
 
     req.session.auth = user.id;
 
     res.json({ username: user.username, email: user.email, userId: user.id });
-  } catch {
-    res.status(500).send('Server error upon user sign-in.');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ errorMessage: 'Server error upon user sign-in' });
   }
 };
 

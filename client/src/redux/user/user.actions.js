@@ -60,9 +60,8 @@ export const userSignInStartAsync = (email, password) => async dispatch => {
     dispatch(userSignInSuccess(userObj));
     return userObj;
   } catch (err) {
-    console.error('ERROR UPON SIGN-IN:', err.message);
+    console.error('ERROR UPON SIGN-IN:', err.response.data.errorMessage);
     dispatch(userSignInFailure());
-    return false;
   }
 };
 
@@ -86,11 +85,9 @@ export const userSignUpStartAsync =
         .then(res => res.data);
 
       dispatch(userSignUpSuccess(userObj));
-      return true;
     } catch (err) {
-      console.error('ERROR UPON SIGN-IN:', err.message);
+      console.error('ERROR UPON SIGN-IN:', err.response.data.errorMessage);
       dispatch(userSignUpFailure());
-      return false;
     }
   };
 
@@ -99,10 +96,8 @@ export const userSignOutStartAsync = () => async dispatch => {
   try {
     await axios.get('/api/user/sign-out');
     dispatch(userSignOutSuccess());
-    return true;
   } catch (err) {
-    console.error('ERROR UPON SIGN OUT:', err.message);
+    console.error('ERROR UPON SIGN OUT:', err.response.data.errorMessage);
     dispatch(userSignOutFailure());
-    return false;
   }
 };

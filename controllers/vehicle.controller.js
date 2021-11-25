@@ -18,7 +18,9 @@ exports.registerVehicle = async (req, res) => {
     res.json(vehicle);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon vehicle registration');
+    res
+      .status(500)
+      .send({ errorMessage: 'Server error upon vehicle registration' });
   }
 };
 
@@ -28,7 +30,7 @@ exports.uploadVehicleImage = async (req, res) => {
       _id: req.params.vehicleId,
     });
     if (!vehicle) {
-      return res.status(400).json({ error: { msg: 'Vehicle not found' } });
+      return res.status(400).json({ errorMessage: 'Vehicle not found' });
     }
 
     const sharpBuffer = await sharp(req.file.buffer)
@@ -41,7 +43,9 @@ exports.uploadVehicleImage = async (req, res) => {
     res.send('upload complete!');
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon vehicle image upload');
+    res
+      .status(500)
+      .send({ errorMessage: 'Server error upon vehicle image upload' });
   }
 };
 
@@ -51,7 +55,7 @@ exports.updateVehicle = async (req, res) => {
   try {
     const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
     if (!vehicle) {
-      return res.status(400).json({ error: { msg: 'Vehicle not found' } });
+      return res.status(400).json({ errorMessage: 'Vehicle not found' });
     }
 
     const serviceHistory = vehicle.serviceHistory;
@@ -66,7 +70,7 @@ exports.updateVehicle = async (req, res) => {
     res.json(vehicle);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon update vehicle');
+    res.status(500).send({ errorMessage: 'Server error upon update vehicle' });
   }
 };
 
@@ -76,13 +80,13 @@ exports.deleteVehicle = async (req, res) => {
       _id: req.params.vehicleId,
     });
     if (!removedVehicle) {
-      return res.status(400).json({ error: { msg: 'Vehicle not found' } });
+      return res.status(400).json({ errorMessage: 'Vehicle not found' });
     }
 
     res.json(removedVehicle);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon update vehicle');
+    res.status(500).send({ errorMessage: 'Server error upon update vehicle' });
   }
 };
 
@@ -92,13 +96,15 @@ exports.getUserVehicles = async (req, res) => {
   try {
     const vehicles = await Vehicle.find({ user: userId });
     if (!vehicles) {
-      return res.status(400).json({ error: { msg: 'Vehicles not found' } });
+      return res.status(400).json({ errorMessage: 'Vehicles not found' });
     }
 
     res.json(vehicles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon loading all registered vehicles');
+    res.status(500).send({
+      errorMessage: 'Server error upon loading all registered vehicles',
+    });
   }
 };
 
@@ -109,7 +115,7 @@ exports.addVehicleService = async (req, res) => {
   try {
     const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
     if (!vehicle) {
-      return res.status(400).json({ error: { msg: 'Vehicle not found' } });
+      return res.status(400).json({ errorMessage: 'Vehicle not found' });
     }
 
     vehicle.serviceHistory.unshift(newServiceHistory);
@@ -119,7 +125,9 @@ exports.addVehicleService = async (req, res) => {
     res.json(vehicle.serviceHistory);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon vehicle service history update');
+    res.status(500).send({
+      errorMessage: 'Server error upon vehicle service history update',
+    });
   }
 };
 
@@ -130,7 +138,7 @@ exports.updateVehicleService = async (req, res) => {
   try {
     const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
     if (!vehicle) {
-      return res.status(400).json({ error: { msg: 'No vehicle found' } });
+      return res.status(400).json({ errorMessage: 'No vehicle found' });
     }
 
     const serviceHistory = vehicle.serviceHistory;
@@ -146,7 +154,9 @@ exports.updateVehicleService = async (req, res) => {
     res.json(vehicle.serviceHistory);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon vehicle service update');
+    res
+      .status(500)
+      .send({ errorMessage: 'Server error upon vehicle service update' });
   }
 };
 
@@ -154,7 +164,7 @@ exports.deleteVehicleService = async (req, res) => {
   try {
     const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
     if (!vehicle) {
-      return res.status(400).json({ error: { msg: 'No vehicle found' } });
+      return res.status(400).json({ errorMessage: 'No vehicle found' });
     }
 
     const serviceHistory = vehicle.serviceHistory;
@@ -169,6 +179,8 @@ exports.deleteVehicleService = async (req, res) => {
     res.json(vehicle.serviceHistory);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error upon vehicle service update');
+    res
+      .status(500)
+      .send({ errorMessage: 'Server error upon vehicle service update' });
   }
 };
