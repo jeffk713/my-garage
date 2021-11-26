@@ -12,7 +12,6 @@ import CustomButton from '../../custom-button/custom-button.component';
 
 import {
   deleteServiceHistoryStartAsync,
-  getUserVehiclesStartAsync,
 } from '../../../redux/vehicle/vehicle.actions';
 
 import { selectIsAuth, selectUserId } from '../../../redux/user/user.selectors';
@@ -30,14 +29,12 @@ const VehicleDetailPage = ({
   userId,
   vehicles,
   deleteServiceHistoryStartAsync,
-  getUserVehiclesStartAsync,
 }) => {
   const selectedVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
 
-  const handleDeleteServiceHistory = async (vehicleId, serviceId) => {
+  const handleDeleteServiceHistory = async (vehicleId, serviceId, userId) => {
     const requestURL = `/api/vehicle/${vehicleId}/${serviceId}`;
-    await deleteServiceHistoryStartAsync(requestURL);
-    await getUserVehiclesStartAsync(userId);
+    await deleteServiceHistoryStartAsync(requestURL, userId);
   };
 
   const toEditService = serviceId => {
@@ -96,7 +93,7 @@ const VehicleDetailPage = ({
             {...service}
             toEditService={() => toEditService(service._id)}
             handleDeleteServiceHistory={() =>
-              handleDeleteServiceHistory(selectedVehicle._id, service._id)
+              handleDeleteServiceHistory(selectedVehicle._id, service._id, userId)
             }
           />
         ))}
@@ -111,10 +108,8 @@ const mapStateToProps = createStructuredSelector({
   userId: selectUserId,
 });
 const mapDispatchToProps = dispatch => ({
-  deleteServiceHistoryStartAsync: (vehicleId, serviceId) =>
-    dispatch(deleteServiceHistoryStartAsync(vehicleId, serviceId)),
-  getUserVehiclesStartAsync: userId =>
-    dispatch(getUserVehiclesStartAsync(userId)),
+  deleteServiceHistoryStartAsync: (vehicleId, serviceId, userId) =>
+    dispatch(deleteServiceHistoryStartAsync(vehicleId, serviceId, userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VehicleDetailPage);

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { userActionTypes } from './user.types';
+import { getUserVehiclesStartAsync } from '../vehicle/vehicle.actions';
 import { triggerErrorBanner } from '../error/error.actions';
 
 export const userSignUpStart = () => ({
@@ -59,7 +60,7 @@ export const userSignInStartAsync = (email, password) => async dispatch => {
       .then(res => res.data);
 
     dispatch(userSignInSuccess(userObj));
-    return userObj;
+    dispatch(getUserVehiclesStartAsync(userObj.userId));
   } catch (err) {
     dispatch(triggerErrorBanner(err.response.data.errorMessage));
     dispatch(userSignInFailure());

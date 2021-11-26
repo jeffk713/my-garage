@@ -14,7 +14,6 @@ import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import {
   addServiceHistoryStartAsync,
-  getUserVehiclesStartAsync,
   updateServiceHistoryStartAsync,
 } from '../../../redux/vehicle/vehicle.actions';
 
@@ -31,7 +30,6 @@ const AddServiceHistoryPage = ({
   history,
   match,
   addServiceHistoryStartAsync,
-  getUserVehiclesStartAsync,
   updateServiceHistoryStartAsync,
   isAuth,
   userId,
@@ -71,6 +69,7 @@ const AddServiceHistoryPage = ({
         mileage,
         date,
         note,
+        userId,
       });
     } else {
       requestURL = `/api/vehicle/${match.params.vehicleId}/add-service`;
@@ -80,13 +79,11 @@ const AddServiceHistoryPage = ({
         mileage,
         date,
         note,
+        userId,
       });
     }
 
     setInputState({ ...INITIAL_INPUT });
-
-    await getUserVehiclesStartAsync(userId);
-
     history.push(`/my-page/${match.params.vehicleId}`);
   };
 
@@ -148,24 +145,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addServiceHistoryStartAsync: ({
-    requestURL,
-    serviceName,
-    mileage,
-    date,
-    note,
-  }) =>
-    dispatch(
-      addServiceHistoryStartAsync({
-        requestURL,
-        serviceName,
-        mileage,
-        date,
-        note,
-      })
-    ),
-  getUserVehiclesStartAsync: userId =>
-    dispatch(getUserVehiclesStartAsync(userId)),
+  addServiceHistoryStartAsync: serviceHistoryInfo =>
+    dispatch(addServiceHistoryStartAsync(serviceHistoryInfo)),
   updateServiceHistoryStartAsync: serviceHistoryInfo =>
     dispatch(updateServiceHistoryStartAsync(serviceHistoryInfo)),
 });

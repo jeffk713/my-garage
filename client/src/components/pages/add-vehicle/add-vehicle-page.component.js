@@ -13,11 +13,9 @@ import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import {
   addVehicleStartAsync,
-  uploadVehicleImage,
   updateVehicleStartAsync,
   delectVehicleStartAsync,
 } from '../../../redux/vehicle/vehicle.actions';
-import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
 
 import { getVehicleWithId } from '../../../utils/vehicle-utils';
 
@@ -25,8 +23,6 @@ import './add-vehicle-page.styles.scss';
 
 const AddVehiclePage = ({
   addVehicleStartAsync,
-  uploadVehicleImage,
-  getUserVehiclesStartAsync,
   updateVehicleStartAsync,
   delectVehicleStartAsync,
   isAuth,
@@ -55,10 +51,9 @@ const AddVehiclePage = ({
   const handleSubmit = async e => {
     e.preventDefault();
 
-    let vehicleObj;
     if (existingVehicle) {
       // if existingVehicle, edit it
-      vehicleObj = await updateVehicleStartAsync({
+      await updateVehicleStartAsync({
         nickname,
         make,
         model,
@@ -67,12 +62,13 @@ const AddVehiclePage = ({
       });
     } else {
       // if no existingVehicle, add it
-      vehicleObj = await addVehicleStartAsync({ nickname, make, model, year });
-    }
-
-    // when imageFile present
-    if (imageFile) {
-      await uploadVehicleImage(imageFile, `/api/vehicle/${vehicleObj._id}`);
+      await addVehicleStartAsync({
+        nickname,
+        make,
+        model,
+        year,
+        imageFile,
+      });
     }
 
     setInputState({
@@ -82,11 +78,11 @@ const AddVehiclePage = ({
       model: '',
       imageFile: null,
     });
+    history.push('/my-page');
+  };
 
-    // get updated user vehicles after adding vehicle
-    await getUserVehiclesStartAsync(userId);
-
-    // go to mypage
+  const handleDelete = async () => {
+    await delectVehicleStartAsync(existingVehicle._id, userId);
     history.push('/my-page');
   };
 
@@ -100,13 +96,6 @@ const AddVehiclePage = ({
       ...inputState,
       imageFile: e.target.files[0],
     });
-  };
-
-  const handleDelete = async () => {
-    await delectVehicleStartAsync(existingVehicle._id);
-    await getUserVehiclesStartAsync(userId);
-
-    history.push('/my-page');
   };
 
   if (!isAuth) return <Redirect to='/' />;
@@ -193,16 +182,12 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   addVehicleStartAsync: newVehicleObj =>
     dispatch(addVehicleStartAsync(newVehicleObj)),
-  uploadVehicleImage: (imageFile, url) =>
-    dispatch(uploadVehicleImage(imageFile, url)),
-  getUserVehiclesStartAsync: userId =>
-    dispatch(getUserVehiclesStartAsync(userId)),
   updateVehicleStartAsync: ({ nickname, make, model, year, vehicleId }) =>
     dispatch(
       updateVehicleStartAsync({ nickname, make, model, year, vehicleId })
     ),
-  delectVehicleStartAsync: vehicleId =>
-    dispatch(delectVehicleStartAsync(vehicleId)),
+  delectVehicleStartAsync: (vehicleId, userId) =>
+    dispatch(delectVehicleStartAsync(vehicleId, userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddVehiclePage);

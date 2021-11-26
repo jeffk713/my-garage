@@ -7,7 +7,6 @@ import Link from '../../link/link.component';
 import Banner from '../../banner/banner.component';
 
 import { userSignInStartAsync } from '../../../redux/user/user.actions';
-import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
 
 import './sign-in.styles.scss';
 
@@ -18,7 +17,6 @@ const INITIAL_INPUT = {
 
 const SignInPage = ({
   userSignInStartAsync,
-  getUserVehiclesStartAsync,
   history,
 }) => {
   const [inputState, setInputState] = useState(INITIAL_INPUT);
@@ -27,12 +25,9 @@ const SignInPage = ({
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const authUserObj = await userSignInStartAsync(email, password);
-    if (!authUserObj) return;
+    await userSignInStartAsync(email, password);
 
     setInputState({ ...INITIAL_INPUT });
-
-    await getUserVehiclesStartAsync(authUserObj.userId);
     history.push('/my-page');
   };
 
@@ -79,8 +74,6 @@ const SignInPage = ({
 const mapDispatchToProps = dispatch => ({
   userSignInStartAsync: (email, password) =>
     dispatch(userSignInStartAsync(email, password)),
-  getUserVehiclesStartAsync: userId =>
-    dispatch(getUserVehiclesStartAsync(userId)),
 });
 
 export default connect(null, mapDispatchToProps)(SignInPage);

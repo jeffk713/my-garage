@@ -133,8 +133,18 @@ export const uploadVehicleImage = (imgFile, requestURL) => async dispatch => {
   }
 };
 
+const uploadImageAndGetVehicles =
+  dispatch => (imageFile, vehicleId, userId) => {
+    // add image file if present
+    if (imageFile) {
+      dispatch(uploadVehicleImage(imageFile, `/api/vehicle/${vehicleId}`));
+    }
+    // get all user's vehicles afer updating
+    dispatch(getUserVehiclesStartAsync(userId));
+  };
+
 export const addVehicleStartAsync =
-  ({ nickname, make, model, year }) =>
+  ({ nickname, make, model, year, imageFile }) =>
   async dispatch => {
     dispatch(addVehicleStart());
 
@@ -146,11 +156,18 @@ export const addVehicleStartAsync =
       },
     };
     try {
+      // add vehicle
       const vehicleObj = await axios
         .post('/api/vehicle/register', body, config)
         .then(res => res.data);
+
       dispatch(addVehicleSuccess());
-      return vehicleObj;
+
+      uploadImageAndGetVehicles(dispatch)(
+        imageFile,
+        vehicleObj._id,
+        vehicleObj.user
+      );
     } catch (err) {
       dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(addVehicleFailure());
@@ -158,7 +175,7 @@ export const addVehicleStartAsync =
   };
 
 export const updateVehicleStartAsync =
-  ({ nickname, make, model, year, vehicleId }) =>
+  ({ nickname, make, model, year, vehicleId, imageFile }) =>
   async dispatch => {
     dispatch(updateVehicleStart());
 
@@ -170,42 +187,50 @@ export const updateVehicleStartAsync =
       },
     };
     try {
+      // update vehicle
       const vehicleObj = await axios
         .put(`/api/vehicle/${vehicleId}`, body, config)
         .then(res => res.data);
 
-      dispatch(updateVehicleSuccess(vehicleObj));
-      return vehicleObj;
+      dispatch(updateVehicleSuccess());
+
+      uploadImageAndGetVehicles(dispatch)(
+        imageFile,
+        vehicleObj._id,
+        vehicleObj.user
+      );
     } catch (err) {
       dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(updateVehicleFailure());
     }
   };
 
-export const delectVehicleStartAsync = vehicleId => async dispatch => {
-  dispatch(deleteVehicleStart());
-  const body = JSON.stringify({ vehicleId });
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+export const delectVehicleStartAsync =
+  (vehicleId, userId) => async dispatch => {
+    dispatch(deleteVehicleStart());
+    const body = JSON.stringify({ vehicleId });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
 
-  try {
-    await axios
-      .delete(`/api/vehicle/${vehicleId}`, body, config)
-      .then(res => res.data);
-    dispatch(deleteVehicleSuccess());
-  } catch (err) {
-    dispatch(triggerErrorBanner(err.response.data.errorMessage));
-    dispatch(deleteVehicleFailure());
-  }
-};
+    try {
+      await axios
+        .delete(`/api/vehicle/${vehicleId}`, body, config)
+        .then(res => res.data);
+      dispatch(deleteVehicleSuccess());
+      dispatch(getUserVehiclesStartAsync(userId));
+    } catch (err) {
+      dispatch(triggerErrorBanner(err.response.data.errorMessage));
+      dispatch(deleteVehicleFailure());
+    }
+  };
 
 //========================= service history =================================//
 
 export const addServiceHistoryStartAsync =
-  ({ requestURL, serviceName, mileage, date, note }) =>
+  ({ requestURL, serviceName, mileage, date, note, userId }) =>
   async dispatch => {
     dispatch(addServiceHistoryStart());
     const serviceHistory = { serviceName, mileage, date, note };
@@ -219,6 +244,7 @@ export const addServiceHistoryStartAsync =
     try {
       await axios.put(requestURL, body, config);
       dispatch(addServiceHistorySuccess());
+      dispatch(getUserVehiclesStartAsync(userId));
     } catch (err) {
       dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(addServiceHistoryFailure());
@@ -226,7 +252,7 @@ export const addServiceHistoryStartAsync =
   };
 
 export const updateServiceHistoryStartAsync =
-  ({ requestURL, serviceName, mileage, date, note }) =>
+  ({ requestURL, serviceName, mileage, date, note, userId }) =>
   async dispatch => {
     dispatch(updateServiceHistoryStart());
     const updatedServiceHistory = { serviceName, mileage, date, note };
@@ -240,20 +266,22 @@ export const updateServiceHistoryStartAsync =
     try {
       await axios.put(requestURL, body, config);
       dispatch(updateServiceHistorySuccess());
+      dispatch(getUserVehiclesStartAsync(userId));
     } catch (err) {
       dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(updateServiceHistoryFailure());
     }
   };
 
-export const deleteServiceHistoryStartAsync = requestURL => async dispatch => {
-  dispatch(deleteServiceHistoryStart());
-  try {
-    console.log(requestURL);
-    await axios.delete(requestURL);
-    dispatch(deleteServiceHistorySuccess());
-  } catch (err) {
-    dispatch(triggerErrorBanner(err.response.data.errorMessage));
-    dispatch(deleteServiceHistoryFailure());
-  }
-};
+export const deleteServiceHistoryStartAsync =
+  (requestURL, userId) => async dispatch => {
+    dispatch(deleteServiceHistoryStart());
+    try {
+      await axios.delete(requestURL);
+      dispatch(deleteServiceHistorySuccess());
+      dispatch(getUserVehiclesStartAsync(userId));
+    } catch (err) {
+      dispatch(triggerErrorBanner(err.response.data.errorMessage));
+      dispatch(deleteServiceHistoryFailure());
+    }
+  };
