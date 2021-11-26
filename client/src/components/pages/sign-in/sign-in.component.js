@@ -26,12 +26,13 @@ const SignInPage = ({
 
   const handleSubmit = async e => {
     e.preventDefault();
+
     const authUserObj = await userSignInStartAsync(email, password);
+    if (!authUserObj) return;
 
     setInputState({ ...INITIAL_INPUT });
 
     await getUserVehiclesStartAsync(authUserObj.userId);
-
     history.push('/my-page');
   };
 

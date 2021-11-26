@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { vehicleActionTypes } from './vehicle.types';
+import { triggerErrorBanner } from '../error/error.actions';
 
 export const getUserVehiclesStart = () => ({
   type: vehicleActionTypes.GET_USER_VEHICLES_START,
@@ -108,10 +109,7 @@ export const getUserVehiclesStartAsync = userId => async dispatch => {
     const vehicles = res.data;
     dispatch(getUserVehiclesSuccess(vehicles));
   } catch (err) {
-    console.error(
-      'ERROR UPON VEHICLE LOADING:',
-      err.response.data.errorMessage
-    );
+    dispatch(triggerErrorBanner(err.response.data.errorMessage));
     dispatch(getUserVehiclesFailure());
   }
 };
@@ -130,10 +128,7 @@ export const uploadVehicleImage = (imgFile, requestURL) => async dispatch => {
     await axios.post(requestURL, formData, config);
     dispatch(uploadVehicleImageSuccess());
   } catch (err) {
-    console.error(
-      'ERROR UPON VEHICLE REGISTRATION:',
-      err.response.data.errorMessage
-    );
+    dispatch(triggerErrorBanner(err.response.data.errorMessage));
     dispatch(uploadVehicleImageFailure());
   }
 };
@@ -157,10 +152,7 @@ export const addVehicleStartAsync =
       dispatch(addVehicleSuccess());
       return vehicleObj;
     } catch (err) {
-      console.error(
-        'ERROR UPON VEHICLE REGISTRATION:',
-        err.response.data.errorMessage
-      );
+      dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(addVehicleFailure());
     }
   };
@@ -185,10 +177,7 @@ export const updateVehicleStartAsync =
       dispatch(updateVehicleSuccess(vehicleObj));
       return vehicleObj;
     } catch (err) {
-      console.error(
-        'ERROR UPON VEHICLE UPDATE:',
-        err.response.data.errorMessage
-      );
+      dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(updateVehicleFailure());
     }
   };
@@ -208,7 +197,7 @@ export const delectVehicleStartAsync = vehicleId => async dispatch => {
       .then(res => res.data);
     dispatch(deleteVehicleSuccess());
   } catch (err) {
-    console.error('ERROR UPON VEHICLE DELETE:', err.response.data.errorMessage);
+    dispatch(triggerErrorBanner(err.response.data.errorMessage));
     dispatch(deleteVehicleFailure());
   }
 };
@@ -231,10 +220,7 @@ export const addServiceHistoryStartAsync =
       await axios.put(requestURL, body, config);
       dispatch(addServiceHistorySuccess());
     } catch (err) {
-      console.error(
-        'ERROR UPON SERVICE HISTORY UPDATE:',
-        err.response.data.errorMessage
-      );
+      dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(addServiceHistoryFailure());
     }
   };
@@ -255,8 +241,7 @@ export const updateServiceHistoryStartAsync =
       await axios.put(requestURL, body, config);
       dispatch(updateServiceHistorySuccess());
     } catch (err) {
-      const errorMsg = err.response.data.errorMessage;
-      console.error(errorMsg);
+      dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(updateServiceHistoryFailure());
     }
   };
@@ -268,10 +253,7 @@ export const deleteServiceHistoryStartAsync = requestURL => async dispatch => {
     await axios.delete(requestURL);
     dispatch(deleteServiceHistorySuccess());
   } catch (err) {
-    console.error(
-      'ERROR UPON SERVICE HISTORY UPDATE:',
-      err.response.data.errorMessage
-    );
+    dispatch(triggerErrorBanner(err.response.data.errorMessage));
     dispatch(deleteServiceHistoryFailure());
   }
 };

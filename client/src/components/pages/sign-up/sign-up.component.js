@@ -6,6 +6,7 @@ import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
 import { userSignUpStartAsync } from '../../../redux/user/user.actions';
+import { triggerErrorBanner } from '../../../redux/error/error.actions';
 
 import './sign-up.styles.scss';
 
@@ -16,14 +17,15 @@ const INITIAL_INPUT = {
   confirmPassword: '',
 };
 
-const SignUpPage = ({ userSignUpStartAsync, history }) => {
+const SignUpPage = ({ userSignUpStartAsync, triggerErrorBanner, history }) => {
   const [inputState, setInputState] = useState(INITIAL_INPUT);
   const { email, username, password, confirmPassword } = inputState;
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (password !== confirmPassword)
-      return alert('paswords do not match, please enter the same password');
+    if (password !== confirmPassword) {
+      return triggerErrorBanner('Passwords do not match.');
+    }
 
     await userSignUpStartAsync(username, email, password);
 
@@ -86,6 +88,8 @@ const SignUpPage = ({ userSignUpStartAsync, history }) => {
 const mapDispatchToProps = dispatch => ({
   userSignUpStartAsync: (username, email, password) =>
     dispatch(userSignUpStartAsync(username, email, password)),
+  triggerErrorBanner: errorMessage =>
+    dispatch(triggerErrorBanner(errorMessage)),
 });
 
 export default connect(null, mapDispatchToProps)(SignUpPage);

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { userActionTypes } from './user.types';
+import { triggerErrorBanner } from '../error/error.actions';
 
 export const userSignUpStart = () => ({
   type: userActionTypes.USER_SIGN_UP_START,
@@ -60,7 +61,7 @@ export const userSignInStartAsync = (email, password) => async dispatch => {
     dispatch(userSignInSuccess(userObj));
     return userObj;
   } catch (err) {
-    console.error('ERROR UPON SIGN-IN:', err.response.data.errorMessage);
+    dispatch(triggerErrorBanner(err.response.data.errorMessage));
     dispatch(userSignInFailure());
   }
 };
@@ -86,7 +87,7 @@ export const userSignUpStartAsync =
 
       dispatch(userSignUpSuccess(userObj));
     } catch (err) {
-      console.error('ERROR UPON SIGN-IN:', err.response.data.errorMessage);
+      dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(userSignUpFailure());
     }
   };
@@ -97,7 +98,7 @@ export const userSignOutStartAsync = () => async dispatch => {
     await axios.get('/api/user/sign-out');
     dispatch(userSignOutSuccess());
   } catch (err) {
-    console.error('ERROR UPON SIGN OUT:', err.response.data.errorMessage);
+    dispatch(triggerErrorBanner(err.response.data.errorMessage));
     dispatch(userSignOutFailure());
   }
 };
