@@ -58,6 +58,7 @@ const AddVehiclePage = ({
         make,
         model,
         year,
+        imageFile,
         vehicleId: existingVehicle._id,
       });
     } else {
@@ -182,10 +183,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   addVehicleStartAsync: newVehicleObj =>
     dispatch(addVehicleStartAsync(newVehicleObj)),
-  updateVehicleStartAsync: ({ nickname, make, model, year, vehicleId }) =>
-    dispatch(
-      updateVehicleStartAsync({ nickname, make, model, year, vehicleId })
-    ),
+  updateVehicleStartAsync: vehicleInfoToUpdate =>
+    dispatch(updateVehicleStartAsync(vehicleInfoToUpdate)),
   delectVehicleStartAsync: (vehicleId, userId) =>
     dispatch(delectVehicleStartAsync(vehicleId, userId)),
 });

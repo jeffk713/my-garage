@@ -10,9 +10,7 @@ import ServiceItemGroup from '../../service-item-group/service-item-group.compon
 import IconButton from '../../icon-button/icon-button.component';
 import CustomButton from '../../custom-button/custom-button.component';
 
-import {
-  deleteServiceHistoryStartAsync,
-} from '../../../redux/vehicle/vehicle.actions';
+import { deleteServiceHistoryStartAsync } from '../../../redux/vehicle/vehicle.actions';
 
 import { selectIsAuth, selectUserId } from '../../../redux/user/user.selectors';
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
@@ -57,7 +55,7 @@ const VehicleDetailPage = ({
         />
       </div>
       <div className='vehicle-basic-info'>
-        <ImageDisplay vehicleImage={undefined} />
+        <ImageDisplay vehicleImage={selectedVehicle.vehicleImage} />
         <div className='vehicle-info-edit-section'>
           <div className='vehicle-info-container'>
             <IndividualVehicleInfo
@@ -93,7 +91,11 @@ const VehicleDetailPage = ({
             {...service}
             toEditService={() => toEditService(service._id)}
             handleDeleteServiceHistory={() =>
-              handleDeleteServiceHistory(selectedVehicle._id, service._id, userId)
+              handleDeleteServiceHistory(
+                selectedVehicle._id,
+                service._id,
+                userId
+              )
             }
           />
         ))}
