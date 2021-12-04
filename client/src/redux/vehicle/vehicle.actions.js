@@ -133,16 +133,6 @@ export const uploadVehicleImage = (imgFile, requestURL) => async dispatch => {
   }
 };
 
-const uploadImageAndGetVehicles =
-  dispatch => (imageFile, vehicleId, userId) => {
-    // add image file if present
-    if (imageFile) {
-      dispatch(uploadVehicleImage(imageFile, `/api/vehicle/${vehicleId}`));
-    }
-    // get all user's vehicles afer updating
-    dispatch(getUserVehiclesStartAsync(userId));
-  };
-
 export const addVehicleStartAsync =
   ({ nickname, make, model, year, imageFile }) =>
   async dispatch => {
@@ -163,11 +153,19 @@ export const addVehicleStartAsync =
 
       dispatch(addVehicleSuccess());
 
-      uploadImageAndGetVehicles(dispatch)(
-        imageFile,
-        vehicleObj._id,
-        vehicleObj.user
-      );
+      console.log('before uploadImageAndGetVehicles func');
+      // add image file if present
+      if (imageFile) {
+        console.log(
+          'image file is valid and this is vehicle OBJ: ',
+          vehicleObj
+        );
+        dispatch(
+          uploadVehicleImage(imageFile, `/api/vehicle/${vehicleObj._id}`)
+        );
+      }
+      // get all user's vehicles afer updating
+      dispatch(getUserVehiclesStartAsync(vehicleObj.user));
     } catch (err) {
       dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(addVehicleFailure());
@@ -175,7 +173,7 @@ export const addVehicleStartAsync =
   };
 
 export const updateVehicleStartAsync =
-  ({ nickname, make, model, year, vehicleId, imageFile }) =>
+  ({ nickname, make, model, year, imageFile, vehicleId }) =>
   async dispatch => {
     dispatch(updateVehicleStart());
 
@@ -194,13 +192,16 @@ export const updateVehicleStartAsync =
 
       dispatch(updateVehicleSuccess());
 
-      uploadImageAndGetVehicles(dispatch)(
-        imageFile,
-        vehicleObj._id,
-        vehicleObj.user
-      );
+      // add image file if present
+      if (imageFile) {
+        dispatch(uploadVehicleImage(imageFile, `/api/vehicle/${vehicleId}`));
+      }
+
+      // get all user's vehicles afer updating
+      dispatch(getUserVehiclesStartAsync(vehicleObj.user));
     } catch (err) {
-      dispatch(triggerErrorBanner(err.response.data.errorMessage));
+      // dispatch(triggerErrorBanner(err.response.data.errorMessage));
+      console.log(err);
       dispatch(updateVehicleFailure());
     }
   };

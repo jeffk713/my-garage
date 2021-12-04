@@ -17,7 +17,6 @@ const App = () => {
   return (
     <div className='app'>
       <Navigator />
-      {/* is it good idea put an error message on app? since when error occurs, the whole app.js will rerender. */}
       <ErrorBanner />
       <div className='main'>
         <Switch>

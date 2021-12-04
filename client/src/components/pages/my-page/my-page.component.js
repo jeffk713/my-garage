@@ -27,7 +27,6 @@ const MyPage = ({ vehicles, history, isAuth, username }) => {
 
   //   return srcBlob;
   // };
-
   return (
     <div className='my-page'>
       <Banner>Hello, {username}! Select your vehicle</Banner>
@@ -36,7 +35,7 @@ const MyPage = ({ vehicles, history, isAuth, username }) => {
           <VehicleSelection
             key={vehicle._id}
             vehicleId={vehicle._id}
-            vehicleImage={undefined}
+            vehicleImage={vehicle.vehicleImage}
             nickname={vehicle.nickname}
           />
         ))}
