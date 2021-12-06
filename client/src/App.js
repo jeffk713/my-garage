@@ -10,6 +10,7 @@ import SignUpPage from './components/pages/sign-up/sign-up.component';
 import VehicleDetailPage from './components/pages/vehicle-detail/vehicle-detail.component';
 import AddVehicleServicePage from './components/pages/add-service-history/add-service-history.component';
 import ErrorBanner from './components/error-banner/error-banner.component';
+import Spinner from './components/spinner/spinner.component';
 
 import './App.scss';
 
@@ -35,6 +36,7 @@ const App = () => {
             component={AddVehicleServicePage}
           />
           <Route path='/my-page/:vehicleId' component={VehicleDetailPage} />
+          <Route path='/spinner' component={Spinner} />
         </Switch>
       </div>
     </div>

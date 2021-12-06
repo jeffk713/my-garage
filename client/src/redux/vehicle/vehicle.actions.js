@@ -153,19 +153,12 @@ export const addVehicleStartAsync =
 
       dispatch(addVehicleSuccess());
 
-      console.log('before uploadImageAndGetVehicles func');
       // add image file if present
       if (imageFile) {
-        console.log(
-          'image file is valid and this is vehicle OBJ: ',
-          vehicleObj
-        );
         dispatch(
           uploadVehicleImage(imageFile, `/api/vehicle/${vehicleObj._id}`)
         );
       }
-      // get all user's vehicles afer updating
-      dispatch(getUserVehiclesStartAsync(vehicleObj.user));
     } catch (err) {
       dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(addVehicleFailure());
@@ -186,7 +179,7 @@ export const updateVehicleStartAsync =
     };
     try {
       // update vehicle
-      const vehicleObj = await axios
+      await axios
         .put(`/api/vehicle/${vehicleId}`, body, config)
         .then(res => res.data);
 
@@ -196,9 +189,6 @@ export const updateVehicleStartAsync =
       if (imageFile) {
         dispatch(uploadVehicleImage(imageFile, `/api/vehicle/${vehicleId}`));
       }
-
-      // get all user's vehicles afer updating
-      dispatch(getUserVehiclesStartAsync(vehicleObj.user));
     } catch (err) {
       // dispatch(triggerErrorBanner(err.response.data.errorMessage));
       console.log(err);
