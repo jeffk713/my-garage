@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import Banner from '../../banner/banner.component';
+import WithSpinner from '../../spinner/with-spinner.component';
 import VehicleSelectionContainer from '../../vehicle-selection-container/vehicle-selection-container.component';
 
 import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
@@ -15,6 +16,10 @@ import {
 import { selectIsLoading } from '../../../redux/vehicle/vehicle.selectors';
 
 import './my-page.styles.scss';
+
+const VehicleSelectioncontainerWithSpinner = WithSpinner(
+  VehicleSelectionContainer
+);
 
 const MyPage = ({
   isAuth,
@@ -32,7 +37,7 @@ const MyPage = ({
   return (
     <div className='my-page'>
       <Banner>Hello, {username}! Select your vehicle</Banner>
-      <VehicleSelectionContainer />
+      <VehicleSelectioncontainerWithSpinner isLoading={isLoading} />
     </div>
   );
 };
