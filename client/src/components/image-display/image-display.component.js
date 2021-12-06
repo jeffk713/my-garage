@@ -7,7 +7,12 @@ const ImageDisplay = ({ vehicleImage, vehicleId, option }) => {
   return (
     <div className={`vehicle-image-container ${option}`}>
       {vehicleImage ? (
-        <img src={`/api/vehicle/vehicle-image/${vehicleId}`} alt='vehicle' />
+        <div
+        className='image-display'
+          style={{
+            backgroundImage: `url(/api/vehicle/vehicle-image/${vehicleId})`,
+          }}
+        />
       ) : (
         <img
           className='default-image'

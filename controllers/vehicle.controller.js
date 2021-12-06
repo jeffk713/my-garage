@@ -33,11 +33,7 @@ exports.uploadVehicleImage = async (req, res) => {
       return res.status(400).json({ errorMessage: 'Vehicle not found' });
     }
 
-    // console.log(req.file);
-    const sharpBuffer = await sharp(req.file.buffer)
-      .resize({ width: 280, height: 280 })
-      .png()
-      .toBuffer();
+    const sharpBuffer = await sharp(req.file.buffer).png().toBuffer();
 
     vehicle.vehicleImage = sharpBuffer;
     await vehicle.save();
