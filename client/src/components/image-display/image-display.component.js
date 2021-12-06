@@ -3,11 +3,16 @@ import React from 'react';
 import './image-display.styles.scss';
 import defaultVehicleImage from '../../assets/images/default-vehicle-image.svg';
 
-const ImageDisplay = ({ vehicleImage, option }) => {
+const ImageDisplay = ({ vehicleImage, vehicleId, option }) => {
   return (
     <div className={`vehicle-image-container ${option}`}>
       {vehicleImage ? (
-        <img src={vehicleImage} alt='vehicle' />
+        <div
+        className='image-display'
+          style={{
+            backgroundImage: `url(/api/vehicle/vehicle-image/${vehicleId})`,
+          }}
+        />
       ) : (
         <img
           className='default-image'

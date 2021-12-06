@@ -7,23 +7,22 @@ import Link from '../link/link.component';
 import { userSignOutStartAsync } from '../../redux/user/user.actions';
 import { selectIsAuth } from '../../redux/user/user.selectors';
 
+import Logo from '../../assets/images/logo-right.svg';
 import './navigator.styles.scss';
 
 const Navigator = ({ isAuth, userSignOutStartAsync }) => {
   const handleUserSignOut = async () => {
     const signOutSuccess = userSignOutStartAsync();
-    if(!signOutSuccess) {
-      return console.error('ERROR UPON SIGN-OUT')
+    if (!signOutSuccess) {
+      return console.error('ERROR UPON SIGN-OUT');
     }
   };
 
   return (
     <div className='navigator'>
-      <div className='logo'>
-        <a href='/'>
-          <h1>LOGO</h1>
-        </a>
-      </div>
+      <a href='/'>
+        <img className='logo' src={Logo} alt='logo' />
+      </a>
       <div className='link-container'>
         <Link linkName='My Page' urlToGo='/my-page' linkStyle=' nav-link' />
         <Link linkName='Shops' urlToGo='/shops' linkStyle='nav-link' />

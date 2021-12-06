@@ -33,10 +33,7 @@ exports.uploadVehicleImage = async (req, res) => {
       return res.status(400).json({ errorMessage: 'Vehicle not found' });
     }
 
-    const sharpBuffer = await sharp(req.file.buffer)
-      .resize({ width: 280, height: 280 })
-      .png()
-      .toBuffer();
+    const sharpBuffer = await sharp(req.file.buffer).png().toBuffer();
 
     vehicle.vehicleImage = sharpBuffer;
     await vehicle.save();
@@ -104,6 +101,23 @@ exports.getUserVehicles = async (req, res) => {
     console.error(err.message);
     res.status(500).send({
       errorMessage: 'Server error upon loading all registered vehicles',
+    });
+  }
+};
+
+exports.getVehicleImage = async (req, res) => {
+  try {
+    const vehicle = await Vehicle.findOne({ _id: req.params.vehicleId });
+    if (!vehicle) {
+      return res.status(400).json({ errorMessage: 'Vehicles not found' });
+    }
+
+    res.set('Content-Type', 'image/png');
+    res.send(vehicle.vehicleImage);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({
+      errorMessage: 'Server error upon fetching a vehicle image',
     });
   }
 };

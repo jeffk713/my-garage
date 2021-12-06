@@ -18,16 +18,6 @@ import './my-page.styles.scss';
 const MyPage = ({ vehicles, history, isAuth, username }) => {
   if (!isAuth) return <Redirect to='/' />;
 
-  // const imgConvert = arrayBuffer => {
-  //   if (!arrayBuffer) return null;
-  //   console.log(arrayBuffer);
-
-  //   const blob = new Blob([arrayBuffer]);
-  //   const srcBlob = URL.createObjectURL(blob);
-
-  //   return srcBlob;
-  // };
-
   return (
     <div className='my-page'>
       <Banner>Hello, {username}! Select your vehicle</Banner>
@@ -36,7 +26,7 @@ const MyPage = ({ vehicles, history, isAuth, username }) => {
           <VehicleSelection
             key={vehicle._id}
             vehicleId={vehicle._id}
-            vehicleImage={undefined}
+            vehicleImage={vehicle.vehicleImage}
             nickname={vehicle.nickname}
           />
         ))}

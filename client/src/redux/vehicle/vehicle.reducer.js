@@ -1,6 +1,8 @@
 import { vehicleActionTypes } from './vehicle.types';
 import { userActionTypes } from '../user/user.types';
 
+import { getVeihcleArrWithBooleanImageData } from '../../utils/vehicle-utils';
+
 const INITIAL_STATE = {
   vehicles: [],
   isLoading: false,
@@ -17,7 +19,7 @@ const vehicleReducer = (state = INITIAL_STATE, action) => {
     case vehicleActionTypes.GET_USER_VEHICLES_SUCCESS:
       return {
         ...state,
-        vehicles: action.payload,
+        vehicles: getVeihcleArrWithBooleanImageData(action.payload),
         isLoading: false,
       };
     case vehicleActionTypes.ADD_VEHICLE_SUCCESS:

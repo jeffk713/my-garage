@@ -37,6 +37,14 @@ router.get(
   vehicleController.getUserVehicles
 );
 
+// @private-route  POST /api/vehicle/:vehicleId
+// check auth cookie and get uploaded vehicle image
+router.get(
+  '/vehicle-image/:vehicleId',
+  checkCookie,
+  vehicleController.getVehicleImage
+);
+
 //============ VEHICLE SERVICE ================//
 
 // @private-route  PUT /api/vehicle/:vehicleId/add-service

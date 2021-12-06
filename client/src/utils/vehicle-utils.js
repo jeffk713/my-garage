@@ -15,3 +15,13 @@ export const getVehicleServiceWithId = (serviceArr, serviceId) => {
   }
   return null;
 };
+
+export const getVeihcleArrWithBooleanImageData = vehicleArr => {
+  console.log(vehicleArr);
+  return vehicleArr.map(vehicle => {
+    if (vehicle.vehicleImage) {
+      vehicle.vehicleImage = true;
+    }
+    return vehicle;
+  });
+};

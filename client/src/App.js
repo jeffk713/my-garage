@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
 
 import Navigator from './components/navigator/navigator.component';
 import Homepage from './components/pages/homepage/homepage.component';
@@ -13,16 +11,13 @@ import VehicleDetailPage from './components/pages/vehicle-detail/vehicle-detail.
 import AddVehicleServicePage from './components/pages/add-service-history/add-service-history.component';
 import ErrorBanner from './components/error-banner/error-banner.component';
 
-import { selectErrorMessage } from './redux/error/error.selectors';
-
 import './App.scss';
 
-const App = ({ errorMessage }) => {
+const App = () => {
   return (
     <div className='app'>
       <Navigator />
-      {/* is it good idea put an error message on app? since when error occurs, the whole app.js will rerender. */}
-      <ErrorBanner display={errorMessage && true}>{errorMessage}</ErrorBanner>
+      <ErrorBanner />
       <div className='main'>
         <Switch>
           <Route exact path='/' component={Homepage} />
@@ -46,8 +41,4 @@ const App = ({ errorMessage }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  errorMessage: selectErrorMessage,
-});
-
-export default connect(mapStateToProps)(App);
+export default App;
