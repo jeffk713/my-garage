@@ -55,7 +55,10 @@ const VehicleDetailPage = ({
         />
       </div>
       <div className='vehicle-basic-info'>
-        <ImageDisplay vehicleImage={selectedVehicle.vehicleImage} />
+        <ImageDisplay
+          vehicleId={selectedVehicle._id}
+          vehicleImage={selectedVehicle.vehicleImage}
+        />
         <div className='vehicle-info-edit-section'>
           <div className='vehicle-info-container'>
             <IndividualVehicleInfo
