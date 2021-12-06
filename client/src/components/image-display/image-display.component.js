@@ -3,16 +3,11 @@ import React from 'react';
 import './image-display.styles.scss';
 import defaultVehicleImage from '../../assets/images/default-vehicle-image.svg';
 
-const ImageDisplay = ({ vehicleImage, option }) => {
-  console.log(vehicleImage);
-  let blob;
-  if (vehicleImage) {
-    blob = new Blob([vehicleImage.data]);
-  }
+const ImageDisplay = ({ vehicleImage, vehicleId, option }) => {
   return (
     <div className={`vehicle-image-container ${option}`}>
       {vehicleImage ? (
-        <img src={URL.createObjectURL(blob)} alt='vehicle' />
+        <img src={`/api/vehicle/vehicle-image/${vehicleId}`} alt='vehicle' />
       ) : (
         <img
           className='default-image'

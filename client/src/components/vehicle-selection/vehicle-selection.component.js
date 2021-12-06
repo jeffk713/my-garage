@@ -21,6 +21,7 @@ const VehicleSelection = ({
       <ImageDisplay
         option='no-border'
         vehicleImage={vehicleImage}
+        vehicleId={vehicleId}
       />
       <Banner locatedIn='bnr-in-vehicle-selection' option='bottom'>
         {nickname}
