@@ -17,7 +17,6 @@ export const getVehicleServiceWithId = (serviceArr, serviceId) => {
 };
 
 export const getVeihcleArrWithBooleanImageData = vehicleArr => {
-  console.log(vehicleArr);
   return vehicleArr.map(vehicle => {
     if (vehicle.vehicleImage) {
       vehicle.vehicleImage = true;

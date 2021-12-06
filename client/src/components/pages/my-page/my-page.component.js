@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -7,15 +7,28 @@ import Banner from '../../banner/banner.component';
 import VehicleSelection from '../../vehicle-selection/vehicle-selection.component';
 import VehicleAddLink from '../../vehicle-add-link/vehicle-add-link.component';
 
+import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 import {
   selectIsAuth,
   selectUsername,
+  selectUserId,
 } from '../../../redux/user/user.selectors';
 
 import './my-page.styles.scss';
 
-const MyPage = ({ vehicles, history, isAuth, username }) => {
+const MyPage = ({
+  vehicles,
+  history,
+  isAuth,
+  username,
+  userId,
+  getUserVehiclesStartAsync,
+}) => {
+  useEffect(() => {
+    getUserVehiclesStartAsync(userId);
+  }, [userId, getUserVehiclesStartAsync]);
+
   if (!isAuth) return <Redirect to='/' />;
 
   return (
@@ -42,6 +55,11 @@ const mapStateToProps = createStructuredSelector({
   vehicles: selectVehicles,
   isAuth: selectIsAuth,
   username: selectUsername,
+  userId: selectUserId,
 });
 
-export default connect(mapStateToProps)(MyPage);
+const mapDispatchToProps = dispatch => ({
+  getUserVehiclesStartAsync: userId =>
+    dispatch(getUserVehiclesStartAsync(userId)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(MyPage);
