@@ -4,25 +4,28 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import Banner from '../../banner/banner.component';
-import VehicleSelection from '../../vehicle-selection/vehicle-selection.component';
-import VehicleAddLink from '../../vehicle-add-link/vehicle-add-link.component';
+import WithSpinner from '../../spinner/with-spinner.component';
+import VehicleSelectionContainer from '../../vehicle-selection-container/vehicle-selection-container.component';
 
 import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
-import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 import {
   selectIsAuth,
   selectUsername,
   selectUserId,
 } from '../../../redux/user/user.selectors';
+import { selectIsLoading } from '../../../redux/vehicle/vehicle.selectors';
 
 import './my-page.styles.scss';
 
+const VehicleSelectioncontainerWithSpinner = WithSpinner(
+  VehicleSelectionContainer
+);
+
 const MyPage = ({
-  vehicles,
-  history,
   isAuth,
   username,
   userId,
+  isLoading,
   getUserVehiclesStartAsync,
 }) => {
   useEffect(() => {
@@ -34,28 +37,16 @@ const MyPage = ({
   return (
     <div className='my-page'>
       <Banner>Hello, {username}! Select your vehicle</Banner>
-      <div className='vehicle-selection-container'>
-        {vehicles.map(vehicle => (
-          <VehicleSelection
-            key={vehicle._id}
-            vehicleId={vehicle._id}
-            vehicleImage={vehicle.vehicleImage}
-            nickname={vehicle.nickname}
-          />
-        ))}
-        <VehicleAddLink
-          handleClick={() => history.push('/my-page/add-vehicle')}
-        />
-      </div>
+      <VehicleSelectioncontainerWithSpinner isLoading={isLoading} />
     </div>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
-  vehicles: selectVehicles,
   isAuth: selectIsAuth,
   username: selectUsername,
   userId: selectUserId,
+  isLoading: selectIsLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
