@@ -36,7 +36,11 @@ const MyPage = ({
 
   return (
     <div className='my-page'>
-      <Banner>Hello, {username}! Select your vehicle</Banner>
+      <Banner>
+        {isLoading
+          ? `Loading your vehicles...`
+          : `Hello, ${username}! Select your vehicle`}
+      </Banner>
       <VehicleSelectioncontainerWithSpinner isLoading={isLoading} />
     </div>
   );
