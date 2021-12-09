@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -8,7 +7,7 @@ import ImageInputBox from '../../image-input-box/image-input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
-import { selectIsAuth, selectUserId } from '../../../redux/user/user.selectors';
+import { selectUserId } from '../../../redux/user/user.selectors';
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import {
@@ -25,7 +24,6 @@ const AddVehiclePage = ({
   addVehicleStartAsync,
   updateVehicleStartAsync,
   delectVehicleStartAsync,
-  isAuth,
   history,
   match,
   userId,
@@ -38,7 +36,6 @@ const AddVehiclePage = ({
     model: '',
     imageFile: null,
   };
-
   const existingVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
   // if existingVehicle, use existing vehicle info
   if (existingVehicle) {
@@ -99,7 +96,6 @@ const AddVehiclePage = ({
     });
   };
 
-  if (!isAuth) return <Redirect to='/' />;
   return (
     <div className='add-vehicle-page'>
       <Banner>What Is Your Vehicle?</Banner>
@@ -175,7 +171,6 @@ const AddVehiclePage = ({
 };
 
 const mapStateToProps = createStructuredSelector({
-  isAuth: selectIsAuth,
   userId: selectUserId,
   vehicles: selectVehicles,
 });

@@ -10,8 +10,14 @@ const INITIAL_STATE = {
 
 const vehicleReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case vehicleActionTypes.ADD_VEHICLE_START:
     case vehicleActionTypes.GET_USER_VEHICLES_START:
+    case vehicleActionTypes.ADD_VEHICLE_START:
+    case vehicleActionTypes.UPDATE_VEHICLE_START:
+    case vehicleActionTypes.UPLOAD_VEHICLE_IMAGE_START:
+    case vehicleActionTypes.DELETE_VEHICLE_START:
+    case vehicleActionTypes.ADD_SERVICE_HISTORY_START:
+    case vehicleActionTypes.UPDATE_SERVICE_HISTORY_START:
+    case vehicleActionTypes.DELETE_SERVICE_HISTORY_START:
       return {
         ...state,
         isLoading: true,
@@ -22,9 +28,21 @@ const vehicleReducer = (state = INITIAL_STATE, action) => {
         vehicles: getVeihcleArrWithBooleanImageData(action.payload),
         isLoading: false,
       };
+    case vehicleActionTypes.GET_USER_VEHICLES_FAILURE:
     case vehicleActionTypes.ADD_VEHICLE_SUCCESS:
     case vehicleActionTypes.ADD_VEHICLE_FAILURE:
-    case vehicleActionTypes.GET_USER_VEHICLES_FAILURE:
+    case vehicleActionTypes.UPDATE_VEHICLE_SUCCESS:
+    case vehicleActionTypes.UPDATE_VEHICLE_FAILURE:
+    case vehicleActionTypes.UPLOAD_VEHICLE_IMAGE_SUCCESS:
+    case vehicleActionTypes.UPLOAD_VEHICLE_IMAGE_FAILURE:
+    case vehicleActionTypes.DELETE_VEHICLE_SUCCESS:
+    case vehicleActionTypes.DELETE_VEHICLE_FAILURE:
+    case vehicleActionTypes.ADD_SERVICE_HISTORY_SUCCESS:
+    case vehicleActionTypes.ADD_SERVICE_HISTORY_FAILURE:
+    case vehicleActionTypes.UPDATE_SERVICE_HISTORY_SUCCESS:
+    case vehicleActionTypes.UPDATE_SERVICE_HISTORY_FAILURE:
+    case vehicleActionTypes.DELETE_SERVICE_HISTORY_SUCCESS:
+    case vehicleActionTypes.DELETE_SERVICE_HISTORY_FAILURE:
       return {
         ...state,
         isLoading: false,

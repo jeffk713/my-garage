@@ -8,3 +8,9 @@ export const selectVehicles = createSelector(
   [selectVehicle],
   vehicle => vehicle.vehicles
 );
+
+//isLoading in vehicle state
+export const selectIsLoading = createSelector(
+  [selectVehicle],
+  vehicle => vehicle.isLoading
+);

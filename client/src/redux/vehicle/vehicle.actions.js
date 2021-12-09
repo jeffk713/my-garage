@@ -151,20 +151,14 @@ export const addVehicleStartAsync =
         .post('/api/vehicle/register', body, config)
         .then(res => res.data);
 
-      dispatch(addVehicleSuccess());
-
-      console.log('before uploadImageAndGetVehicles func');
       // add image file if present
       if (imageFile) {
-        console.log(
-          'image file is valid and this is vehicle OBJ: ',
-          vehicleObj
-        );
         dispatch(
           uploadVehicleImage(imageFile, `/api/vehicle/${vehicleObj._id}`)
         );
       }
-      // get all user's vehicles afer updating
+      dispatch(addVehicleSuccess());
+
       dispatch(getUserVehiclesStartAsync(vehicleObj.user));
     } catch (err) {
       dispatch(triggerErrorBanner(err.response.data.errorMessage));
@@ -190,14 +184,13 @@ export const updateVehicleStartAsync =
         .put(`/api/vehicle/${vehicleId}`, body, config)
         .then(res => res.data);
 
-      dispatch(updateVehicleSuccess());
-
       // add image file if present
       if (imageFile) {
         dispatch(uploadVehicleImage(imageFile, `/api/vehicle/${vehicleId}`));
       }
 
-      // get all user's vehicles afer updating
+      dispatch(updateVehicleSuccess());
+
       dispatch(getUserVehiclesStartAsync(vehicleObj.user));
     } catch (err) {
       // dispatch(triggerErrorBanner(err.response.data.errorMessage));
