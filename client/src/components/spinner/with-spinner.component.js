@@ -4,8 +4,12 @@ import Spinner from './spinner.component';
 
 const WithSpinner =
   PassedInComponent =>
-  ({ isLoading, ...otherProps }) => {
-    return isLoading ? <Spinner /> : <PassedInComponent {...otherProps} />;
+  ({ isLoading, spinnerOption, ...otherProps }) => {
+    return isLoading ? (
+      <Spinner spinnerOption={spinnerOption} />
+    ) : (
+      <PassedInComponent {...otherProps} />
+    );
   };
 
 export default WithSpinner;

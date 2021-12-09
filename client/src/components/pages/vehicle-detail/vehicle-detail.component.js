@@ -5,37 +5,27 @@ import { createStructuredSelector } from 'reselect';
 import ImageDisplay from '../../image-display/image-display.component';
 import IndividualVehicleInfo from '../../individual-vehicle-info/individual-vehicle-info.coponent';
 import ServiceTableHeader from '../../service-table-header/service-table-header.component';
-import ServiceItemGroup from '../../service-item-group/service-item-group.component';
 import IconButton from '../../icon-button/icon-button.component';
 import CustomButton from '../../custom-button/custom-button.component';
+import ServiceItemGroupContainer from '../../service-item-group-container/service-item-group-container.component';
+import WithSpinner from '../../spinner/with-spinner.component';
 
-import { deleteServiceHistoryStartAsync } from '../../../redux/vehicle/vehicle.actions';
-
-import { selectUserId } from '../../../redux/user/user.selectors';
-import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
+import {
+  selectIsLoading,
+  selectVehicles,
+} from '../../../redux/vehicle/vehicle.selectors';
 
 import { getPreviousURL } from '../../../utils/url-utils';
 import { getVehicleWithId } from '../../../utils/vehicle-utils';
 
 import './vehicle-detail.styles.scss';
 
-const VehicleDetailPage = ({
-  history,
-  match,
-  userId,
-  vehicles,
-  deleteServiceHistoryStartAsync,
-}) => {
+const ServiceItemGroupContainerWithSpinner = WithSpinner(
+  ServiceItemGroupContainer
+);
+
+const VehicleDetailPage = ({ history, match, isLoading, vehicles }) => {
   const selectedVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
-
-  const handleDeleteServiceHistory = async (vehicleId, serviceId, userId) => {
-    const requestURL = `/api/vehicle/${vehicleId}/${serviceId}`;
-    await deleteServiceHistoryStartAsync(requestURL, userId);
-  };
-
-  const toEditService = serviceId => {
-    history.push(`${match.url}/${serviceId}`);
-  };
 
   return (
     <div className='vehicle-detail-page'>
@@ -83,20 +73,13 @@ const VehicleDetailPage = ({
       </div>
       <div className='vehicle-service-table'>
         <ServiceTableHeader />
-        {selectedVehicle.serviceHistory.map(service => (
-          <ServiceItemGroup
-            key={service._id}
-            {...service}
-            toEditService={() => toEditService(service._id)}
-            handleDeleteServiceHistory={() =>
-              handleDeleteServiceHistory(
-                selectedVehicle._id,
-                service._id,
-                userId
-              )
-            }
-          />
-        ))}
+        <ServiceItemGroupContainerWithSpinner
+          spinnerOption='spinner-in-vehicle-detail-page'
+          history={history}
+          match={match}
+          isLoading={isLoading}
+          selectedVehicle={selectedVehicle}
+        />
       </div>
     </div>
   );
@@ -104,11 +87,7 @@ const VehicleDetailPage = ({
 
 const mapStateToProps = createStructuredSelector({
   vehicles: selectVehicles,
-  userId: selectUserId,
-});
-const mapDispatchToProps = dispatch => ({
-  deleteServiceHistoryStartAsync: (vehicleId, serviceId, userId) =>
-    dispatch(deleteServiceHistoryStartAsync(vehicleId, serviceId, userId)),
+  isLoading: selectIsLoading,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(VehicleDetailPage);
+export default connect(mapStateToProps)(VehicleDetailPage);
