@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -9,7 +8,6 @@ import VehicleSelectionContainer from '../../vehicle-selection-container/vehicle
 
 import { getUserVehiclesStartAsync } from '../../../redux/vehicle/vehicle.actions';
 import {
-  selectIsAuth,
   selectUsername,
   selectUserId,
 } from '../../../redux/user/user.selectors';
@@ -21,18 +19,10 @@ const VehicleSelectioncontainerWithSpinner = WithSpinner(
   VehicleSelectionContainer
 );
 
-const MyPage = ({
-  isAuth,
-  username,
-  userId,
-  isLoading,
-  getUserVehiclesStartAsync,
-}) => {
+const MyPage = ({ username, userId, isLoading, getUserVehiclesStartAsync }) => {
   useEffect(() => {
     getUserVehiclesStartAsync(userId);
   }, [userId, getUserVehiclesStartAsync]);
-
-  if (!isAuth) return <Redirect to='/' />;
 
   return (
     <div className='my-page'>
@@ -47,7 +37,6 @@ const MyPage = ({
 };
 
 const mapStateToProps = createStructuredSelector({
-  isAuth: selectIsAuth,
   username: selectUsername,
   userId: selectUserId,
   isLoading: selectIsLoading,

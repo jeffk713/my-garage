@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -12,7 +11,7 @@ import CustomButton from '../../custom-button/custom-button.component';
 
 import { deleteServiceHistoryStartAsync } from '../../../redux/vehicle/vehicle.actions';
 
-import { selectIsAuth, selectUserId } from '../../../redux/user/user.selectors';
+import { selectUserId } from '../../../redux/user/user.selectors';
 import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 
 import { getPreviousURL } from '../../../utils/url-utils';
@@ -23,7 +22,6 @@ import './vehicle-detail.styles.scss';
 const VehicleDetailPage = ({
   history,
   match,
-  isAuth,
   userId,
   vehicles,
   deleteServiceHistoryStartAsync,
@@ -39,9 +37,6 @@ const VehicleDetailPage = ({
     history.push(`${match.url}/${serviceId}`);
   };
 
-  if (!isAuth) {
-    return <Redirect to='/' />;
-  }
   return (
     <div className='vehicle-detail-page'>
       <div className='button-group-in-vehicle-detail'>
@@ -109,7 +104,6 @@ const VehicleDetailPage = ({
 
 const mapStateToProps = createStructuredSelector({
   vehicles: selectVehicles,
-  isAuth: selectIsAuth,
   userId: selectUserId,
 });
 const mapDispatchToProps = dispatch => ({

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Navigator from './components/navigator/navigator.component';
 import Homepage from './components/pages/homepage/homepage.component';
@@ -10,11 +12,12 @@ import SignUpPage from './components/pages/sign-up/sign-up.component';
 import VehicleDetailPage from './components/pages/vehicle-detail/vehicle-detail.component';
 import AddVehicleServicePage from './components/pages/add-service-history/add-service-history.component';
 import ErrorBanner from './components/error-banner/error-banner.component';
-import Spinner from './components/spinner/spinner.component';
+
+import { selectIsAuth } from './redux/user/user.selectors';
 
 import './App.scss';
 
-const App = () => {
+const App = ({ isAuth }) => {
   return (
     <div className='app'>
       <Navigator />
@@ -24,23 +27,58 @@ const App = () => {
           <Route exact path='/' component={Homepage} />
           <Route exact path='/sign-in' component={SignInPage} />
           <Route exact path='/sign-up' component={SignUpPage} />
-          <Route exact path='/my-page' component={MyPage} />
-          <Route exact path='/my-page/add-vehicle' component={AddVehiclePage} />
-          <Route path='/my-page/:vehicleId/edit' component={AddVehiclePage} />
+          <Route
+            exact
+            path='/my-page'
+            render={() => (isAuth ? <MyPage /> : <Redirect to='/' />)}
+          />
+          <Route
+            exact
+            path='/my-page/add-vehicle'
+            render={({ ...props }) =>
+              isAuth ? <AddVehiclePage {...props} /> : <Redirect to='/' />
+            }
+          />
+          <Route
+            path='/my-page/:vehicleId/edit'
+            render={({ ...props }) =>
+              isAuth ? <AddVehiclePage {...props} /> : <Redirect to='/' />
+            }
+          />
           <Route
             path='/my-page/:vehicleId/add-service'
-            component={AddVehicleServicePage}
+            render={({ ...props }) =>
+              isAuth ? (
+                <AddVehicleServicePage {...props} />
+              ) : (
+                <Redirect to='/' />
+              )
+            }
           />
           <Route
             path='/my-page/:vehicleId/:serviceId'
-            component={AddVehicleServicePage}
+            render={({ ...props }) =>
+              isAuth ? (
+                <AddVehicleServicePage {...props} />
+              ) : (
+                <Redirect to='/' />
+              )
+            }
           />
-          <Route path='/my-page/:vehicleId' component={VehicleDetailPage} />
-          <Route path='/spinner' component={Spinner} />
+          <Route
+            path='/my-page/:vehicleId'
+            render={({ ...props }) =>
+              isAuth ? <VehicleDetailPage {...props} /> : <Redirect to='/' />
+            }
+          />
         </Switch>
       </div>
     </div>
   );
 };
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  isAuth: selectIsAuth,
+});
+
+export default connect(mapStateToProps)(App);
