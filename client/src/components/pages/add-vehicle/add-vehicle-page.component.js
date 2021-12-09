@@ -36,7 +36,6 @@ const AddVehiclePage = ({
     model: '',
     imageFile: null,
   };
-  console.log(match);
   const existingVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
   // if existingVehicle, use existing vehicle info
   if (existingVehicle) {

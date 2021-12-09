@@ -1,12 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import CustomButton from '../../custom-button/custom-button.component';
 import Link from '../../link/link.component';
 import Banner from '../../banner/banner.component';
-
-import { selectIsAuth } from '../../../redux/user/user.selectors';
 
 import './homepage.styles.scss';
 
@@ -44,8 +40,4 @@ const Homepage = ({ history, isAuth }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  isAuth: selectIsAuth,
-});
-
-export default connect(mapStateToProps)(Homepage);
+export default Homepage;

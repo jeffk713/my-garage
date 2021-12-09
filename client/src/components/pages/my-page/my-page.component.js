@@ -28,8 +28,8 @@ const MyPage = ({ username, userId, isLoading, getUserVehiclesStartAsync }) => {
     <div className='my-page'>
       <Banner>
         {isLoading
-          ? `Loading your vehicles...`
-          : `Hello, ${username}! Select your vehicle`}
+          ? `Loading Vehicles...`
+          : `Hello, ${username}! Select Your Vehicle`}
       </Banner>
       <VehicleSelectioncontainerWithSpinner isLoading={isLoading} />
     </div>
