@@ -20,9 +20,9 @@ const VehicleSelectioncontainerWithSpinner = WithSpinner(
 );
 
 const MyPage = ({ username, userId, isLoading, getUserVehiclesStartAsync }) => {
-  useEffect(() => {
-    getUserVehiclesStartAsync(userId);
-  }, [userId, getUserVehiclesStartAsync]);
+  // useEffect(() => {
+  //   getUserVehiclesStartAsync(userId);
+  // }, [userId, getUserVehiclesStartAsync]);
 
   return (
     <div className='my-page'>

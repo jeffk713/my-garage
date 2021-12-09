@@ -151,14 +151,15 @@ export const addVehicleStartAsync =
         .post('/api/vehicle/register', body, config)
         .then(res => res.data);
 
-      dispatch(addVehicleSuccess());
-
       // add image file if present
       if (imageFile) {
         dispatch(
           uploadVehicleImage(imageFile, `/api/vehicle/${vehicleObj._id}`)
         );
       }
+      dispatch(addVehicleSuccess());
+
+      dispatch(getUserVehiclesStartAsync(vehicleObj.user));
     } catch (err) {
       dispatch(triggerErrorBanner(err.response.data.errorMessage));
       dispatch(addVehicleFailure());
@@ -179,16 +180,18 @@ export const updateVehicleStartAsync =
     };
     try {
       // update vehicle
-      await axios
+      const vehicleObj = await axios
         .put(`/api/vehicle/${vehicleId}`, body, config)
         .then(res => res.data);
-
-      dispatch(updateVehicleSuccess());
 
       // add image file if present
       if (imageFile) {
         dispatch(uploadVehicleImage(imageFile, `/api/vehicle/${vehicleId}`));
       }
+
+      dispatch(updateVehicleSuccess());
+
+      dispatch(getUserVehiclesStartAsync(vehicleObj.user));
     } catch (err) {
       // dispatch(triggerErrorBanner(err.response.data.errorMessage));
       console.log(err);
