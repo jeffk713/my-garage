@@ -1,0 +1,22 @@
+.add-update-vehcle-form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 40px auto 0 auto;
+
+  .vehicle-input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 50px;
+
+    .vehicle-info-input-container {
+      margin-left: 100px;
+    }
+  }
+  .btn-group-in-add-vehicle {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+}

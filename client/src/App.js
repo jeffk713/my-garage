@@ -6,7 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import Navigator from './components/navigator/navigator.component';
 import Homepage from './components/pages/homepage/homepage.component';
 import MyPage from './components/pages/my-page/my-page.component';
-import AddVehiclePage from './components/pages/add-vehicle/add-vehicle-page.component';
+import AddUpdateVehiclePage from './components/pages/add-update-vehice/add-update-vehice.component';
 import SignInPage from './components/pages/sign-in/sign-in.component';
 import SignUpPage from './components/pages/sign-up/sign-up.component';
 import ShopPage from './components/pages/shop/shop.component';
@@ -37,11 +37,11 @@ const App = ({ isAuth }) => {
           <Route
             exact
             path='/my-page/add-vehicle'
-            component={isAuth ? AddVehiclePage : Homepage}
+            component={isAuth ? AddUpdateVehiclePage : Homepage}
           />
           <Route
             path='/my-page/:vehicleId/edit'
-            component={isAuth ? AddVehiclePage : Homepage}
+            component={isAuth ? AddUpdateVehiclePage : Homepage}
           />
           <Route
             path='/my-page/:vehicleId/add-service'

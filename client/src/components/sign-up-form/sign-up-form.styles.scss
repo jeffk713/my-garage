@@ -1,6 +1,8 @@
-.sign-in-form {
+.sign-up-form {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 60%;
+  max-width: 550px;
+  min-width: 500px;
   margin: 40px auto 0 auto;
 }

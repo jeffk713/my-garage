@@ -41,7 +41,7 @@ const SignUpForm = ({ history, userSignUpStartAsync, triggerErrorBanner }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='sign-up-form' onSubmit={handleSubmit}>
       <div className='sign-in-input-container'>
         <InputBox
           label='Email'
