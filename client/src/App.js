@@ -11,7 +11,7 @@ import SignInPage from './components/pages/sign-in/sign-in.component';
 import SignUpPage from './components/pages/sign-up/sign-up.component';
 import ShopPage from './components/pages/shop/shop.component';
 import VehicleDetailPage from './components/pages/vehicle-detail/vehicle-detail.component';
-import AddVehicleServicePage from './components/pages/add-service-history/add-service-history.component';
+import AddUpdateServicePage from './components/pages/add-update-service/add-update-service.component';
 import ErrorBanner from './components/error-banner/error-banner.component';
 
 import { selectIsAuth } from './redux/user/user.selectors';
@@ -45,11 +45,11 @@ const App = ({ isAuth }) => {
           />
           <Route
             path='/my-page/:vehicleId/add-service'
-            component={isAuth ? AddVehicleServicePage : Homepage}
+            component={isAuth ? AddUpdateServicePage : Homepage}
           />
           <Route
             path='/my-page/:vehicleId/:serviceId'
-            component={isAuth ? AddVehicleServicePage : Homepage}
+            component={isAuth ? AddUpdateServicePage : Homepage}
           />
           <Route
             path='/my-page/:vehicleId'
