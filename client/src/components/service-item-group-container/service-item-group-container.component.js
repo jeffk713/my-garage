@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 
 import ServiceItemGroup from '../service-item-group/service-item-group.component';
 
-import { deleteServiceHistoryStartAsync } from '../../redux/vehicle/vehicle.actions';
+import { deleteServiceHistoryStartAsync } from '../../redux/vehicle/vehicle.thunk-actions';
 import { selectUserId } from '../../redux/user/user.selectors';
 
 const ServiceItemGroupContainer = ({

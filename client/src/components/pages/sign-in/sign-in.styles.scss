@@ -2,11 +2,4 @@
 
 .sign-in-page {
   margin-top: $page-margin-top;
-
-  > form {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    margin: 40px auto 0 auto;
-  }
 }

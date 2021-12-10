@@ -6,12 +6,12 @@ import { Switch, Route } from 'react-router-dom';
 import Navigator from './components/navigator/navigator.component';
 import Homepage from './components/pages/homepage/homepage.component';
 import MyPage from './components/pages/my-page/my-page.component';
-import AddVehiclePage from './components/pages/add-vehicle/add-vehicle-page.component';
+import AddUpdateVehiclePage from './components/pages/add-update-vehice/add-update-vehice.component';
 import SignInPage from './components/pages/sign-in/sign-in.component';
 import SignUpPage from './components/pages/sign-up/sign-up.component';
 import ShopPage from './components/pages/shop/shop.component';
 import VehicleDetailPage from './components/pages/vehicle-detail/vehicle-detail.component';
-import AddVehicleServicePage from './components/pages/add-service-history/add-service-history.component';
+import AddUpdateServicePage from './components/pages/add-update-service/add-update-service.component';
 import ErrorBanner from './components/error-banner/error-banner.component';
 
 import { selectIsAuth } from './redux/user/user.selectors';
@@ -37,19 +37,19 @@ const App = ({ isAuth }) => {
           <Route
             exact
             path='/my-page/add-vehicle'
-            component={isAuth ? AddVehiclePage : Homepage}
+            component={isAuth ? AddUpdateVehiclePage : Homepage}
           />
           <Route
             path='/my-page/:vehicleId/edit'
-            component={isAuth ? AddVehiclePage : Homepage}
+            component={isAuth ? AddUpdateVehiclePage : Homepage}
           />
           <Route
             path='/my-page/:vehicleId/add-service'
-            component={isAuth ? AddVehicleServicePage : Homepage}
+            component={isAuth ? AddUpdateServicePage : Homepage}
           />
           <Route
             path='/my-page/:vehicleId/:serviceId'
-            component={isAuth ? AddVehicleServicePage : Homepage}
+            component={isAuth ? AddUpdateServicePage : Homepage}
           />
           <Route
             path='/my-page/:vehicleId'
