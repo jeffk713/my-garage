@@ -5,7 +5,7 @@ import InputBox from '../../input-box/input-box.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import Banner from '../../banner/banner.component';
 
-import { userSignUpStartAsync } from '../../../redux/user/user.actions';
+import { userSignUpStartAsync } from '../../../redux/user/user.thunk-actions';
 import { triggerErrorBanner } from '../../../redux/error/error.actions';
 
 import './sign-up.styles.scss';

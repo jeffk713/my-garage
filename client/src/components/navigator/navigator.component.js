@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Link from '../link/link.component';
 
-import { userSignOutStartAsync } from '../../redux/user/user.actions';
+import { userSignOutStartAsync } from '../../redux/user/user.thunk-actions';
 
 import Logo from '../../assets/images/logo-right.svg';
 import './navigator.styles.scss';

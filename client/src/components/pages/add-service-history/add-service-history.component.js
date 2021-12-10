@@ -14,7 +14,7 @@ import { selectVehicles } from '../../../redux/vehicle/vehicle.selectors';
 import {
   addServiceHistoryStartAsync,
   updateServiceHistoryStartAsync,
-} from '../../../redux/vehicle/vehicle.actions';
+} from '../../../redux/vehicle/vehicle.thunk-actions';
 
 import { getPreviousURL } from '../../../utils/url-utils';
 import {

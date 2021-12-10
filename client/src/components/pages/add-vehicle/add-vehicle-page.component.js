@@ -14,7 +14,7 @@ import {
   addVehicleStartAsync,
   updateVehicleStartAsync,
   delectVehicleStartAsync,
-} from '../../../redux/vehicle/vehicle.actions';
+} from '../../../redux/vehicle/vehicle.thunk-actions';
 
 import { getVehicleWithId } from '../../../utils/vehicle-utils';
 

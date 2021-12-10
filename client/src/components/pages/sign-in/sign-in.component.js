@@ -6,7 +6,7 @@ import CustomButton from '../../custom-button/custom-button.component';
 import Link from '../../link/link.component';
 import Banner from '../../banner/banner.component';
 
-import { userSignInStartAsync } from '../../../redux/user/user.actions';
+import { userSignInStartAsync } from '../../../redux/user/user.thunk-actions';
 
 import './sign-in.styles.scss';
 
@@ -15,10 +15,7 @@ const INITIAL_INPUT = {
   password: '',
 };
 
-const SignInPage = ({
-  userSignInStartAsync,
-  history,
-}) => {
+const SignInPage = ({ userSignInStartAsync, history }) => {
   const [inputState, setInputState] = useState(INITIAL_INPUT);
   const { email, password } = inputState;
 
