@@ -13,6 +13,7 @@ const ServiceItemGroupContainer = ({
   match,
   userId,
   deleteServiceHistoryStartAsync,
+  setServiceToDisplay,
 }) => {
   const handleDeleteServiceHistory = async (vehicleId, serviceId, userId) => {
     const requestURL = `/api/vehicle/${vehicleId}/${serviceId}`;
@@ -32,6 +33,7 @@ const ServiceItemGroupContainer = ({
           handleDeleteServiceHistory={() =>
             handleDeleteServiceHistory(selectedVehicle._id, service._id, userId)
           }
+          setServiceToDisplay={() => setServiceToDisplay(service)}
         />
       ))}
     </>

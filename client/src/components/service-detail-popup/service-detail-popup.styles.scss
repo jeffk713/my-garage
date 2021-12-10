@@ -1,0 +1,24 @@
+@import '../../assets/scss/variables';
+
+.popup-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  .service-detail-popup-overlay {
+    position: fixed;
+    background-color: $background-color;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.9;
+  }
+
+  .service-detail-popup {
+    background-color: $dark-sub-color;
+    position: fixed;
+    z-index: 999;
+    width: 500px;
+    height: 500px;
+    top: calc((100vh - 500px) / 2);
+    left: calc((100vw - 500px) / 2);
+  }
+}
