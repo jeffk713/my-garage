@@ -9,8 +9,7 @@ import IconButton from '../../icon-button/icon-button.component';
 import CustomButton from '../../custom-button/custom-button.component';
 import ServiceItemGroupContainer from '../../service-item-group-container/service-item-group-container.component';
 import WithSpinner from '../../spinner/with-spinner.component';
-import InputBox from '../../input-box/input-box.component';
-import ServiceNote from '../../service-note/service-note.component';
+import ServiceDetailPopup from '../../service-detail-popup/service-detail-popup.component';
 
 import {
   selectIsLoading,
@@ -19,7 +18,6 @@ import {
 
 import { getPreviousURL } from '../../../utils/url-utils';
 import { getVehicleWithId } from '../../../utils/vehicle-utils';
-import { getDateFormat } from '../../../utils/date-utils';
 
 import './vehicle-detail.styles.scss';
 
@@ -35,44 +33,16 @@ const VehicleDetailPage = ({ history, match, isLoading, vehicles }) => {
     serviceName: '',
   };
   const [serviceToDisplay, setServiceToDisplay] = useState(INITIAL_SERVICE);
-  const { date, mileage, note, serviceName } = serviceToDisplay;
 
   const selectedVehicle = getVehicleWithId(vehicles, match.params.vehicleId);
 
   return (
     <div className='vehicle-detail-page'>
       {serviceToDisplay.serviceName && (
-        <div className='popup-container'>
-          <div
-            className='service-detail-popup-overlay'
-            onClick={() => setServiceToDisplay(INITIAL_SERVICE)}
-          />
-          <div className='service-detail-popup'>
-            <InputBox
-              label='Service name'
-              type='string'
-              name='serviceName'
-              value={serviceName}
-              autocomplete={false}
-            />
-            <InputBox
-              label='Mileage'
-              type='string'
-              name='mileage'
-              value={mileage.toString()}
-              autocomplete={false}
-            />
-            <InputBox
-              label='Date'
-              type='date'
-              name='date'
-              value={getDateFormat(date).toString()}
-              dateLabel
-              autocomplete={false}
-            />
-            <ServiceNote label='Note' name='note' value={note} />
-          </div>
-        </div>
+        <ServiceDetailPopup
+          serviceToDisplay={serviceToDisplay}
+          setServiceToDisplay={setServiceToDisplay}
+        />
       )}
       <div className='button-group-in-vehicle-detail'>
         <IconButton

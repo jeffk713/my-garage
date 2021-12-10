@@ -21,6 +21,8 @@ My page
 ![sample2](https://github.com/jeffk713/my-garage/blob/master/sample-images/image2.png?raw=true)
 Vehicle detail page
 ![sample3](https://github.com/jeffk713/my-garage/blob/master/sample-images/image3.png?raw=true)
+Vehicle Service detail pop-up
+![sample4](https://github.com/jeffk713/my-garage/blob/master/sample-images/image4.png?raw=true)
 
 ## Tech stack
 
