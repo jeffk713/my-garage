@@ -12,8 +12,9 @@ const ServiceItemGroup = ({
   date,
   toEditService,
   handleDeleteServiceHistory,
+  setServiceToDisplay,
 }) => (
-  <div className='service-item-group'>
+  <div className='service-item-group' onClick={setServiceToDisplay}>
     <p className='service-item service-name'>{serviceName}</p>
     <p className='service-item'>{mileage}</p>
     <p className='service-item'>{getConvertedDate(date)}</p>

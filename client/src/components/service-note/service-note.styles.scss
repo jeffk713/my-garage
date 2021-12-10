@@ -6,9 +6,10 @@
     height: 200px;
     display: block;
     margin: 0 auto;
-    background-color: $sub-color;
+    background-color: $dark-sub-color;
     color: $font-color;
     font-size: 17px;
+    resize: none;
 
     &:focus {
       outline: none;
